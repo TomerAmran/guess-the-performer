@@ -120,12 +120,113 @@ async function main() {
     },
   });
 
-  console.log(`\n✅ Quiz created!`);
+  console.log(`\n✅ Chopin Quiz created!`);
   console.log(`   ID: ${quiz.id}`);
   console.log(`   Piece: ${quiz.piece.composer.name} - ${quiz.piece.name}`);
   console.log(`   Duration: ${quiz.duration}s`);
   console.log(`   Slices:`);
   quiz.slices.forEach((slice, i) => {
+    console.log(`     ${i + 1}. ${slice.performance.artist.name} (start: ${slice.startTime}s)`);
+  });
+
+  // ==================== PROKOFIEV FLUTE SONATA ====================
+  console.log("\n🎼 Adding Prokofiev Flute Sonata data...\n");
+
+  // Add Prokofiev
+  const prokofiev = await prisma.composer.create({
+    data: {
+      name: "Sergei Prokofiev",
+      photoUrl: "https://upload.wikimedia.org/wikipedia/commons/a/a4/Sergei_Prokofiev_circa_1918_over_Chair_Bain.jpg",
+    },
+  });
+  console.log(`✓ Composer: ${prokofiev.name}`);
+
+  // Add Flute Sonata
+  const fluteSonata = await prisma.piece.create({
+    data: {
+      name: "Flute Sonata in D major, Op. 94",
+      composerId: prokofiev.id,
+    },
+  });
+  console.log(`✓ Piece: ${fluteSonata.name}`);
+
+  // Add 3 famous flutists
+  const galway = await prisma.artist.create({
+    data: {
+      name: "James Galway",
+      photoUrl: "https://upload.wikimedia.org/wikipedia/commons/8/8e/James_Galway_2015.jpg",
+    },
+  });
+
+  const rampal = await prisma.artist.create({
+    data: {
+      name: "Jean-Pierre Rampal",
+      photoUrl: "https://upload.wikimedia.org/wikipedia/commons/3/3e/Jean-Pierre_Rampal.jpg",
+    },
+  });
+
+  const pahud = await prisma.artist.create({
+    data: {
+      name: "Emmanuel Pahud",
+      photoUrl: "https://upload.wikimedia.org/wikipedia/commons/d/db/Emmanuel_Pahud.jpg",
+    },
+  });
+
+  console.log(`✓ Artists: ${galway.name}, ${rampal.name}, ${pahud.name}`);
+
+  // Add 3 flute performances
+  const flutePerf1 = await prisma.performance.create({
+    data: {
+      pieceId: fluteSonata.id,
+      artistId: galway.id,
+      youtubeUrl: "https://www.youtube.com/watch?v=hfJ9-HenydQ",
+    },
+  });
+
+  const flutePerf2 = await prisma.performance.create({
+    data: {
+      pieceId: fluteSonata.id,
+      artistId: rampal.id,
+      youtubeUrl: "https://www.youtube.com/watch?v=qE5EBXceh24",
+    },
+  });
+
+  const flutePerf3 = await prisma.performance.create({
+    data: {
+      pieceId: fluteSonata.id,
+      artistId: pahud.id,
+      youtubeUrl: "https://www.youtube.com/watch?v=e1EX51ctiyI",
+    },
+  });
+
+  console.log(`✓ Performances: 3 created`);
+
+  // Create Prokofiev quiz
+  const prokofievQuiz = await prisma.quiz.create({
+    data: {
+      pieceId: fluteSonata.id,
+      createdById: testUser.id,
+      duration: 30,
+      slices: {
+        create: [
+          { performanceId: flutePerf1.id, startTime: 0 },  // Galway
+          { performanceId: flutePerf2.id, startTime: 5 },  // Rampal
+          { performanceId: flutePerf3.id, startTime: 0 },  // Pahud
+        ],
+      },
+    },
+    include: {
+      piece: { include: { composer: true } },
+      slices: { include: { performance: { include: { artist: true } } } },
+    },
+  });
+
+  console.log(`\n✅ Prokofiev Quiz created!`);
+  console.log(`   ID: ${prokofievQuiz.id}`);
+  console.log(`   Piece: ${prokofievQuiz.piece.composer.name} - ${prokofievQuiz.piece.name}`);
+  console.log(`   Duration: ${prokofievQuiz.duration}s`);
+  console.log(`   Slices:`);
+  prokofievQuiz.slices.forEach((slice, i) => {
     console.log(`     ${i + 1}. ${slice.performance.artist.name} (start: ${slice.startTime}s)`);
   });
 }
