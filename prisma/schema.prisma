@@ -64,6 +64,7 @@ model User {
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
+    quizzes       Quiz[]
 }
 
 model VerificationToken {
@@ -72,4 +73,86 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+// ==========================================
+// Classical Music Quiz Models
+// ==========================================
+
+model Composer {
+    id       String  @id @default(cuid())
+    name     String
+    photoUrl String?
+
+    pieces Piece[]
+
+    @@index([name])
+}
+
+model Piece {
+    id         String   @id @default(cuid())
+    name       String
+    composer   Composer @relation(fields: [composerId], references: [id], onDelete: Cascade)
+    composerId String
+
+    performances Performance[]
+    quizzes      Quiz[]
+
+    @@index([name])
+    @@index([composerId])
+}
+
+model Artist {
+    id       String  @id @default(cuid())
+    name     String
+    photoUrl String?
+
+    performances Performance[]
+
+    @@index([name])
+}
+
+model Performance {
+    id         String @id @default(cuid())
+    youtubeUrl String
+
+    piece    Piece  @relation(fields: [pieceId], references: [id], onDelete: Cascade)
+    pieceId  String
+    artist   Artist @relation(fields: [artistId], references: [id], onDelete: Cascade)
+    artistId String
+
+    quizSlices QuizSlice[]
+
+    @@unique([pieceId, artistId])
+    @@index([pieceId])
+    @@index([artistId])
+}
+
+model Quiz {
+    id        String   @id @default(cuid())
+    duration  Int      @default(30)
+    createdAt DateTime @default(now())
+
+    piece       Piece  @relation(fields: [pieceId], references: [id], onDelete: Cascade)
+    pieceId     String
+    createdBy   User   @relation(fields: [createdById], references: [id])
+    createdById String
+
+    slices QuizSlice[]
+
+    @@index([pieceId])
+    @@index([createdById])
+}
+
+model QuizSlice {
+    id        String @id @default(cuid())
+    startTime Int    @default(0)
+
+    quiz          Quiz        @relation(fields: [quizId], references: [id], onDelete: Cascade)
+    quizId        String
+    performance   Performance @relation(fields: [performanceId], references: [id], onDelete: Cascade)
+    performanceId String
+
+    @@index([quizId])
+    @@index([performanceId])
 }
