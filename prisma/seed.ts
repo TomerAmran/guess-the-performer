@@ -14,10 +14,24 @@ async function main() {
   await prisma.composer.deleteMany();
 
   console.log("✓ Database cleaned\n");
-
-  // Add one composer
   console.log("🎼 Adding test data...\n");
 
+  // Create a test user for quiz ownership
+  let testUser = await prisma.user.findFirst({ where: { email: "test@example.com" } });
+  if (!testUser) {
+    testUser = await prisma.user.create({
+      data: {
+        id: "test-user-id",
+        name: "Test User",
+        email: "test@example.com",
+      },
+    });
+    console.log(`✓ Created test user: ${testUser.name}`);
+  } else {
+    console.log(`✓ Using existing test user: ${testUser.name}`);
+  }
+
+  // Add composer
   const chopin = await prisma.composer.create({
     data: {
       name: "Frédéric Chopin",
@@ -26,7 +40,7 @@ async function main() {
   });
   console.log(`✓ Composer: ${chopin.name}`);
 
-  // Add one piece
+  // Add piece
   const nocturne = await prisma.piece.create({
     data: {
       name: "Nocturne Op. 9 No. 2",
@@ -36,59 +50,84 @@ async function main() {
   console.log(`✓ Piece: ${nocturne.name}`);
 
   // Add 3 famous pianists
-  const artists = await Promise.all([
-    prisma.artist.create({
-      data: {
-        name: "Arthur Rubinstein",
-        photoUrl: "https://upload.wikimedia.org/wikipedia/commons/5/5b/Arthur_Rubinstein_%281963%29.jpg",
-      },
-    }),
-    prisma.artist.create({
-      data: {
-        name: "Vladimir Horowitz",
-        photoUrl: "https://upload.wikimedia.org/wikipedia/commons/5/52/Vladimir_Horowitz_NYWTS.jpg",
-      },
-    }),
-    prisma.artist.create({
-      data: {
-        name: "Martha Argerich",
-        photoUrl: "https://upload.wikimedia.org/wikipedia/commons/b/b9/Martha_Argerich.jpg",
-      },
-    }),
-  ]);
-  console.log(`✓ Artists: ${artists.map((a) => a.name).join(", ")}`);
+  const rubinstein = await prisma.artist.create({
+    data: {
+      name: "Arthur Rubinstein",
+      photoUrl: "https://upload.wikimedia.org/wikipedia/commons/5/5b/Arthur_Rubinstein_%281963%29.jpg",
+    },
+  });
 
-  // Add 3 performances (different YouTube recordings of the same piece)
-  const performances = await Promise.all([
-    prisma.performance.create({
-      data: {
-        pieceId: nocturne.id,
-        artistId: artists[0]!.id,
-        youtubeUrl: "https://www.youtube.com/watch?v=9E6b3swbnWg", // Rubinstein
-      },
-    }),
-    prisma.performance.create({
-      data: {
-        pieceId: nocturne.id,
-        artistId: artists[1]!.id,
-        youtubeUrl: "https://www.youtube.com/watch?v=YGRO05WcNDk", // Horowitz
-      },
-    }),
-    prisma.performance.create({
-      data: {
-        pieceId: nocturne.id,
-        artistId: artists[2]!.id,
-        youtubeUrl: "https://www.youtube.com/watch?v=ZtIW2r1EalM", // Argerich
-      },
-    }),
-  ]);
-  console.log(`✓ Performances: ${performances.length} added\n`);
+  const horowitz = await prisma.artist.create({
+    data: {
+      name: "Vladimir Horowitz",
+      photoUrl: "https://upload.wikimedia.org/wikipedia/commons/5/52/Vladimir_Horowitz_NYWTS.jpg",
+    },
+  });
 
-  console.log("✅ Done! Test data ready:");
-  console.log("   - 1 Composer (Chopin)");
-  console.log("   - 1 Piece (Nocturne Op. 9 No. 2)");
-  console.log("   - 3 Artists (Rubinstein, Horowitz, Argerich)");
-  console.log("   - 3 Performances (one per artist)");
+  const argerich = await prisma.artist.create({
+    data: {
+      name: "Martha Argerich",
+      photoUrl: "https://upload.wikimedia.org/wikipedia/commons/b/b9/Martha_Argerich.jpg",
+    },
+  });
+
+  console.log(`✓ Artists: ${rubinstein.name}, ${horowitz.name}, ${argerich.name}`);
+
+  // Add 3 performances
+  const perf1 = await prisma.performance.create({
+    data: {
+      pieceId: nocturne.id,
+      artistId: rubinstein.id,
+      youtubeUrl: "https://www.youtube.com/watch?v=9E6b3swbnWg",
+    },
+  });
+
+  const perf2 = await prisma.performance.create({
+    data: {
+      pieceId: nocturne.id,
+      artistId: horowitz.id,
+      youtubeUrl: "https://www.youtube.com/watch?v=YGRO05WcNDk",
+    },
+  });
+
+  const perf3 = await prisma.performance.create({
+    data: {
+      pieceId: nocturne.id,
+      artistId: argerich.id,
+      youtubeUrl: "https://www.youtube.com/watch?v=ZtIW2r1EalM",
+    },
+  });
+
+  console.log(`✓ Performances: 3 created`);
+
+  // Create a quiz with 3 slices
+  const quiz = await prisma.quiz.create({
+    data: {
+      pieceId: nocturne.id,
+      createdById: testUser.id,
+      duration: 30,
+      slices: {
+        create: [
+          { performanceId: perf1.id, startTime: 10 },
+          { performanceId: perf2.id, startTime: 15 },
+          { performanceId: perf3.id, startTime: 20 },
+        ],
+      },
+    },
+    include: {
+      piece: { include: { composer: true } },
+      slices: { include: { performance: { include: { artist: true } } } },
+    },
+  });
+
+  console.log(`\n✅ Quiz created!`);
+  console.log(`   ID: ${quiz.id}`);
+  console.log(`   Piece: ${quiz.piece.composer.name} - ${quiz.piece.name}`);
+  console.log(`   Duration: ${quiz.duration}s`);
+  console.log(`   Slices:`);
+  quiz.slices.forEach((slice, i) => {
+    console.log(`     ${i + 1}. ${slice.performance.artist.name} (start: ${slice.startTime}s)`);
+  });
 }
 
 main()

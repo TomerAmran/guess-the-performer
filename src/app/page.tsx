@@ -1,14 +1,15 @@
 import Link from "next/link";
 import { auth } from "~/server/auth";
-import { HydrateClient } from "~/trpc/server";
+import { api, HydrateClient } from "~/trpc/server";
 
 export default async function Home() {
   const session = await auth();
+  const quizzes = await api.quiz.getAll();
 
   return (
     <HydrateClient>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#1a1a2e] to-[#0f0f1a] text-white">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
+      <main className="min-h-screen bg-gradient-to-b from-[#1a1a2e] to-[#0f0f1a] text-white">
+        <div className="container mx-auto flex flex-col items-center gap-12 px-4 py-16">
           <div className="text-center">
             <h1 className="mb-4 font-serif text-5xl font-bold tracking-tight sm:text-7xl">
               Classical Music
@@ -18,6 +19,34 @@ export default async function Home() {
               Can you tell the masters apart?
             </p>
           </div>
+
+          {/* Available Quizzes */}
+          {quizzes.length > 0 && (
+            <div className="w-full max-w-2xl">
+              <h2 className="mb-4 text-center font-serif text-2xl font-semibold text-amber-200">
+                Play a Quiz
+              </h2>
+              <div className="space-y-3">
+                {quizzes.map((quiz) => (
+                  <Link
+                    key={quiz.id}
+                    href={`/quiz/${quiz.id}`}
+                    className="flex items-center justify-between rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 transition-all hover:border-emerald-500 hover:bg-emerald-500/20"
+                  >
+                    <div>
+                      <div className="font-semibold text-emerald-300">
+                        {quiz.piece.composer.name} - {quiz.piece.name}
+                      </div>
+                      <div className="text-sm text-slate-400">
+                        {quiz.slices.length} recordings • {quiz.duration}s clips
+                      </div>
+                    </div>
+                    <span className="text-2xl">▶</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="grid w-full max-w-2xl grid-cols-1 gap-4 sm:grid-cols-2">
             <Link
