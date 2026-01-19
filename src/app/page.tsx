@@ -62,7 +62,7 @@ export default async function Home() {
               className="flex flex-col gap-3 rounded-2xl border border-slate-600/50 bg-slate-800/30 p-6 transition-all hover:border-slate-500 hover:bg-slate-800/50"
               href="/admin"
             >
-              <h3 className="text-2xl font-bold text-slate-200">Manage Content →</h3>
+              <h3 className="text-2xl font-bold text-slate-200">Add Content →</h3>
               <p className="text-slate-400">
                 Add composers, artists, pieces, and YouTube performances.
               </p>

@@ -1,9 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 import { api } from "~/trpc/react";
 
+const ADMIN_EMAIL = "tomerflute@gmail.com";
+
 export default function PiecesPage() {
+  const { data: session } = useSession();
+  const isAdmin = session?.user?.email === ADMIN_EMAIL;
+
   const [name, setName] = useState("");
   const [composerId, setComposerId] = useState("");
   const utils = api.useUtils();
@@ -96,13 +102,15 @@ export default function PiecesPage() {
                 <div className="font-medium">{piece.name}</div>
                 <div className="text-sm text-slate-400">{piece.composer.name}</div>
               </div>
-              <button
-                onClick={() => deletePiece.mutate({ id: piece.id })}
-                disabled={deletePiece.isPending}
-                className="rounded-lg px-4 py-2 text-red-400 hover:bg-red-500/20 transition-colors"
-              >
-                Delete
-              </button>
+              {isAdmin && (
+                <button
+                  onClick={() => deletePiece.mutate({ id: piece.id })}
+                  disabled={deletePiece.isPending}
+                  className="rounded-lg px-4 py-2 text-red-400 hover:bg-red-500/20 transition-colors"
+                >
+                  Delete
+                </button>
+              )}
             </div>
           ))}
         </div>

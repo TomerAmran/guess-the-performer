@@ -131,3 +131,30 @@ export const protectedProcedure = t.procedure
       },
     });
   });
+
+/**
+ * Admin procedure
+ *
+ * Only accessible to the admin user (tomerflute@gmail.com).
+ * Used for destructive operations like delete.
+ */
+const ADMIN_EMAIL = "tomerflute@gmail.com";
+
+export const adminProcedure = t.procedure
+  .use(timingMiddleware)
+  .use(({ ctx, next }) => {
+    if (!ctx.session?.user) {
+      throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
+    if (ctx.session.user.email !== ADMIN_EMAIL) {
+      throw new TRPCError({ 
+        code: "FORBIDDEN",
+        message: "Only admin can perform this action",
+      });
+    }
+    return next({
+      ctx: {
+        session: { ...ctx.session, user: ctx.session.user },
+      },
+    });
+  });

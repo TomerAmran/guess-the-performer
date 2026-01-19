@@ -1,5 +1,8 @@
 import { z } from "zod";
+import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
+
+const ADMIN_EMAIL = "tomerflute@gmail.com";
 
 const quizSliceSchema = z.object({
   performanceId: z.string(),
@@ -85,14 +88,24 @@ export const quizRouter = createTRPCRouter({
   delete: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      // Only allow deletion of own quizzes
       const quiz = await ctx.db.quiz.findUnique({
         where: { id: input.id },
         select: { createdById: true },
       });
 
-      if (!quiz || quiz.createdById !== ctx.session.user.id) {
-        throw new Error("Not authorized to delete this quiz");
+      if (!quiz) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "Quiz not found" });
+      }
+
+      // Allow deletion if user is admin OR owns the quiz
+      const isAdmin = ctx.session.user.email === ADMIN_EMAIL;
+      const isOwner = quiz.createdById === ctx.session.user.id;
+
+      if (!isAdmin && !isOwner) {
+        throw new TRPCError({ 
+          code: "FORBIDDEN", 
+          message: "Not authorized to delete this quiz" 
+        });
       }
 
       return ctx.db.quiz.delete({

@@ -1,9 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 import { api } from "~/trpc/react";
 
+const ADMIN_EMAIL = "tomerflute@gmail.com";
+
 export default function PerformancesPage() {
+  const { data: session } = useSession();
+  const isAdmin = session?.user?.email === ADMIN_EMAIL;
+
   const [pieceId, setPieceId] = useState("");
   const [artistId, setArtistId] = useState("");
   const [youtubeUrl, setYoutubeUrl] = useState("");
@@ -115,13 +121,15 @@ export default function PerformancesPage() {
                 <div className="text-sm text-amber-400">{perf.artist.name}</div>
                 <div className="truncate text-xs text-slate-500">{perf.youtubeUrl}</div>
               </div>
-              <button
-                onClick={() => deletePerformance.mutate({ id: perf.id })}
-                disabled={deletePerformance.isPending}
-                className="ml-4 rounded-lg px-4 py-2 text-red-400 hover:bg-red-500/20 transition-colors"
-              >
-                Delete
-              </button>
+              {isAdmin && (
+                <button
+                  onClick={() => deletePerformance.mutate({ id: perf.id })}
+                  disabled={deletePerformance.isPending}
+                  className="ml-4 rounded-lg px-4 py-2 text-red-400 hover:bg-red-500/20 transition-colors"
+                >
+                  Delete
+                </button>
+              )}
             </div>
           ))}
         </div>

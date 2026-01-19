@@ -1,9 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 import { api } from "~/trpc/react";
 
+const ADMIN_EMAIL = "tomerflute@gmail.com";
+
 export default function ArtistsPage() {
+  const { data: session } = useSession();
+  const isAdmin = session?.user?.email === ADMIN_EMAIL;
+
   const [name, setName] = useState("");
   const [photoUrl, setPhotoUrl] = useState("");
   const utils = api.useUtils();
@@ -91,13 +97,15 @@ export default function ArtistsPage() {
                 )}
                 <span className="font-medium">{artist.name}</span>
               </div>
-              <button
-                onClick={() => deleteArtist.mutate({ id: artist.id })}
-                disabled={deleteArtist.isPending}
-                className="rounded-lg px-4 py-2 text-red-400 hover:bg-red-500/20 transition-colors"
-              >
-                Delete
-              </button>
+              {isAdmin && (
+                <button
+                  onClick={() => deleteArtist.mutate({ id: artist.id })}
+                  disabled={deleteArtist.isPending}
+                  className="rounded-lg px-4 py-2 text-red-400 hover:bg-red-500/20 transition-colors"
+                >
+                  Delete
+                </button>
+              )}
             </div>
           ))}
         </div>
