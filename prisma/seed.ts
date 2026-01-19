@@ -53,32 +53,32 @@ async function main() {
   const rubinstein = await prisma.artist.create({
     data: {
       name: "Arthur Rubinstein",
-      photoUrl: "https://upload.wikimedia.org/wikipedia/commons/5/5b/Arthur_Rubinstein_%281963%29.jpg",
+      photoUrl: "https://upload.wikimedia.org/wikipedia/commons/8/8e/Arthur_Rubinstein.jpg",
     },
   });
 
   const horowitz = await prisma.artist.create({
     data: {
       name: "Vladimir Horowitz",
-      photoUrl: "https://upload.wikimedia.org/wikipedia/commons/5/52/Vladimir_Horowitz_NYWTS.jpg",
+      photoUrl: "https://upload.wikimedia.org/wikipedia/commons/1/18/Vladimir_Horowitz_C37292-1.jpg",
     },
   });
 
-  const argerich = await prisma.artist.create({
+  const pollini = await prisma.artist.create({
     data: {
-      name: "Martha Argerich",
-      photoUrl: "https://upload.wikimedia.org/wikipedia/commons/b/b9/Martha_Argerich.jpg",
+      name: "Maurizio Pollini",
+      photoUrl: "https://upload.wikimedia.org/wikipedia/commons/d/d0/Maurizio_Pollini_75.jpg",
     },
   });
 
-  console.log(`✓ Artists: ${rubinstein.name}, ${horowitz.name}, ${argerich.name}`);
+  console.log(`✓ Artists: ${rubinstein.name}, ${horowitz.name}, ${pollini.name}`);
 
   // Add 3 performances
   const perf1 = await prisma.performance.create({
     data: {
       pieceId: nocturne.id,
       artistId: rubinstein.id,
-      youtubeUrl: "https://www.youtube.com/watch?v=9E6b3swbnWg",
+      youtubeUrl: "https://www.youtube.com/watch?v=YGRO05WcNDk",
     },
   });
 
@@ -86,15 +86,15 @@ async function main() {
     data: {
       pieceId: nocturne.id,
       artistId: horowitz.id,
-      youtubeUrl: "https://www.youtube.com/watch?v=YGRO05WcNDk",
+      youtubeUrl: "https://www.youtube.com/watch?v=3QS8p5TNzFI",
     },
   });
 
   const perf3 = await prisma.performance.create({
     data: {
       pieceId: nocturne.id,
-      artistId: argerich.id,
-      youtubeUrl: "https://www.youtube.com/watch?v=ZtIW2r1EalM",
+      artistId: pollini.id,
+      youtubeUrl: "https://www.youtube.com/watch?v=S8YhDR2fOUg",
     },
   });
 
@@ -108,9 +108,9 @@ async function main() {
       duration: 30,
       slices: {
         create: [
-          { performanceId: perf1.id, startTime: 10 },
-          { performanceId: perf2.id, startTime: 15 },
-          { performanceId: perf3.id, startTime: 20 },
+          { performanceId: perf1.id, startTime: 0 },
+          { performanceId: perf2.id, startTime: 3 },
+          { performanceId: perf3.id, startTime: 0 },
         ],
       },
     },

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, use } from "react";
+import { useState, useEffect, useRef, useCallback, use } from "react";
 import Link from "next/link";
 import { api } from "~/trpc/react";
 
@@ -34,15 +34,72 @@ function shuffleArray<T>(array: T[]): T[] {
   return shuffled;
 }
 
+// Declare YouTube types
+declare global {
+  interface Window {
+    YT: {
+      Player: new (
+        elementId: string,
+        config: {
+          height: string;
+          width: string;
+          videoId: string;
+          playerVars: {
+            autoplay?: number;
+            start?: number;
+            end?: number;
+            controls?: number;
+          };
+          events?: {
+            onReady?: (event: { target: YTPlayer }) => void;
+            onStateChange?: (event: { data: number }) => void;
+          };
+        }
+      ) => YTPlayer;
+      PlayerState: {
+        PLAYING: number;
+        PAUSED: number;
+        ENDED: number;
+      };
+    };
+    onYouTubeIframeAPIReady: () => void;
+  }
+}
+
+interface YTPlayer {
+  playVideo: () => void;
+  pauseVideo: () => void;
+  stopVideo: () => void;
+  seekTo: (seconds: number, allowSeekAhead: boolean) => void;
+  getCurrentTime: () => number;
+  destroy: () => void;
+}
+
 export default function QuizPlayPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const { data: quiz, isLoading } = api.quiz.getById.useQuery({ id });
 
   const [shuffledSlices, setShuffledSlices] = useState<PerformanceSlice[]>([]);
   const [shuffledArtists, setShuffledArtists] = useState<{ id: string; name: string; photoUrl: string | null }[]>([]);
-  const [answers, setAnswers] = useState<Record<string, string>>({}); // sliceId -> artistId
+  const [answers, setAnswers] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [currentPlaying, setCurrentPlaying] = useState<number | null>(null);
+  const [playersReady, setPlayersReady] = useState(false);
+  const [playProgress, setPlayProgress] = useState<Record<number, number>>({});
+
+  const playersRef = useRef<(YTPlayer | null)[]>([]);
+  const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const stopTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Load YouTube IFrame API
+  useEffect(() => {
+    if (typeof window !== "undefined" && !window.YT) {
+      const tag = document.createElement("script");
+      tag.src = "https://www.youtube.com/iframe_api";
+      const firstScriptTag = document.getElementsByTagName("script")[0];
+      firstScriptTag?.parentNode?.insertBefore(tag, firstScriptTag);
+    }
+  }, []);
 
   // Shuffle slices and artists on load
   useEffect(() => {
@@ -53,6 +110,97 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
     }
   }, [quiz]);
 
+  // Initialize YouTube players when slices are ready
+  useEffect(() => {
+    if (shuffledSlices.length === 0 || !quiz) return;
+
+    const initPlayers = () => {
+      playersRef.current = [];
+      let readyCount = 0;
+
+      shuffledSlices.forEach((slice, idx) => {
+        const videoId = getYouTubeId(slice.performance.youtubeUrl);
+        if (!videoId) return;
+
+        const player = new window.YT.Player(`player-${idx}`, {
+          height: "1",
+          width: "1",
+          videoId,
+          playerVars: {
+            autoplay: 0,
+            start: slice.startTime,
+            controls: 0,
+          },
+          events: {
+            onReady: () => {
+              readyCount++;
+              if (readyCount === shuffledSlices.length) {
+                setPlayersReady(true);
+              }
+            },
+            onStateChange: (event) => {
+              if (event.data === window.YT.PlayerState.ENDED) {
+                setCurrentPlaying((prev) => (prev === idx ? null : prev));
+              }
+            },
+          },
+        });
+        playersRef.current[idx] = player;
+      });
+    };
+
+    if (window.YT && window.YT.Player) {
+      initPlayers();
+    } else {
+      window.onYouTubeIframeAPIReady = initPlayers;
+    }
+
+    return () => {
+      playersRef.current.forEach((player) => player?.destroy());
+      if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
+      if (stopTimeoutRef.current) clearTimeout(stopTimeoutRef.current);
+    };
+  }, [shuffledSlices, quiz]);
+
+  const stopAllPlayers = useCallback(() => {
+    playersRef.current.forEach((player) => player?.pauseVideo());
+    setCurrentPlaying(null);
+    if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
+    if (stopTimeoutRef.current) clearTimeout(stopTimeoutRef.current);
+  }, []);
+
+  const playRecording = useCallback((idx: number) => {
+    if (!playersReady || !quiz) return;
+
+    // Stop any currently playing
+    stopAllPlayers();
+
+    const player = playersRef.current[idx];
+    const slice = shuffledSlices[idx];
+    if (!player || !slice) return;
+
+    // Seek to start and play
+    player.seekTo(slice.startTime, true);
+    player.playVideo();
+    setCurrentPlaying(idx);
+    setPlayProgress((prev) => ({ ...prev, [idx]: 0 }));
+
+    // Update progress
+    progressIntervalRef.current = setInterval(() => {
+      const currentTime = player.getCurrentTime();
+      const elapsed = currentTime - slice.startTime;
+      const progress = Math.min((elapsed / quiz.duration) * 100, 100);
+      setPlayProgress((prev) => ({ ...prev, [idx]: progress }));
+    }, 100);
+
+    // Auto-stop after duration
+    stopTimeoutRef.current = setTimeout(() => {
+      player.pauseVideo();
+      setCurrentPlaying(null);
+      if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
+    }, quiz.duration * 1000);
+  }, [playersReady, quiz, shuffledSlices, stopAllPlayers]);
+
   const handleSelectArtist = (sliceId: string, artistId: string) => {
     if (submitted) return;
     setAnswers((prev) => ({ ...prev, [sliceId]: artistId }));
@@ -60,6 +208,7 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
 
   const handleSubmit = () => {
     if (Object.keys(answers).length !== 3) return;
+    stopAllPlayers();
     setSubmitted(true);
   };
 
@@ -96,6 +245,13 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#1a1a2e] to-[#0f0f1a] text-white">
+      {/* Hidden YouTube Players */}
+      <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+        {shuffledSlices.map((_, idx) => (
+          <div key={idx} id={`player-${idx}`} />
+        ))}
+      </div>
+
       <div className="container mx-auto max-w-4xl px-4 py-8">
         <Link
           href="/"
@@ -112,21 +268,22 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
             {quiz.piece.composer.name} - {quiz.piece.name}
           </p>
           <p className="mt-2 text-sm text-slate-500">
-            Match each recording to the correct artist
+            Listen to each recording and match it to the correct artist
           </p>
         </div>
 
         {/* Audio Players */}
-        <div className="mb-8 space-y-4">
-          <h2 className="text-lg font-semibold text-amber-200">
+        <div className="mb-8">
+          <h2 className="mb-4 text-lg font-semibold text-amber-200">
             Listen to the recordings:
           </h2>
           <div className="grid gap-4 md:grid-cols-3">
             {shuffledSlices.map((slice, idx) => {
-              const videoId = getYouTubeId(slice.performance.youtubeUrl);
               const selectedArtist = shuffledArtists.find(
                 (a) => a.id === answers[slice.id]
               );
+              const isPlaying = currentPlaying === idx;
+              const progress = playProgress[idx] ?? 0;
 
               return (
                 <div
@@ -141,49 +298,106 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                         : "border-slate-700 bg-slate-800/50"
                   }`}
                 >
-                  <div className="mb-3 flex items-center justify-between">
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-500 font-bold text-black">
+                  <div className="mb-4 flex items-center justify-between">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-500 text-lg font-bold text-black">
                       {idx + 1}
                     </span>
                     {submitted && (
-                      <span className={isCorrect(slice.id) ? "text-emerald-400" : "text-red-400"}>
+                      <span className={`text-2xl ${isCorrect(slice.id) ? "text-emerald-400" : "text-red-400"}`}>
                         {isCorrect(slice.id) ? "✓" : "✗"}
                       </span>
                     )}
                   </div>
 
-                  {/* YouTube Embed */}
-                  {videoId && (
-                    <div className="mb-3 aspect-video overflow-hidden rounded-lg bg-black">
-                      <iframe
-                        width="100%"
-                        height="100%"
-                        src={`https://www.youtube.com/embed/${videoId}?start=${slice.startTime}&end=${slice.startTime + quiz.duration}`}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        className="border-0"
-                      />
-                    </div>
-                  )}
-
-                  {/* Selected Artist */}
-                  <div className="text-center">
-                    {selectedArtist ? (
-                      <div className="text-sm">
-                        <span className="text-slate-400">Your answer: </span>
-                        <span className="font-medium text-amber-300">
-                          {selectedArtist.name}
-                        </span>
+                  {/* Audio Control (before submit) / Video (after submit) */}
+                  <div className="mb-4">
+                    {submitted ? (
+                      /* Show full video after submission */
+                      <div className="aspect-video overflow-hidden rounded-lg bg-black">
+                        <iframe
+                          width="100%"
+                          height="100%"
+                          src={`https://www.youtube.com/embed/${getYouTubeId(slice.performance.youtubeUrl)}?start=${slice.startTime}`}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          className="border-0"
+                        />
                       </div>
                     ) : (
-                      <div className="text-sm text-slate-500">
-                        Select an artist below
-                      </div>
+                      /* Audio-only controls before submission */
+                      <>
+                        <button
+                          onClick={() => isPlaying ? stopAllPlayers() : playRecording(idx)}
+                          disabled={!playersReady}
+                          className={`flex w-full items-center justify-center gap-3 rounded-lg py-4 text-lg font-semibold transition-all ${
+                            isPlaying
+                              ? "bg-red-500 text-white hover:bg-red-600"
+                              : "bg-slate-700 text-white hover:bg-slate-600"
+                          } disabled:cursor-not-allowed disabled:opacity-50`}
+                        >
+                          {!playersReady ? (
+                            <>
+                              <span className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                              Loading...
+                            </>
+                          ) : isPlaying ? (
+                            <>
+                              <span className="text-2xl">⏹</span>
+                              Stop
+                            </>
+                          ) : (
+                            <>
+                              <span className="text-2xl">▶</span>
+                              Play
+                            </>
+                          )}
+                        </button>
+
+                        {/* Progress Bar */}
+                        <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-700">
+                          <div
+                            className={`h-full transition-all ${isPlaying ? "bg-amber-500" : "bg-slate-600"}`}
+                            style={{ width: `${progress}%` }}
+                          />
+                        </div>
+                        <div className="mt-1 text-center text-xs text-slate-500">
+                          {quiz.duration} seconds
+                        </div>
+                      </>
                     )}
-                    {submitted && !isCorrect(slice.id) && (
-                      <div className="mt-1 text-sm text-emerald-400">
-                        Correct: {slice.performance.artist.name}
+                  </div>
+
+                  {/* Selected Artist / Result */}
+                  <div className="text-center">
+                    {submitted ? (
+                      /* Show artist name prominently after submission */
+                      <div>
+                        <div className="text-lg font-semibold text-white">
+                          {slice.performance.artist.name}
+                        </div>
+                        {selectedArtist && (
+                          <div className="mt-1 text-sm">
+                            <span className="text-slate-400">You guessed: </span>
+                            <span className={isCorrect(slice.id) ? "text-emerald-400" : "text-red-400"}>
+                              {selectedArtist.name}
+                            </span>
+                          </div>
+                        )}
                       </div>
+                    ) : (
+                      /* Show selection status before submission */
+                      selectedArtist ? (
+                        <div className="text-sm">
+                          <span className="text-slate-400">Your answer: </span>
+                          <span className="font-medium text-amber-300">
+                            {selectedArtist.name}
+                          </span>
+                        </div>
+                      ) : (
+                        <div className="text-sm text-slate-500">
+                          Select an artist below
+                        </div>
+                      )
                     )}
                   </div>
                 </div>
@@ -228,7 +442,7 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                           <img
                             src={artist.photoUrl}
                             alt={artist.name}
-                            className="h-6 w-6 rounded-full object-cover"
+                            className="h-10 w-10 rounded-full object-cover"
                           />
                         )}
                         <span className="font-medium">{artist.name}</span>
@@ -270,6 +484,7 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                   onClick={() => {
                     setAnswers({});
                     setSubmitted(false);
+                    setPlayProgress({});
                     setShuffledSlices(shuffleArray(shuffledSlices));
                     setShuffledArtists(shuffleArray(shuffledArtists));
                   }}
