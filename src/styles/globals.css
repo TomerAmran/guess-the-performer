@@ -1,6 +1,103 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  /* Typography */
+  --font-playfair: var(--font-playfair), 'Playfair Display', Georgia, serif;
+  --font-lora: var(--font-lora), 'Lora', Georgia, serif;
+  --font-cinzel: var(--font-cinzel), 'Cinzel', serif;
+}
+
+/* Light Theme (Default - Classical Paper) */
+:root,
+.light {
+  --color-bg-primary: #F1E9D2;
+  --color-bg-secondary: #EFE4D9;
+  --color-bg-card: #EFE4D9;
+  --color-bg-input: #F1E9D2;
+  
+  --color-border: #D6CCA9;
+  --color-border-hover: #DAA520;
+  
+  --color-text-primary: #2C1810;
+  --color-text-secondary: #8B4513;
+  --color-text-muted: rgba(139, 69, 19, 0.7);
+  --color-text-placeholder: rgba(139, 69, 19, 0.5);
+  
+  --color-accent-gold: #DAA520;
+  --color-accent-gold-hover: #B8860B;
+  --color-accent-gold-muted: #B8860B;
+  --color-accent-burgundy: #722F37;
+  --color-accent-forest: #2D4739;
+  
+  --color-success: #2D4739;
+  --color-error: #722F37;
+  
+  /* For paper texture */
+  --texture-opacity: 0.02;
+}
+
+/* Dark Theme (Classical Evening / Candlelit Study) */
+.dark {
+  --color-bg-primary: #1C1714;
+  --color-bg-secondary: #252019;
+  --color-bg-card: #2A2420;
+  --color-bg-input: #1C1714;
+  
+  --color-border: #4A4035;
+  --color-border-hover: #DAA520;
+  
+  --color-text-primary: #E8DCC8;
+  --color-text-secondary: #C4B59B;
+  --color-text-muted: rgba(196, 181, 155, 0.7);
+  --color-text-placeholder: rgba(196, 181, 155, 0.5);
+  
+  --color-accent-gold: #DAA520;
+  --color-accent-gold-hover: #E8B830;
+  --color-accent-gold-muted: #B8860B;
+  --color-accent-burgundy: #A64D57;
+  --color-accent-forest: #4A7B5E;
+  
+  --color-success: #4A7B5E;
+  --color-error: #A64D57;
+  
+  /* For paper texture */
+  --texture-opacity: 0.03;
+}
+
+/* Theme-aware utility classes */
+.bg-theme-primary {
+  background-color: var(--color-bg-primary);
+}
+
+.bg-theme-secondary {
+  background-color: var(--color-bg-secondary);
+}
+
+.bg-theme-card {
+  background-color: var(--color-bg-card);
+}
+
+.text-theme-primary {
+  color: var(--color-text-primary);
+}
+
+.text-theme-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-theme-muted {
+  color: var(--color-text-muted);
+}
+
+.border-theme {
+  border-color: var(--color-border);
+}
+
+.border-theme-hover:hover {
+  border-color: var(--color-border-hover);
+}
+
+/* Smooth theme transition */
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
 }

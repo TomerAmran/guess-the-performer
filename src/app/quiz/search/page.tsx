@@ -5,6 +5,7 @@ import Link from "next/link";
 import { api } from "~/trpc/react";
 import { SearchableSelect } from "../create/_components/SearchableSelect";
 import { ShareButton } from "~/app/_components/ShareButton";
+import { PageHeader } from "~/app/_components/PageHeader";
 
 export default function SearchQuizzesPage() {
   const [composerId, setComposerId] = useState("");
@@ -16,12 +17,8 @@ export default function SearchQuizzesPage() {
   const { data: composers, isLoading: composersLoading } = api.composer.getAll.useQuery();
   const { data: instruments, isLoading: instrumentsLoading } = api.instrument.getAll.useQuery();
 
-  // Debounce piece name search
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedPieceName(pieceName);
-    }, 500);
-
+    const timer = setTimeout(() => setDebouncedPieceName(pieceName), 500);
     return () => clearTimeout(timer);
   }, [pieceName]);
 
@@ -32,190 +29,74 @@ export default function SearchQuizzesPage() {
     orderBy,
   });
 
-  const handleClearAll = () => {
-    setComposerId("");
-    setInstrumentId("");
-    setPieceName("");
-    setOrderBy("likes");
-  };
-
+  const handleClearAll = () => { setComposerId(""); setInstrumentId(""); setPieceName(""); setOrderBy("likes"); };
   const hasFilters = composerId || instrumentId || pieceName;
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#1a1a2e] to-[#0f0f1a] text-white">
+    <main className="min-h-screen bg-[var(--color-bg-primary)] transition-colors duration-300">
       <div className="container mx-auto max-w-6xl px-4 py-12">
-        <Link
-          href="/"
-          className="mb-8 inline-flex items-center gap-2 text-amber-400 hover:text-amber-300 transition-colors"
-        >
-          ← Back to Home
-        </Link>
+        <PageHeader backHref="/" backLabel="Back to Home" />
 
-        <h1 className="mb-2 font-serif text-4xl font-bold tracking-tight text-amber-100">
-          Search Quizzes
-        </h1>
-        <p className="mb-8 text-lg text-slate-400">
-          Find quizzes by composer, instrument, or piece name
-        </p>
+        <h1 className="mb-2 text-4xl font-bold tracking-tight text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>Search Quizzes</h1>
+        <p className="mb-8 text-lg text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>Find quizzes by composer, instrument, or piece name</p>
 
-        {/* Search Filters */}
-        <div className="mb-8 rounded-2xl border border-slate-700/50 bg-slate-800/30 p-8 backdrop-blur">
+        <div className="mb-8 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)]/60 p-8">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {/* Composer Filter */}
-            <SearchableSelect
-              label="Composer"
-              items={composers ?? []}
-              valueId={composerId}
-              onChange={setComposerId}
-              placeholder="Any composer..."
-              isLoading={composersLoading}
-              emptyText="No composers found"
-              allowClear
-            />
-
-            {/* Instrument Filter */}
-            <SearchableSelect
-              label="Instrument"
-              items={instruments?.map(i => ({ id: i.id, name: i.name })) ?? []}
-              valueId={instrumentId}
-              onChange={setInstrumentId}
-              placeholder="Any instrument..."
-              isLoading={instrumentsLoading}
-              emptyText="No instruments found"
-              allowClear
-            />
-
-            {/* Piece Name Filter */}
+            <SearchableSelect label="Composer" items={composers ?? []} valueId={composerId} onChange={setComposerId} placeholder="Any composer..." isLoading={composersLoading} emptyText="No composers found" allowClear />
+            <SearchableSelect label="Instrument" items={instruments?.map(i => ({ id: i.id, name: i.name })) ?? []} valueId={instrumentId} onChange={setInstrumentId} placeholder="Any instrument..." isLoading={instrumentsLoading} emptyText="No instruments found" allowClear />
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                Piece Name
-              </label>
-              <input
-                type="text"
-                value={pieceName}
-                onChange={(e) => setPieceName(e.target.value)}
-                placeholder="Search by name..."
-                className="w-full rounded-lg border border-slate-600 bg-slate-800 px-4 py-3 text-white placeholder-slate-500 focus:border-amber-500 focus:outline-none"
-              />
+              <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}>Piece Name</label>
+              <input type="text" value={pieceName} onChange={(e) => setPieceName(e.target.value)} placeholder="Search by name..." className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] px-4 py-3 text-[var(--color-text-primary)] placeholder-[var(--color-text-placeholder)] focus:border-[var(--color-accent-gold)] focus:outline-none" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }} />
             </div>
           </div>
-
-          {/* Controls */}
-          <div className="mt-6 flex items-center justify-between border-t border-slate-700 pt-6">
+          <div className="mt-6 flex items-center justify-between border-t border-[var(--color-border)] pt-6">
             <div className="flex items-center gap-2">
-              <span className="text-sm text-slate-400">Sort by:</span>
-              <button
-                onClick={() => setOrderBy("likes")}
-                className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${
-                  orderBy === "likes"
-                    ? "bg-amber-500 text-black"
-                    : "bg-slate-700 text-slate-300 hover:bg-slate-600"
-                }`}
-              >
-                Most Popular
-              </button>
-              <button
-                onClick={() => setOrderBy("recent")}
-                className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${
-                  orderBy === "recent"
-                    ? "bg-amber-500 text-black"
-                    : "bg-slate-700 text-slate-300 hover:bg-slate-600"
-                }`}
-              >
-                Most Recent
-              </button>
+              <span className="text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>Sort by:</span>
+              <button onClick={() => setOrderBy("likes")} className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${orderBy === "likes" ? "bg-[var(--color-accent-gold)] text-[var(--color-bg-primary)]" : "bg-[var(--color-border)] text-[var(--color-text-primary)] hover:opacity-80"}`} style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>Most Popular</button>
+              <button onClick={() => setOrderBy("recent")} className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${orderBy === "recent" ? "bg-[var(--color-accent-gold)] text-[var(--color-bg-primary)]" : "bg-[var(--color-border)] text-[var(--color-text-primary)] hover:opacity-80"}`} style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>Most Recent</button>
             </div>
-
-            {hasFilters && (
-              <button
-                onClick={handleClearAll}
-                className="text-sm text-slate-400 hover:text-amber-400 transition-colors"
-              >
-                Clear All Filters
-              </button>
-            )}
+            {hasFilters && <button onClick={handleClearAll} className="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-accent-burgundy)] transition-colors" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>Clear All Filters</button>}
           </div>
         </div>
 
-        {/* Results */}
         <div>
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="font-serif text-2xl font-semibold text-amber-200">
-              {searchLoading ? "Searching..." : `${searchResults?.length ?? 0} ${(searchResults?.length ?? 0) === 1 ? 'Quiz' : 'Quizzes'} Found`}
-            </h2>
+          <div className="mb-4">
+            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>{searchLoading ? "Searching..." : `${searchResults?.length ?? 0} ${(searchResults?.length ?? 0) === 1 ? 'Quiz' : 'Quizzes'} Found`}</h2>
           </div>
 
           {searchLoading ? (
-            <div className="flex items-center justify-center py-12">
-              <div className="h-12 w-12 animate-spin rounded-full border-4 border-amber-500 border-t-transparent" />
-            </div>
+            <div className="flex items-center justify-center py-12"><div className="h-12 w-12 animate-spin rounded-full border-4 border-[var(--color-accent-gold)] border-t-transparent" /></div>
           ) : searchResults && searchResults.length > 0 ? (
             <div className="grid gap-4 md:grid-cols-2">
               {searchResults.map((quiz) => (
-                <div
-                  key={quiz.id}
-                  className="rounded-xl border border-slate-700/50 bg-slate-800/30 p-6 transition-all hover:border-amber-500/50 hover:bg-slate-800/50"
-                >
+                <div key={quiz.id} className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)]/60 p-6 transition-all hover:border-[var(--color-accent-gold)] hover:shadow-md">
                   <div className="mb-4 flex items-start justify-between">
                     <div className="flex-1">
-                      <h3 className="mb-1 font-serif text-xl font-semibold text-emerald-300">
-                        {quiz.composer.name} - {quiz.pieceName}
-                      </h3>
-                      <p className="text-sm text-slate-400">
-                        {quiz.instrument.name}
-                      </p>
+                      <h3 className="mb-1 text-xl font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>{quiz.composer.name}</h3>
+                      <p className="text-lg italic text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>{quiz.pieceName}</p>
+                      <p className="text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>{quiz.instrument.name}</p>
                     </div>
                     <ShareButton quizId={quiz.id} variant="icon" />
                   </div>
-
                   <div className="mb-4 flex flex-wrap gap-2">
-                    {quiz.slices.map((slice) => (
-                      <span
-                        key={slice.id}
-                        className="rounded-full bg-slate-700 px-3 py-1 text-xs text-slate-300"
-                      >
-                        {slice.artist.name}
-                      </span>
-                    ))}
+                    {quiz.slices.map((slice) => <span key={slice.id} className="rounded-full bg-[var(--color-border)] px-3 py-1 text-xs text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>{slice.artist.name}</span>)}
                   </div>
-
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4 text-sm text-slate-400">
-                      <span className="flex items-center gap-1">
-                        <span>❤️</span>
-                        <span>{quiz.likes}</span>
-                      </span>
+                    <div className="flex items-center gap-4 text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
+                      <span className="flex items-center gap-1"><span className="text-[var(--color-accent-burgundy)]">♥</span><span>{quiz.likes}</span></span>
                       <span>{quiz.duration}s clips</span>
                     </div>
-                    <Link
-                      href={`/quiz/${quiz.id}`}
-                      className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-semibold text-black transition-all hover:bg-amber-500"
-                    >
-                      Play Quiz
-                    </Link>
+                    <Link href={`/quiz/${quiz.id}`} className="rounded-lg bg-[var(--color-accent-gold)] px-4 py-2 text-sm font-semibold text-[var(--color-bg-primary)] transition-all hover:bg-[var(--color-accent-gold-hover)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}>Play Quiz</Link>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="rounded-xl border border-slate-700/50 bg-slate-800/30 p-12 text-center">
+            <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)]/60 p-12 text-center">
               <div className="mb-4 text-6xl">🔍</div>
-              <h3 className="mb-2 font-serif text-2xl font-semibold text-slate-300">
-                No Quizzes Found
-              </h3>
-              <p className="mb-6 text-slate-400">
-                {hasFilters
-                  ? "Try adjusting your search filters"
-                  : "No quizzes have been created yet"}
-              </p>
-              {hasFilters && (
-                <button
-                  onClick={handleClearAll}
-                  className="rounded-lg border border-slate-600 px-6 py-2 font-medium text-slate-300 transition-all hover:bg-slate-700"
-                >
-                  Clear All Filters
-                </button>
-              )}
+              <h3 className="mb-2 text-2xl font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>No Quizzes Found</h3>
+              <p className="mb-6 text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>{hasFilters ? "Try adjusting your search filters" : "No quizzes have been created yet"}</p>
+              {hasFilters && <button onClick={handleClearAll} className="rounded-lg border-2 border-[var(--color-border)] px-6 py-2 font-medium text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-border)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}>Clear All Filters</button>}
             </div>
           )}
         </div>

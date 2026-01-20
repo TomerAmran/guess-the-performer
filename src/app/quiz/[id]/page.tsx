@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 import { getYouTubeId } from "~/app/_components/youtube";
 import { ShareButton } from "~/app/_components/ShareButton";
+import { PageHeader } from "~/app/_components/PageHeader";
 import type { YTPlayer } from "~/app/_components/youtube-types";
 import "~/app/_components/youtube-types";
 
@@ -84,28 +85,24 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
           shuffledArtists?: { id: string; name: string; photoUrl: string | null }[];
           answers?: Record<string, string>;
         };
-        // Verify the saved state matches current quiz structure
         if (parsed.shuffledSlices?.length === quiz.slices.length) {
           setShuffledSlices(parsed.shuffledSlices);
           setShuffledArtists(parsed.shuffledArtists ?? []);
           setAnswers(parsed.answers ?? {});
           setSubmitted(true);
           setRestoredFromStorage(true);
-          // Clear the saved state
           localStorage.removeItem(QUIZ_STATE_KEY + id);
         }
       }
     } catch {
-      // Ignore parse errors
       localStorage.removeItem(QUIZ_STATE_KEY + id);
     }
   }, [id, quiz?.slices]);
 
-  // Shuffle slices and artists on load (only if not restored from storage)
+  // Shuffle slices and artists on load
   useEffect(() => {
     if (quiz?.slices && !restoredFromStorage) {
       const slices = quiz.slices as QuizSlice[];
-      // Only shuffle if we haven't already set slices (prevents re-shuffle)
       if (shuffledSlices.length === 0) {
         setShuffledSlices(shuffleArray(slices));
         setShuffledArtists(shuffleArray(slices.map((s) => s.artist)));
@@ -124,7 +121,7 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
     }
   }, [likeStatus]);
 
-  // Initialize YouTube players when slices are ready
+  // Initialize YouTube players
   useEffect(() => {
     if (shuffledSlices.length === 0 || !quiz) return;
 
@@ -140,17 +137,11 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
           height: "1",
           width: "1",
           videoId,
-          playerVars: {
-            autoplay: 0,
-            start: slice.startTime,
-            controls: 0,
-          },
+          playerVars: { autoplay: 0, start: slice.startTime, controls: 0 },
           events: {
             onReady: () => {
               readyCount++;
-              if (readyCount === shuffledSlices.length) {
-                setPlayersReady(true);
-              }
+              if (readyCount === shuffledSlices.length) setPlayersReady(true);
             },
             onStateChange: (event) => {
               if (event.data === window.YT.PlayerState.ENDED) {
@@ -163,11 +154,8 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
       });
     };
 
-    if (window.YT?.Player) {
-      initPlayers();
-    } else {
-      window.onYouTubeIframeAPIReady = initPlayers;
-    }
+    if (window.YT?.Player) initPlayers();
+    else window.onYouTubeIframeAPIReady = initPlayers;
 
     return () => {
       playersRef.current.forEach((player) => player?.destroy());
@@ -185,21 +173,17 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
 
   const playRecording = useCallback((idx: number) => {
     if (!playersReady || !quiz) return;
-
-    // Stop any currently playing
     stopAllPlayers();
 
     const player = playersRef.current[idx];
     const slice = shuffledSlices[idx];
     if (!player || !slice) return;
 
-    // Seek to start and play
     player.seekTo(slice.startTime, true);
     player.playVideo();
     setCurrentPlaying(idx);
     setPlayProgress((prev) => ({ ...prev, [idx]: 0 }));
 
-    // Update progress
     progressIntervalRef.current = setInterval(() => {
       const currentTime = player.getCurrentTime();
       const elapsed = currentTime - slice.startTime;
@@ -207,7 +191,6 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
       setPlayProgress((prev) => ({ ...prev, [idx]: progress }));
     }, 100);
 
-    // Auto-stop after duration
     stopTimeoutRef.current = setTimeout(() => {
       player.pauseVideo();
       setCurrentPlaying(null);
@@ -234,13 +217,10 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
     return answers[sliceId] === getCorrectArtistId(slice);
   };
 
-  const score = submitted
-    ? shuffledSlices.filter((s) => isCorrect(s.id)).length
-    : 0;
+  const score = submitted ? shuffledSlices.filter((s) => isCorrect(s.id)).length : 0;
 
   const handleToggleLike = async () => {
     if (!id) return;
-
     try {
       if (isLiked) {
         await unlikeMutation.mutateAsync({ quizId: id });
@@ -253,36 +233,31 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
       }
       await utils.quiz.getById.invalidate({ id });
     } catch (error) {
-      // Handle errors silently or show a toast
       console.error("Like toggle error:", error);
     }
   };
 
   const handleSignInToLike = () => {
-    // Save current quiz state to localStorage before redirecting
-    const stateToSave = {
-      shuffledSlices,
-      shuffledArtists,
-      answers,
-    };
+    const stateToSave = { shuffledSlices, shuffledArtists, answers };
     localStorage.setItem(QUIZ_STATE_KEY + id, JSON.stringify(stateToSave));
-    // Redirect to sign-in with callback to this quiz
     router.push(`/api/auth/signin?callbackUrl=/quiz/${id}`);
   };
 
   if (isLoading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-gradient-to-b from-[#1a1a2e] to-[#0f0f1a] text-white">
-        <div className="h-12 w-12 animate-spin rounded-full border-4 border-amber-500 border-t-transparent" />
+      <main className="flex min-h-screen items-center justify-center bg-[var(--color-bg-primary)]">
+        <div className="h-12 w-12 animate-spin rounded-full border-4 border-[var(--color-accent-gold)] border-t-transparent" />
       </main>
     );
   }
 
   if (!quiz) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#1a1a2e] to-[#0f0f1a] text-white">
-        <h1 className="mb-4 text-2xl font-bold">Quiz not found</h1>
-        <Link href="/" className="text-amber-400 hover:text-amber-300">
+      <main className="flex min-h-screen flex-col items-center justify-center bg-[var(--color-bg-primary)]">
+        <h1 className="mb-4 text-2xl font-bold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+          Quiz not found
+        </h1>
+        <Link href="/" className="text-[var(--color-accent-burgundy)] hover:text-[var(--color-accent-gold)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
           ← Back to Home
         </Link>
       </main>
@@ -290,44 +265,35 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#1a1a2e] to-[#0f0f1a] text-white">
+    <main className="min-h-screen bg-[var(--color-bg-primary)] transition-colors duration-300">
       {/* Hidden YouTube Players */}
       <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
-        {shuffledSlices.map((_, idx) => (
-          <div key={idx} id={`player-${idx}`} />
-        ))}
+        {shuffledSlices.map((_, idx) => <div key={idx} id={`player-${idx}`} />)}
       </div>
 
       <div className="container mx-auto max-w-4xl px-4 py-8">
-        <Link
-          href="/"
-          className="mb-6 inline-flex items-center gap-2 text-amber-400 hover:text-amber-300 transition-colors"
-        >
-          ← Back to Home
-        </Link>
+        <PageHeader backHref="/" backLabel="Back to Home" />
 
         <div className="mb-8 text-center">
-          <h1 className="mb-2 font-serif text-3xl font-bold text-amber-100">
+          <h1 className="mb-2 text-3xl font-bold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>
             Who&apos;s Playing?
           </h1>
-          <p className="text-xl text-slate-300">
-            {quiz.composer.name} - {quiz.pieceName}
+          <p className="text-xl text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
+            {quiz.composer.name} - <span className="italic">{quiz.pieceName}</span>
           </p>
-          <p className="mt-2 text-sm text-slate-500">
+          <p className="mt-2 text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
             Listen to each recording and match it to the correct artist
           </p>
         </div>
 
         {/* Audio Players */}
         <div className="mb-8">
-          <h2 className="mb-4 text-lg font-semibold text-amber-200">
+          <h2 className="mb-4 text-lg font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>
             Listen to the recordings:
           </h2>
           <div className="grid gap-4 md:grid-cols-3">
             {shuffledSlices.map((slice, idx) => {
-              const selectedArtist = shuffledArtists.find(
-                (a) => a.id === answers[slice.id]
-              );
+              const selectedArtist = shuffledArtists.find((a) => a.id === answers[slice.id]);
               const isPlaying = currentPlaying === idx;
               const progress = playProgress[idx] ?? 0;
 
@@ -337,28 +303,26 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                   className={`rounded-xl border-2 p-4 transition-all ${
                     submitted
                       ? isCorrect(slice.id)
-                        ? "border-emerald-500 bg-emerald-500/10"
-                        : "border-red-500 bg-red-500/10"
+                        ? "border-[var(--color-success)] bg-[var(--color-success)]/10"
+                        : "border-[var(--color-error)] bg-[var(--color-error)]/10"
                       : answers[slice.id]
-                        ? "border-amber-500 bg-amber-500/10"
-                        : "border-slate-700 bg-slate-800/50"
+                        ? "border-[var(--color-accent-gold)] bg-[var(--color-accent-gold)]/10"
+                        : "border-[var(--color-border)] bg-[var(--color-bg-card)]/60"
                   }`}
                 >
                   <div className="mb-4 flex items-center justify-between">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-500 text-lg font-bold text-black">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--color-accent-gold)] text-lg font-bold text-[var(--color-bg-primary)]">
                       {idx + 1}
                     </span>
                     {submitted && (
-                      <span className={`text-2xl ${isCorrect(slice.id) ? "text-emerald-400" : "text-red-400"}`}>
+                      <span className={`text-2xl ${isCorrect(slice.id) ? "text-[var(--color-success)]" : "text-[var(--color-error)]"}`}>
                         {isCorrect(slice.id) ? "✓" : "✗"}
                       </span>
                     )}
                   </div>
 
-                  {/* Audio Control (before submit) / Video (after submit) */}
                   <div className="mb-4">
                     {submitted ? (
-                      /* Show full video after submission */
                       <div className="aspect-video overflow-hidden rounded-lg bg-black">
                         <iframe
                           width="100%"
@@ -370,80 +334,62 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                         />
                       </div>
                     ) : (
-                      /* Audio-only controls before submission */
                       <>
                         <button
                           onClick={() => isPlaying ? stopAllPlayers() : playRecording(idx)}
                           disabled={!playersReady}
                           className={`flex w-full items-center justify-center gap-3 rounded-lg py-4 text-lg font-semibold transition-all ${
                             isPlaying
-                              ? "bg-red-500 text-white hover:bg-red-600"
-                              : "bg-slate-700 text-white hover:bg-slate-600"
+                              ? "bg-[var(--color-error)] text-[var(--color-bg-primary)] hover:opacity-90"
+                              : "bg-[var(--color-border)] text-[var(--color-text-primary)] hover:bg-[var(--color-accent-gold)]/20"
                           } disabled:cursor-not-allowed disabled:opacity-50`}
+                          style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}
                         >
                           {!playersReady ? (
                             <>
-                              <span className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                              <span className="h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent" />
                               Loading...
                             </>
                           ) : isPlaying ? (
-                            <>
-                              <span className="text-2xl">⏹</span>
-                              Stop
-                            </>
+                            <><span className="text-2xl">⏹</span>Stop</>
                           ) : (
-                            <>
-                              <span className="text-2xl">▶</span>
-                              Play
-                            </>
+                            <><span className="text-2xl">▶</span>Play</>
                           )}
                         </button>
-
-                        {/* Progress Bar */}
-                        <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-700">
-                          <div
-                            className={`h-full transition-all ${isPlaying ? "bg-amber-500" : "bg-slate-600"}`}
-                            style={{ width: `${progress}%` }}
-                          />
+                        <div className="mt-2 h-2 overflow-hidden rounded-full bg-[var(--color-border)]">
+                          <div className={`h-full transition-all ${isPlaying ? "bg-[var(--color-accent-gold)]" : "bg-[var(--color-accent-gold-muted)]"}`} style={{ width: `${progress}%` }} />
                         </div>
-                        <div className="mt-1 text-center text-xs text-slate-500">
+                        <div className="mt-1 text-center text-xs text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
                           {quiz.duration} seconds
                         </div>
                       </>
                     )}
                   </div>
 
-                  {/* Selected Artist / Result */}
                   <div className="text-center">
                     {submitted ? (
-                      /* Show artist name prominently after submission */
                       <div>
-                        <div className="text-lg font-semibold text-white">
+                        <div className="text-lg font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>
                           {slice.artist.name}
                         </div>
                         {selectedArtist && (
-                          <div className="mt-1 text-sm">
-                            <span className="text-slate-400">You guessed: </span>
-                            <span className={isCorrect(slice.id) ? "text-emerald-400" : "text-red-400"}>
+                          <div className="mt-1 text-sm" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
+                            <span className="text-[var(--color-text-muted)]">You guessed: </span>
+                            <span className={isCorrect(slice.id) ? "text-[var(--color-success)]" : "text-[var(--color-error)]"}>
                               {selectedArtist.name}
                             </span>
                           </div>
                         )}
                       </div>
+                    ) : selectedArtist ? (
+                      <div className="text-sm" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
+                        <span className="text-[var(--color-text-muted)]">Your answer: </span>
+                        <span className="font-medium text-[var(--color-accent-gold)]">{selectedArtist.name}</span>
+                      </div>
                     ) : (
-                      /* Show selection status before submission */
-                      selectedArtist ? (
-                        <div className="text-sm">
-                          <span className="text-slate-400">Your answer: </span>
-                          <span className="font-medium text-amber-300">
-                            {selectedArtist.name}
-                          </span>
-                        </div>
-                      ) : (
-                        <div className="text-sm text-slate-500">
-                          Select an artist below
-                        </div>
-                      )
+                      <div className="text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
+                        Select an artist below
+                      </div>
                     )}
                   </div>
                 </div>
@@ -455,36 +401,29 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
         {/* Artist Selection */}
         {!submitted && (
           <div className="mb-8">
-            <h2 className="mb-4 text-lg font-semibold text-amber-200">
+            <h2 className="mb-4 text-lg font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>
               Select artists for each recording:
             </h2>
-
             {shuffledSlices.map((slice, sliceIdx) => (
               <div key={slice.id} className="mb-4">
-                <p className="mb-2 text-sm text-slate-400">
+                <p className="mb-2 text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
                   Recording {sliceIdx + 1}:
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {shuffledArtists.map((artist) => {
                     const isSelected = answers[slice.id] === artist.id;
-
                     return (
                       <button
                         key={artist.id}
                         onClick={() => handleSelectArtist(slice.id, artist.id)}
                         className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all ${
                           isSelected
-                            ? "bg-amber-500 text-black"
-                            : "bg-slate-800 text-white hover:bg-slate-700"
+                            ? "bg-[var(--color-accent-gold)] text-[var(--color-bg-primary)]"
+                            : "bg-[var(--color-bg-card)] text-[var(--color-text-primary)] hover:bg-[var(--color-border)]"
                         }`}
+                        style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}
                       >
-                        {artist.photoUrl && (
-                          <img
-                            src={artist.photoUrl}
-                            alt={artist.name}
-                            className="h-10 w-10 rounded-full object-cover"
-                          />
-                        )}
+                        {artist.photoUrl && <img src={artist.photoUrl} alt={artist.name} className="h-10 w-10 rounded-full object-cover" />}
                         <span className="font-medium">{artist.name}</span>
                       </button>
                     );
@@ -508,37 +447,29 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                 <button
                   onClick={handleSubmit}
                   disabled={!canSubmit}
-                  className="rounded-lg bg-amber-600 px-8 py-3 font-semibold text-black transition-all hover:bg-amber-500 disabled:cursor-not-allowed disabled:opacity-40"
+                  className="rounded-lg bg-[var(--color-accent-gold)] px-8 py-3 font-semibold text-[var(--color-bg-primary)] transition-all hover:bg-[var(--color-accent-gold-hover)] disabled:cursor-not-allowed disabled:opacity-40"
+                  style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}
                 >
                   Submit Answers
                 </button>
                 {hasDuplicates && allSelected && (
-                  <p className="mt-2 text-sm text-red-400">
+                  <p className="mt-2 text-sm text-[var(--color-error)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
                     Each recording must have a different artist
                   </p>
                 )}
               </div>
             );
           })() : (
-            <div className="rounded-xl border border-slate-700 bg-slate-800/50 p-6">
-              <h2 className="mb-2 font-serif text-2xl font-bold">
-                {score === 3
-                  ? "🎉 Perfect Score!"
-                  : score === 2
-                    ? "👏 Great Job!"
-                    : score === 1
-                      ? "👍 Not Bad!"
-                      : "😅 Better Luck Next Time!"}
+            <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)]/60 p-6">
+              <h2 className="mb-2 text-2xl font-bold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+                {score === 3 ? "🎉 Perfect Score!" : score === 2 ? "👏 Great Job!" : score === 1 ? "👍 Not Bad!" : "😅 Better Luck Next Time!"}
               </h2>
-              <p className="mb-4 text-xl">
-                You got <span className="font-bold text-amber-400">{score}/3</span> correct
+              <p className="mb-4 text-xl text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
+                You got <span className="font-bold text-[var(--color-accent-gold)]">{score}/3</span> correct
               </p>
 
-              {/* Like and Share Section */}
               <div className="mb-6 flex flex-col items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <span className="text-slate-400">Enjoyed this quiz?</span>
-                </div>
+                <span className="text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>Enjoyed this quiz?</span>
                 <div className="flex items-center gap-4">
                   {isAuthenticated ? (
                     <button
@@ -546,9 +477,10 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                       disabled={likeMutation.isPending || unlikeMutation.isPending}
                       className={`flex items-center gap-2 rounded-lg px-6 py-3 font-semibold transition-all ${
                         isLiked
-                          ? "bg-red-500 text-white hover:bg-red-600"
-                          : "border border-slate-600 bg-slate-800 text-white hover:border-red-500 hover:bg-slate-700"
+                          ? "bg-[var(--color-error)] text-[var(--color-bg-primary)] hover:opacity-90"
+                          : "border-2 border-[var(--color-border)] bg-[var(--color-bg-card)] text-[var(--color-text-primary)] hover:border-[var(--color-error)] hover:bg-[var(--color-border)]"
                       } disabled:cursor-not-allowed disabled:opacity-50`}
+                      style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}
                     >
                       <span className="text-2xl">{isLiked ? "❤️" : "🤍"}</span>
                       <span>{isLiked ? "Liked" : "Like"}</span>
@@ -557,7 +489,8 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                   ) : (
                     <button
                       onClick={handleSignInToLike}
-                      className="flex items-center gap-2 rounded-lg border border-slate-600 bg-slate-800 px-6 py-3 font-semibold text-white transition-all hover:border-red-500 hover:bg-slate-700"
+                      className="flex items-center gap-2 rounded-lg border-2 border-[var(--color-border)] bg-[var(--color-bg-card)] px-6 py-3 font-semibold text-[var(--color-text-primary)] transition-all hover:border-[var(--color-error)] hover:bg-[var(--color-border)]"
+                      style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}
                     >
                       <span className="text-2xl">🤍</span>
                       <span>Sign in to like</span>
@@ -577,13 +510,15 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                     setShuffledSlices(shuffleArray(shuffledSlices));
                     setShuffledArtists(shuffleArray(shuffledArtists));
                   }}
-                  className="rounded-lg border border-slate-600 px-6 py-2 font-medium text-slate-300 transition-all hover:bg-slate-700"
+                  className="rounded-lg border-2 border-[var(--color-border)] px-6 py-2 font-medium text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-border)]"
+                  style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}
                 >
                   Try Again
                 </button>
                 <Link
                   href="/"
-                  className="rounded-lg bg-amber-600 px-6 py-2 font-semibold text-black transition-all hover:bg-amber-500"
+                  className="rounded-lg bg-[var(--color-accent-gold)] px-6 py-2 font-semibold text-[var(--color-bg-primary)] transition-all hover:bg-[var(--color-accent-gold-hover)]"
+                  style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}
                 >
                   Back to Home
                 </Link>

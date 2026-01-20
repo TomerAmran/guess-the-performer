@@ -2,19 +2,15 @@ import "~/styles/globals.css";
 
 import { type Metadata } from "next";
 import { 
-  Geist, 
   Playfair_Display, 
-  Cormorant_Garamond, 
-  Cinzel,
-  Libre_Baskerville,
   Lora,
-  Crimson_Pro,
-  EB_Garamond
+  Cinzel
 } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { auth } from "~/server/auth";
+import { ThemeProvider } from "./_components/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "Classical Music Quiz",
@@ -22,34 +18,9 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-const geist = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist-sans",
-});
-
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
-  display: "swap",
-});
-
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-cormorant",
-  display: "swap",
-});
-
-const cinzel = Cinzel({
-  subsets: ["latin"],
-  variable: "--font-cinzel",
-  display: "swap",
-});
-
-const libreBaskerville = Libre_Baskerville({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-libre-baskerville",
   display: "swap",
 });
 
@@ -60,17 +31,9 @@ const lora = Lora({
   display: "swap",
 });
 
-const crimsonPro = Crimson_Pro({
+const cinzel = Cinzel({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-crimson-pro",
-  display: "swap",
-});
-
-const ebGaramond = EB_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-eb-garamond",
+  variable: "--font-cinzel",
   display: "swap",
 });
 
@@ -80,10 +43,34 @@ export default async function RootLayout({
   const session = await auth();
 
   return (
-    <html lang="en" className={`${geist.variable} ${playfair.variable} ${cormorant.variable} ${cinzel.variable} ${libreBaskerville.variable} ${lora.variable} ${crimsonPro.variable} ${ebGaramond.variable}`}>
-      <body>
+    <html lang="en" className={`${playfair.variable} ${lora.variable} ${cinzel.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Prevent flash of wrong theme */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('theme');
+                  if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.add('light');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body 
+        className="bg-[var(--color-bg-primary)] text-[var(--color-text-secondary)] transition-colors duration-300" 
+        style={{ fontFamily: 'var(--font-lora), serif' }}
+      >
         <SessionProvider session={session}>
-          <TRPCReactProvider>{children}</TRPCReactProvider>
+          <TRPCReactProvider>
+            <ThemeProvider>{children}</ThemeProvider>
+          </TRPCReactProvider>
         </SessionProvider>
       </body>
     </html>
