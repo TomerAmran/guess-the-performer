@@ -169,38 +169,27 @@ exports.Prisma.ComposerScalarFieldEnum = {
   photoUrl: 'photoUrl'
 };
 
-exports.Prisma.PieceScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  composerId: 'composerId'
-};
-
 exports.Prisma.ArtistScalarFieldEnum = {
   id: 'id',
   name: 'name',
   photoUrl: 'photoUrl'
 };
 
-exports.Prisma.PerformanceScalarFieldEnum = {
-  id: 'id',
-  youtubeUrl: 'youtubeUrl',
-  pieceId: 'pieceId',
-  artistId: 'artistId'
-};
-
 exports.Prisma.QuizScalarFieldEnum = {
   id: 'id',
+  pieceName: 'pieceName',
   duration: 'duration',
   createdAt: 'createdAt',
-  pieceId: 'pieceId',
+  composerId: 'composerId',
   createdById: 'createdById'
 };
 
 exports.Prisma.QuizSliceScalarFieldEnum = {
   id: 'id',
   startTime: 'startTime',
+  youtubeUrl: 'youtubeUrl',
   quizId: 'quizId',
-  performanceId: 'performanceId'
+  artistId: 'artistId'
 };
 
 exports.Prisma.SortOrder = {
@@ -221,9 +210,7 @@ exports.Prisma.ModelName = {
   User: 'User',
   VerificationToken: 'VerificationToken',
   Composer: 'Composer',
-  Piece: 'Piece',
   Artist: 'Artist',
-  Performance: 'Performance',
   Quiz: 'Quiz',
   QuizSlice: 'QuizSlice'
 };

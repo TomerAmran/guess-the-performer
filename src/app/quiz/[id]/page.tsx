@@ -3,26 +3,20 @@
 import { useState, useEffect, useRef, useCallback, use } from "react";
 import Link from "next/link";
 import { api } from "~/trpc/react";
+import { getYouTubeId } from "~/app/_components/youtube";
+import type { YTPlayer } from "~/app/_components/youtube-types";
+import "~/app/_components/youtube-types";
 
-type PerformanceSlice = {
+type QuizSlice = {
   id: string;
   startTime: number;
-  performance: {
+  youtubeUrl: string;
+  artist: {
     id: string;
-    youtubeUrl: string;
-    artist: {
-      id: string;
-      name: string;
-      photoUrl: string | null;
-    };
+    name: string;
+    photoUrl: string | null;
   };
 };
-
-// Extract YouTube video ID from URL
-function getYouTubeId(url: string): string | null {
-  const match = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/.exec(url);
-  return match?.[1] ?? null;
-}
 
 // Shuffle array
 function shuffleArray<T>(array: T[]): T[] {
@@ -34,52 +28,11 @@ function shuffleArray<T>(array: T[]): T[] {
   return shuffled;
 }
 
-// Declare YouTube types
-declare global {
-  interface Window {
-    YT: {
-      Player: new (
-        elementId: string,
-        config: {
-          height: string;
-          width: string;
-          videoId: string;
-          playerVars: {
-            autoplay?: number;
-            start?: number;
-            end?: number;
-            controls?: number;
-          };
-          events?: {
-            onReady?: (event: { target: YTPlayer }) => void;
-            onStateChange?: (event: { data: number }) => void;
-          };
-        }
-      ) => YTPlayer;
-      PlayerState: {
-        PLAYING: number;
-        PAUSED: number;
-        ENDED: number;
-      };
-    };
-    onYouTubeIframeAPIReady: () => void;
-  }
-}
-
-interface YTPlayer {
-  playVideo: () => void;
-  pauseVideo: () => void;
-  stopVideo: () => void;
-  seekTo: (seconds: number, allowSeekAhead: boolean) => void;
-  getCurrentTime: () => number;
-  destroy: () => void;
-}
-
 export default function QuizPlayPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const { data: quiz, isLoading } = api.quiz.getById.useQuery({ id });
 
-  const [shuffledSlices, setShuffledSlices] = useState<PerformanceSlice[]>([]);
+  const [shuffledSlices, setShuffledSlices] = useState<QuizSlice[]>([]);
   const [shuffledArtists, setShuffledArtists] = useState<{ id: string; name: string; photoUrl: string | null }[]>([]);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -104,9 +57,9 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
   // Shuffle slices and artists on load
   useEffect(() => {
     if (quiz?.slices) {
-      const slices = quiz.slices as PerformanceSlice[];
+      const slices = quiz.slices as QuizSlice[];
       setShuffledSlices(shuffleArray(slices));
-      setShuffledArtists(shuffleArray(slices.map((s) => s.performance.artist)));
+      setShuffledArtists(shuffleArray(slices.map((s) => s.artist)));
     }
   }, [quiz]);
 
@@ -119,7 +72,7 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
       let readyCount = 0;
 
       shuffledSlices.forEach((slice, idx) => {
-        const videoId = getYouTubeId(slice.performance.youtubeUrl);
+        const videoId = getYouTubeId(slice.youtubeUrl);
         if (!videoId) return;
 
         const player = new window.YT.Player(`player-${idx}`, {
@@ -149,7 +102,7 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
       });
     };
 
-    if (window.YT && window.YT.Player) {
+    if (window.YT?.Player) {
       initPlayers();
     } else {
       window.onYouTubeIframeAPIReady = initPlayers;
@@ -212,7 +165,7 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
     setSubmitted(true);
   };
 
-  const getCorrectArtistId = (slice: PerformanceSlice) => slice.performance.artist.id;
+  const getCorrectArtistId = (slice: QuizSlice) => slice.artist.id;
 
   const isCorrect = (sliceId: string) => {
     const slice = shuffledSlices.find((s) => s.id === sliceId);
@@ -265,7 +218,7 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
             Who&apos;s Playing?
           </h1>
           <p className="text-xl text-slate-300">
-            {quiz.piece.composer.name} - {quiz.piece.name}
+            {quiz.composer.name} - {quiz.pieceName}
           </p>
           <p className="mt-2 text-sm text-slate-500">
             Listen to each recording and match it to the correct artist
@@ -317,7 +270,7 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                         <iframe
                           width="100%"
                           height="100%"
-                          src={`https://www.youtube.com/embed/${getYouTubeId(slice.performance.youtubeUrl)}?start=${slice.startTime}`}
+                          src={`https://www.youtube.com/embed/${getYouTubeId(slice.youtubeUrl)}?start=${slice.startTime}`}
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                           allowFullScreen
                           className="border-0"
@@ -373,7 +326,7 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                       /* Show artist name prominently after submission */
                       <div>
                         <div className="text-lg font-semibold text-white">
-                          {slice.performance.artist.name}
+                          {slice.artist.name}
                         </div>
                         {selectedArtist && (
                           <div className="mt-1 text-sm">

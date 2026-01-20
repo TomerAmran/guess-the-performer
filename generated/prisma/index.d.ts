@@ -44,20 +44,10 @@ export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTok
  */
 export type Composer = $Result.DefaultSelection<Prisma.$ComposerPayload>
 /**
- * Model Piece
- * 
- */
-export type Piece = $Result.DefaultSelection<Prisma.$PiecePayload>
-/**
  * Model Artist
  * 
  */
 export type Artist = $Result.DefaultSelection<Prisma.$ArtistPayload>
-/**
- * Model Performance
- * 
- */
-export type Performance = $Result.DefaultSelection<Prisma.$PerformancePayload>
 /**
  * Model Quiz
  * 
@@ -248,16 +238,6 @@ export class PrismaClient<
   get composer(): Prisma.ComposerDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.piece`: Exposes CRUD operations for the **Piece** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Pieces
-    * const pieces = await prisma.piece.findMany()
-    * ```
-    */
-  get piece(): Prisma.PieceDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.artist`: Exposes CRUD operations for the **Artist** model.
     * Example usage:
     * ```ts
@@ -266,16 +246,6 @@ export class PrismaClient<
     * ```
     */
   get artist(): Prisma.ArtistDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.performance`: Exposes CRUD operations for the **Performance** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Performances
-    * const performances = await prisma.performance.findMany()
-    * ```
-    */
-  get performance(): Prisma.PerformanceDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.quiz`: Exposes CRUD operations for the **Quiz** model.
@@ -743,9 +713,7 @@ export namespace Prisma {
     User: 'User',
     VerificationToken: 'VerificationToken',
     Composer: 'Composer',
-    Piece: 'Piece',
     Artist: 'Artist',
-    Performance: 'Performance',
     Quiz: 'Quiz',
     QuizSlice: 'QuizSlice'
   };
@@ -766,7 +734,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "post" | "account" | "session" | "user" | "verificationToken" | "composer" | "piece" | "artist" | "performance" | "quiz" | "quizSlice"
+      modelProps: "post" | "account" | "session" | "user" | "verificationToken" | "composer" | "artist" | "quiz" | "quizSlice"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1214,80 +1182,6 @@ export namespace Prisma {
           }
         }
       }
-      Piece: {
-        payload: Prisma.$PiecePayload<ExtArgs>
-        fields: Prisma.PieceFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.PieceFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PiecePayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.PieceFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PiecePayload>
-          }
-          findFirst: {
-            args: Prisma.PieceFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PiecePayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.PieceFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PiecePayload>
-          }
-          findMany: {
-            args: Prisma.PieceFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PiecePayload>[]
-          }
-          create: {
-            args: Prisma.PieceCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PiecePayload>
-          }
-          createMany: {
-            args: Prisma.PieceCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.PieceCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PiecePayload>[]
-          }
-          delete: {
-            args: Prisma.PieceDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PiecePayload>
-          }
-          update: {
-            args: Prisma.PieceUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PiecePayload>
-          }
-          deleteMany: {
-            args: Prisma.PieceDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.PieceUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.PieceUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PiecePayload>[]
-          }
-          upsert: {
-            args: Prisma.PieceUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PiecePayload>
-          }
-          aggregate: {
-            args: Prisma.PieceAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregatePiece>
-          }
-          groupBy: {
-            args: Prisma.PieceGroupByArgs<ExtArgs>
-            result: $Utils.Optional<PieceGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.PieceCountArgs<ExtArgs>
-            result: $Utils.Optional<PieceCountAggregateOutputType> | number
-          }
-        }
-      }
       Artist: {
         payload: Prisma.$ArtistPayload<ExtArgs>
         fields: Prisma.ArtistFieldRefs
@@ -1359,80 +1253,6 @@ export namespace Prisma {
           count: {
             args: Prisma.ArtistCountArgs<ExtArgs>
             result: $Utils.Optional<ArtistCountAggregateOutputType> | number
-          }
-        }
-      }
-      Performance: {
-        payload: Prisma.$PerformancePayload<ExtArgs>
-        fields: Prisma.PerformanceFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.PerformanceFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PerformancePayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.PerformanceFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PerformancePayload>
-          }
-          findFirst: {
-            args: Prisma.PerformanceFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PerformancePayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.PerformanceFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PerformancePayload>
-          }
-          findMany: {
-            args: Prisma.PerformanceFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PerformancePayload>[]
-          }
-          create: {
-            args: Prisma.PerformanceCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PerformancePayload>
-          }
-          createMany: {
-            args: Prisma.PerformanceCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.PerformanceCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PerformancePayload>[]
-          }
-          delete: {
-            args: Prisma.PerformanceDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PerformancePayload>
-          }
-          update: {
-            args: Prisma.PerformanceUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PerformancePayload>
-          }
-          deleteMany: {
-            args: Prisma.PerformanceDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.PerformanceUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.PerformanceUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PerformancePayload>[]
-          }
-          upsert: {
-            args: Prisma.PerformanceUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PerformancePayload>
-          }
-          aggregate: {
-            args: Prisma.PerformanceAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregatePerformance>
-          }
-          groupBy: {
-            args: Prisma.PerformanceGroupByArgs<ExtArgs>
-            result: $Utils.Optional<PerformanceGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.PerformanceCountArgs<ExtArgs>
-            result: $Utils.Optional<PerformanceCountAggregateOutputType> | number
           }
         }
       }
@@ -1686,9 +1506,7 @@ export namespace Prisma {
     user?: UserOmit
     verificationToken?: VerificationTokenOmit
     composer?: ComposerOmit
-    piece?: PieceOmit
     artist?: ArtistOmit
-    performance?: PerformanceOmit
     quiz?: QuizOmit
     quizSlice?: QuizSliceOmit
   }
@@ -1829,11 +1647,11 @@ export namespace Prisma {
    */
 
   export type ComposerCountOutputType = {
-    pieces: number
+    quizzes: number
   }
 
   export type ComposerCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    pieces?: boolean | ComposerCountOutputTypeCountPiecesArgs
+    quizzes?: boolean | ComposerCountOutputTypeCountQuizzesArgs
   }
 
   // Custom InputTypes
@@ -1850,47 +1668,7 @@ export namespace Prisma {
   /**
    * ComposerCountOutputType without action
    */
-  export type ComposerCountOutputTypeCountPiecesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PieceWhereInput
-  }
-
-
-  /**
-   * Count Type PieceCountOutputType
-   */
-
-  export type PieceCountOutputType = {
-    performances: number
-    quizzes: number
-  }
-
-  export type PieceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    performances?: boolean | PieceCountOutputTypeCountPerformancesArgs
-    quizzes?: boolean | PieceCountOutputTypeCountQuizzesArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * PieceCountOutputType without action
-   */
-  export type PieceCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PieceCountOutputType
-     */
-    select?: PieceCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * PieceCountOutputType without action
-   */
-  export type PieceCountOutputTypeCountPerformancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PerformanceWhereInput
-  }
-
-  /**
-   * PieceCountOutputType without action
-   */
-  export type PieceCountOutputTypeCountQuizzesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ComposerCountOutputTypeCountQuizzesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: QuizWhereInput
   }
 
@@ -1900,11 +1678,11 @@ export namespace Prisma {
    */
 
   export type ArtistCountOutputType = {
-    performances: number
+    quizSlices: number
   }
 
   export type ArtistCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    performances?: boolean | ArtistCountOutputTypeCountPerformancesArgs
+    quizSlices?: boolean | ArtistCountOutputTypeCountQuizSlicesArgs
   }
 
   // Custom InputTypes
@@ -1921,38 +1699,7 @@ export namespace Prisma {
   /**
    * ArtistCountOutputType without action
    */
-  export type ArtistCountOutputTypeCountPerformancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PerformanceWhereInput
-  }
-
-
-  /**
-   * Count Type PerformanceCountOutputType
-   */
-
-  export type PerformanceCountOutputType = {
-    quizSlices: number
-  }
-
-  export type PerformanceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    quizSlices?: boolean | PerformanceCountOutputTypeCountQuizSlicesArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * PerformanceCountOutputType without action
-   */
-  export type PerformanceCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PerformanceCountOutputType
-     */
-    select?: PerformanceCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * PerformanceCountOutputType without action
-   */
-  export type PerformanceCountOutputTypeCountQuizSlicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ArtistCountOutputTypeCountQuizSlicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: QuizSliceWhereInput
   }
 
@@ -7590,7 +7337,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     photoUrl?: boolean
-    pieces?: boolean | Composer$piecesArgs<ExtArgs>
+    quizzes?: boolean | Composer$quizzesArgs<ExtArgs>
     _count?: boolean | ComposerCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["composer"]>
 
@@ -7614,7 +7361,7 @@ export namespace Prisma {
 
   export type ComposerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "photoUrl", ExtArgs["result"]["composer"]>
   export type ComposerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    pieces?: boolean | Composer$piecesArgs<ExtArgs>
+    quizzes?: boolean | Composer$quizzesArgs<ExtArgs>
     _count?: boolean | ComposerCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ComposerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -7623,7 +7370,7 @@ export namespace Prisma {
   export type $ComposerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Composer"
     objects: {
-      pieces: Prisma.$PiecePayload<ExtArgs>[]
+      quizzes: Prisma.$QuizPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8023,7 +7770,7 @@ export namespace Prisma {
    */
   export interface Prisma__ComposerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    pieces<T extends Composer$piecesArgs<ExtArgs> = {}>(args?: Subset<T, Composer$piecesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PiecePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    quizzes<T extends Composer$quizzesArgs<ExtArgs> = {}>(args?: Subset<T, Composer$quizzesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8442,1097 +8189,9 @@ export namespace Prisma {
   }
 
   /**
-   * Composer.pieces
+   * Composer.quizzes
    */
-  export type Composer$piecesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Piece
-     */
-    select?: PieceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Piece
-     */
-    omit?: PieceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PieceInclude<ExtArgs> | null
-    where?: PieceWhereInput
-    orderBy?: PieceOrderByWithRelationInput | PieceOrderByWithRelationInput[]
-    cursor?: PieceWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: PieceScalarFieldEnum | PieceScalarFieldEnum[]
-  }
-
-  /**
-   * Composer without action
-   */
-  export type ComposerDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Composer
-     */
-    select?: ComposerSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Composer
-     */
-    omit?: ComposerOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ComposerInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model Piece
-   */
-
-  export type AggregatePiece = {
-    _count: PieceCountAggregateOutputType | null
-    _min: PieceMinAggregateOutputType | null
-    _max: PieceMaxAggregateOutputType | null
-  }
-
-  export type PieceMinAggregateOutputType = {
-    id: string | null
-    name: string | null
-    composerId: string | null
-  }
-
-  export type PieceMaxAggregateOutputType = {
-    id: string | null
-    name: string | null
-    composerId: string | null
-  }
-
-  export type PieceCountAggregateOutputType = {
-    id: number
-    name: number
-    composerId: number
-    _all: number
-  }
-
-
-  export type PieceMinAggregateInputType = {
-    id?: true
-    name?: true
-    composerId?: true
-  }
-
-  export type PieceMaxAggregateInputType = {
-    id?: true
-    name?: true
-    composerId?: true
-  }
-
-  export type PieceCountAggregateInputType = {
-    id?: true
-    name?: true
-    composerId?: true
-    _all?: true
-  }
-
-  export type PieceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Piece to aggregate.
-     */
-    where?: PieceWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Pieces to fetch.
-     */
-    orderBy?: PieceOrderByWithRelationInput | PieceOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: PieceWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Pieces from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Pieces.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Pieces
-    **/
-    _count?: true | PieceCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: PieceMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: PieceMaxAggregateInputType
-  }
-
-  export type GetPieceAggregateType<T extends PieceAggregateArgs> = {
-        [P in keyof T & keyof AggregatePiece]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregatePiece[P]>
-      : GetScalarType<T[P], AggregatePiece[P]>
-  }
-
-
-
-
-  export type PieceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PieceWhereInput
-    orderBy?: PieceOrderByWithAggregationInput | PieceOrderByWithAggregationInput[]
-    by: PieceScalarFieldEnum[] | PieceScalarFieldEnum
-    having?: PieceScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: PieceCountAggregateInputType | true
-    _min?: PieceMinAggregateInputType
-    _max?: PieceMaxAggregateInputType
-  }
-
-  export type PieceGroupByOutputType = {
-    id: string
-    name: string
-    composerId: string
-    _count: PieceCountAggregateOutputType | null
-    _min: PieceMinAggregateOutputType | null
-    _max: PieceMaxAggregateOutputType | null
-  }
-
-  type GetPieceGroupByPayload<T extends PieceGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<PieceGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof PieceGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], PieceGroupByOutputType[P]>
-            : GetScalarType<T[P], PieceGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type PieceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    composerId?: boolean
-    composer?: boolean | ComposerDefaultArgs<ExtArgs>
-    performances?: boolean | Piece$performancesArgs<ExtArgs>
-    quizzes?: boolean | Piece$quizzesArgs<ExtArgs>
-    _count?: boolean | PieceCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["piece"]>
-
-  export type PieceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    composerId?: boolean
-    composer?: boolean | ComposerDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["piece"]>
-
-  export type PieceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    composerId?: boolean
-    composer?: boolean | ComposerDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["piece"]>
-
-  export type PieceSelectScalar = {
-    id?: boolean
-    name?: boolean
-    composerId?: boolean
-  }
-
-  export type PieceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "composerId", ExtArgs["result"]["piece"]>
-  export type PieceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    composer?: boolean | ComposerDefaultArgs<ExtArgs>
-    performances?: boolean | Piece$performancesArgs<ExtArgs>
-    quizzes?: boolean | Piece$quizzesArgs<ExtArgs>
-    _count?: boolean | PieceCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type PieceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    composer?: boolean | ComposerDefaultArgs<ExtArgs>
-  }
-  export type PieceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    composer?: boolean | ComposerDefaultArgs<ExtArgs>
-  }
-
-  export type $PiecePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Piece"
-    objects: {
-      composer: Prisma.$ComposerPayload<ExtArgs>
-      performances: Prisma.$PerformancePayload<ExtArgs>[]
-      quizzes: Prisma.$QuizPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      name: string
-      composerId: string
-    }, ExtArgs["result"]["piece"]>
-    composites: {}
-  }
-
-  type PieceGetPayload<S extends boolean | null | undefined | PieceDefaultArgs> = $Result.GetResult<Prisma.$PiecePayload, S>
-
-  type PieceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<PieceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: PieceCountAggregateInputType | true
-    }
-
-  export interface PieceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Piece'], meta: { name: 'Piece' } }
-    /**
-     * Find zero or one Piece that matches the filter.
-     * @param {PieceFindUniqueArgs} args - Arguments to find a Piece
-     * @example
-     * // Get one Piece
-     * const piece = await prisma.piece.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends PieceFindUniqueArgs>(args: SelectSubset<T, PieceFindUniqueArgs<ExtArgs>>): Prisma__PieceClient<$Result.GetResult<Prisma.$PiecePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Piece that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {PieceFindUniqueOrThrowArgs} args - Arguments to find a Piece
-     * @example
-     * // Get one Piece
-     * const piece = await prisma.piece.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends PieceFindUniqueOrThrowArgs>(args: SelectSubset<T, PieceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PieceClient<$Result.GetResult<Prisma.$PiecePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Piece that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PieceFindFirstArgs} args - Arguments to find a Piece
-     * @example
-     * // Get one Piece
-     * const piece = await prisma.piece.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends PieceFindFirstArgs>(args?: SelectSubset<T, PieceFindFirstArgs<ExtArgs>>): Prisma__PieceClient<$Result.GetResult<Prisma.$PiecePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Piece that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PieceFindFirstOrThrowArgs} args - Arguments to find a Piece
-     * @example
-     * // Get one Piece
-     * const piece = await prisma.piece.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends PieceFindFirstOrThrowArgs>(args?: SelectSubset<T, PieceFindFirstOrThrowArgs<ExtArgs>>): Prisma__PieceClient<$Result.GetResult<Prisma.$PiecePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Pieces that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PieceFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Pieces
-     * const pieces = await prisma.piece.findMany()
-     * 
-     * // Get first 10 Pieces
-     * const pieces = await prisma.piece.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const pieceWithIdOnly = await prisma.piece.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends PieceFindManyArgs>(args?: SelectSubset<T, PieceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PiecePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Piece.
-     * @param {PieceCreateArgs} args - Arguments to create a Piece.
-     * @example
-     * // Create one Piece
-     * const Piece = await prisma.piece.create({
-     *   data: {
-     *     // ... data to create a Piece
-     *   }
-     * })
-     * 
-     */
-    create<T extends PieceCreateArgs>(args: SelectSubset<T, PieceCreateArgs<ExtArgs>>): Prisma__PieceClient<$Result.GetResult<Prisma.$PiecePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Pieces.
-     * @param {PieceCreateManyArgs} args - Arguments to create many Pieces.
-     * @example
-     * // Create many Pieces
-     * const piece = await prisma.piece.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends PieceCreateManyArgs>(args?: SelectSubset<T, PieceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Pieces and returns the data saved in the database.
-     * @param {PieceCreateManyAndReturnArgs} args - Arguments to create many Pieces.
-     * @example
-     * // Create many Pieces
-     * const piece = await prisma.piece.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Pieces and only return the `id`
-     * const pieceWithIdOnly = await prisma.piece.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends PieceCreateManyAndReturnArgs>(args?: SelectSubset<T, PieceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PiecePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Piece.
-     * @param {PieceDeleteArgs} args - Arguments to delete one Piece.
-     * @example
-     * // Delete one Piece
-     * const Piece = await prisma.piece.delete({
-     *   where: {
-     *     // ... filter to delete one Piece
-     *   }
-     * })
-     * 
-     */
-    delete<T extends PieceDeleteArgs>(args: SelectSubset<T, PieceDeleteArgs<ExtArgs>>): Prisma__PieceClient<$Result.GetResult<Prisma.$PiecePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Piece.
-     * @param {PieceUpdateArgs} args - Arguments to update one Piece.
-     * @example
-     * // Update one Piece
-     * const piece = await prisma.piece.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends PieceUpdateArgs>(args: SelectSubset<T, PieceUpdateArgs<ExtArgs>>): Prisma__PieceClient<$Result.GetResult<Prisma.$PiecePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Pieces.
-     * @param {PieceDeleteManyArgs} args - Arguments to filter Pieces to delete.
-     * @example
-     * // Delete a few Pieces
-     * const { count } = await prisma.piece.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends PieceDeleteManyArgs>(args?: SelectSubset<T, PieceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Pieces.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PieceUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Pieces
-     * const piece = await prisma.piece.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends PieceUpdateManyArgs>(args: SelectSubset<T, PieceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Pieces and returns the data updated in the database.
-     * @param {PieceUpdateManyAndReturnArgs} args - Arguments to update many Pieces.
-     * @example
-     * // Update many Pieces
-     * const piece = await prisma.piece.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Pieces and only return the `id`
-     * const pieceWithIdOnly = await prisma.piece.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends PieceUpdateManyAndReturnArgs>(args: SelectSubset<T, PieceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PiecePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Piece.
-     * @param {PieceUpsertArgs} args - Arguments to update or create a Piece.
-     * @example
-     * // Update or create a Piece
-     * const piece = await prisma.piece.upsert({
-     *   create: {
-     *     // ... data to create a Piece
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Piece we want to update
-     *   }
-     * })
-     */
-    upsert<T extends PieceUpsertArgs>(args: SelectSubset<T, PieceUpsertArgs<ExtArgs>>): Prisma__PieceClient<$Result.GetResult<Prisma.$PiecePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Pieces.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PieceCountArgs} args - Arguments to filter Pieces to count.
-     * @example
-     * // Count the number of Pieces
-     * const count = await prisma.piece.count({
-     *   where: {
-     *     // ... the filter for the Pieces we want to count
-     *   }
-     * })
-    **/
-    count<T extends PieceCountArgs>(
-      args?: Subset<T, PieceCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], PieceCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Piece.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PieceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends PieceAggregateArgs>(args: Subset<T, PieceAggregateArgs>): Prisma.PrismaPromise<GetPieceAggregateType<T>>
-
-    /**
-     * Group by Piece.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PieceGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends PieceGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: PieceGroupByArgs['orderBy'] }
-        : { orderBy?: PieceGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, PieceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPieceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Piece model
-   */
-  readonly fields: PieceFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Piece.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__PieceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    composer<T extends ComposerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ComposerDefaultArgs<ExtArgs>>): Prisma__ComposerClient<$Result.GetResult<Prisma.$ComposerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    performances<T extends Piece$performancesArgs<ExtArgs> = {}>(args?: Subset<T, Piece$performancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PerformancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    quizzes<T extends Piece$quizzesArgs<ExtArgs> = {}>(args?: Subset<T, Piece$quizzesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Piece model
-   */
-  interface PieceFieldRefs {
-    readonly id: FieldRef<"Piece", 'String'>
-    readonly name: FieldRef<"Piece", 'String'>
-    readonly composerId: FieldRef<"Piece", 'String'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Piece findUnique
-   */
-  export type PieceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Piece
-     */
-    select?: PieceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Piece
-     */
-    omit?: PieceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PieceInclude<ExtArgs> | null
-    /**
-     * Filter, which Piece to fetch.
-     */
-    where: PieceWhereUniqueInput
-  }
-
-  /**
-   * Piece findUniqueOrThrow
-   */
-  export type PieceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Piece
-     */
-    select?: PieceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Piece
-     */
-    omit?: PieceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PieceInclude<ExtArgs> | null
-    /**
-     * Filter, which Piece to fetch.
-     */
-    where: PieceWhereUniqueInput
-  }
-
-  /**
-   * Piece findFirst
-   */
-  export type PieceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Piece
-     */
-    select?: PieceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Piece
-     */
-    omit?: PieceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PieceInclude<ExtArgs> | null
-    /**
-     * Filter, which Piece to fetch.
-     */
-    where?: PieceWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Pieces to fetch.
-     */
-    orderBy?: PieceOrderByWithRelationInput | PieceOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Pieces.
-     */
-    cursor?: PieceWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Pieces from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Pieces.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Pieces.
-     */
-    distinct?: PieceScalarFieldEnum | PieceScalarFieldEnum[]
-  }
-
-  /**
-   * Piece findFirstOrThrow
-   */
-  export type PieceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Piece
-     */
-    select?: PieceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Piece
-     */
-    omit?: PieceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PieceInclude<ExtArgs> | null
-    /**
-     * Filter, which Piece to fetch.
-     */
-    where?: PieceWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Pieces to fetch.
-     */
-    orderBy?: PieceOrderByWithRelationInput | PieceOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Pieces.
-     */
-    cursor?: PieceWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Pieces from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Pieces.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Pieces.
-     */
-    distinct?: PieceScalarFieldEnum | PieceScalarFieldEnum[]
-  }
-
-  /**
-   * Piece findMany
-   */
-  export type PieceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Piece
-     */
-    select?: PieceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Piece
-     */
-    omit?: PieceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PieceInclude<ExtArgs> | null
-    /**
-     * Filter, which Pieces to fetch.
-     */
-    where?: PieceWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Pieces to fetch.
-     */
-    orderBy?: PieceOrderByWithRelationInput | PieceOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Pieces.
-     */
-    cursor?: PieceWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Pieces from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Pieces.
-     */
-    skip?: number
-    distinct?: PieceScalarFieldEnum | PieceScalarFieldEnum[]
-  }
-
-  /**
-   * Piece create
-   */
-  export type PieceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Piece
-     */
-    select?: PieceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Piece
-     */
-    omit?: PieceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PieceInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Piece.
-     */
-    data: XOR<PieceCreateInput, PieceUncheckedCreateInput>
-  }
-
-  /**
-   * Piece createMany
-   */
-  export type PieceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Pieces.
-     */
-    data: PieceCreateManyInput | PieceCreateManyInput[]
-  }
-
-  /**
-   * Piece createManyAndReturn
-   */
-  export type PieceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Piece
-     */
-    select?: PieceSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Piece
-     */
-    omit?: PieceOmit<ExtArgs> | null
-    /**
-     * The data used to create many Pieces.
-     */
-    data: PieceCreateManyInput | PieceCreateManyInput[]
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PieceIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Piece update
-   */
-  export type PieceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Piece
-     */
-    select?: PieceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Piece
-     */
-    omit?: PieceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PieceInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Piece.
-     */
-    data: XOR<PieceUpdateInput, PieceUncheckedUpdateInput>
-    /**
-     * Choose, which Piece to update.
-     */
-    where: PieceWhereUniqueInput
-  }
-
-  /**
-   * Piece updateMany
-   */
-  export type PieceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Pieces.
-     */
-    data: XOR<PieceUpdateManyMutationInput, PieceUncheckedUpdateManyInput>
-    /**
-     * Filter which Pieces to update
-     */
-    where?: PieceWhereInput
-    /**
-     * Limit how many Pieces to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Piece updateManyAndReturn
-   */
-  export type PieceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Piece
-     */
-    select?: PieceSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Piece
-     */
-    omit?: PieceOmit<ExtArgs> | null
-    /**
-     * The data used to update Pieces.
-     */
-    data: XOR<PieceUpdateManyMutationInput, PieceUncheckedUpdateManyInput>
-    /**
-     * Filter which Pieces to update
-     */
-    where?: PieceWhereInput
-    /**
-     * Limit how many Pieces to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PieceIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Piece upsert
-   */
-  export type PieceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Piece
-     */
-    select?: PieceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Piece
-     */
-    omit?: PieceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PieceInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Piece to update in case it exists.
-     */
-    where: PieceWhereUniqueInput
-    /**
-     * In case the Piece found by the `where` argument doesn't exist, create a new Piece with this data.
-     */
-    create: XOR<PieceCreateInput, PieceUncheckedCreateInput>
-    /**
-     * In case the Piece was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<PieceUpdateInput, PieceUncheckedUpdateInput>
-  }
-
-  /**
-   * Piece delete
-   */
-  export type PieceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Piece
-     */
-    select?: PieceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Piece
-     */
-    omit?: PieceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PieceInclude<ExtArgs> | null
-    /**
-     * Filter which Piece to delete.
-     */
-    where: PieceWhereUniqueInput
-  }
-
-  /**
-   * Piece deleteMany
-   */
-  export type PieceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Pieces to delete
-     */
-    where?: PieceWhereInput
-    /**
-     * Limit how many Pieces to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Piece.performances
-   */
-  export type Piece$performancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Performance
-     */
-    select?: PerformanceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Performance
-     */
-    omit?: PerformanceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PerformanceInclude<ExtArgs> | null
-    where?: PerformanceWhereInput
-    orderBy?: PerformanceOrderByWithRelationInput | PerformanceOrderByWithRelationInput[]
-    cursor?: PerformanceWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: PerformanceScalarFieldEnum | PerformanceScalarFieldEnum[]
-  }
-
-  /**
-   * Piece.quizzes
-   */
-  export type Piece$quizzesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Composer$quizzesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Quiz
      */
@@ -9554,21 +8213,21 @@ export namespace Prisma {
   }
 
   /**
-   * Piece without action
+   * Composer without action
    */
-  export type PieceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ComposerDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Piece
+     * Select specific fields to fetch from the Composer
      */
-    select?: PieceSelect<ExtArgs> | null
+    select?: ComposerSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Piece
+     * Omit specific fields from the Composer
      */
-    omit?: PieceOmit<ExtArgs> | null
+    omit?: ComposerOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PieceInclude<ExtArgs> | null
+    include?: ComposerInclude<ExtArgs> | null
   }
 
 
@@ -9720,7 +8379,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     photoUrl?: boolean
-    performances?: boolean | Artist$performancesArgs<ExtArgs>
+    quizSlices?: boolean | Artist$quizSlicesArgs<ExtArgs>
     _count?: boolean | ArtistCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["artist"]>
 
@@ -9744,7 +8403,7 @@ export namespace Prisma {
 
   export type ArtistOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "photoUrl", ExtArgs["result"]["artist"]>
   export type ArtistInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    performances?: boolean | Artist$performancesArgs<ExtArgs>
+    quizSlices?: boolean | Artist$quizSlicesArgs<ExtArgs>
     _count?: boolean | ArtistCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ArtistIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -9753,7 +8412,7 @@ export namespace Prisma {
   export type $ArtistPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Artist"
     objects: {
-      performances: Prisma.$PerformancePayload<ExtArgs>[]
+      quizSlices: Prisma.$QuizSlicePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -10153,7 +8812,7 @@ export namespace Prisma {
    */
   export interface Prisma__ArtistClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    performances<T extends Artist$performancesArgs<ExtArgs> = {}>(args?: Subset<T, Artist$performancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PerformancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    quizSlices<T extends Artist$quizSlicesArgs<ExtArgs> = {}>(args?: Subset<T, Artist$quizSlicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizSlicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10572,1090 +9231,9 @@ export namespace Prisma {
   }
 
   /**
-   * Artist.performances
+   * Artist.quizSlices
    */
-  export type Artist$performancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Performance
-     */
-    select?: PerformanceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Performance
-     */
-    omit?: PerformanceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PerformanceInclude<ExtArgs> | null
-    where?: PerformanceWhereInput
-    orderBy?: PerformanceOrderByWithRelationInput | PerformanceOrderByWithRelationInput[]
-    cursor?: PerformanceWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: PerformanceScalarFieldEnum | PerformanceScalarFieldEnum[]
-  }
-
-  /**
-   * Artist without action
-   */
-  export type ArtistDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Artist
-     */
-    select?: ArtistSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Artist
-     */
-    omit?: ArtistOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ArtistInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model Performance
-   */
-
-  export type AggregatePerformance = {
-    _count: PerformanceCountAggregateOutputType | null
-    _min: PerformanceMinAggregateOutputType | null
-    _max: PerformanceMaxAggregateOutputType | null
-  }
-
-  export type PerformanceMinAggregateOutputType = {
-    id: string | null
-    youtubeUrl: string | null
-    pieceId: string | null
-    artistId: string | null
-  }
-
-  export type PerformanceMaxAggregateOutputType = {
-    id: string | null
-    youtubeUrl: string | null
-    pieceId: string | null
-    artistId: string | null
-  }
-
-  export type PerformanceCountAggregateOutputType = {
-    id: number
-    youtubeUrl: number
-    pieceId: number
-    artistId: number
-    _all: number
-  }
-
-
-  export type PerformanceMinAggregateInputType = {
-    id?: true
-    youtubeUrl?: true
-    pieceId?: true
-    artistId?: true
-  }
-
-  export type PerformanceMaxAggregateInputType = {
-    id?: true
-    youtubeUrl?: true
-    pieceId?: true
-    artistId?: true
-  }
-
-  export type PerformanceCountAggregateInputType = {
-    id?: true
-    youtubeUrl?: true
-    pieceId?: true
-    artistId?: true
-    _all?: true
-  }
-
-  export type PerformanceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Performance to aggregate.
-     */
-    where?: PerformanceWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Performances to fetch.
-     */
-    orderBy?: PerformanceOrderByWithRelationInput | PerformanceOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: PerformanceWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Performances from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Performances.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Performances
-    **/
-    _count?: true | PerformanceCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: PerformanceMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: PerformanceMaxAggregateInputType
-  }
-
-  export type GetPerformanceAggregateType<T extends PerformanceAggregateArgs> = {
-        [P in keyof T & keyof AggregatePerformance]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregatePerformance[P]>
-      : GetScalarType<T[P], AggregatePerformance[P]>
-  }
-
-
-
-
-  export type PerformanceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PerformanceWhereInput
-    orderBy?: PerformanceOrderByWithAggregationInput | PerformanceOrderByWithAggregationInput[]
-    by: PerformanceScalarFieldEnum[] | PerformanceScalarFieldEnum
-    having?: PerformanceScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: PerformanceCountAggregateInputType | true
-    _min?: PerformanceMinAggregateInputType
-    _max?: PerformanceMaxAggregateInputType
-  }
-
-  export type PerformanceGroupByOutputType = {
-    id: string
-    youtubeUrl: string
-    pieceId: string
-    artistId: string
-    _count: PerformanceCountAggregateOutputType | null
-    _min: PerformanceMinAggregateOutputType | null
-    _max: PerformanceMaxAggregateOutputType | null
-  }
-
-  type GetPerformanceGroupByPayload<T extends PerformanceGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<PerformanceGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof PerformanceGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], PerformanceGroupByOutputType[P]>
-            : GetScalarType<T[P], PerformanceGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type PerformanceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    youtubeUrl?: boolean
-    pieceId?: boolean
-    artistId?: boolean
-    piece?: boolean | PieceDefaultArgs<ExtArgs>
-    artist?: boolean | ArtistDefaultArgs<ExtArgs>
-    quizSlices?: boolean | Performance$quizSlicesArgs<ExtArgs>
-    _count?: boolean | PerformanceCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["performance"]>
-
-  export type PerformanceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    youtubeUrl?: boolean
-    pieceId?: boolean
-    artistId?: boolean
-    piece?: boolean | PieceDefaultArgs<ExtArgs>
-    artist?: boolean | ArtistDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["performance"]>
-
-  export type PerformanceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    youtubeUrl?: boolean
-    pieceId?: boolean
-    artistId?: boolean
-    piece?: boolean | PieceDefaultArgs<ExtArgs>
-    artist?: boolean | ArtistDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["performance"]>
-
-  export type PerformanceSelectScalar = {
-    id?: boolean
-    youtubeUrl?: boolean
-    pieceId?: boolean
-    artistId?: boolean
-  }
-
-  export type PerformanceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "youtubeUrl" | "pieceId" | "artistId", ExtArgs["result"]["performance"]>
-  export type PerformanceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    piece?: boolean | PieceDefaultArgs<ExtArgs>
-    artist?: boolean | ArtistDefaultArgs<ExtArgs>
-    quizSlices?: boolean | Performance$quizSlicesArgs<ExtArgs>
-    _count?: boolean | PerformanceCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type PerformanceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    piece?: boolean | PieceDefaultArgs<ExtArgs>
-    artist?: boolean | ArtistDefaultArgs<ExtArgs>
-  }
-  export type PerformanceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    piece?: boolean | PieceDefaultArgs<ExtArgs>
-    artist?: boolean | ArtistDefaultArgs<ExtArgs>
-  }
-
-  export type $PerformancePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Performance"
-    objects: {
-      piece: Prisma.$PiecePayload<ExtArgs>
-      artist: Prisma.$ArtistPayload<ExtArgs>
-      quizSlices: Prisma.$QuizSlicePayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      youtubeUrl: string
-      pieceId: string
-      artistId: string
-    }, ExtArgs["result"]["performance"]>
-    composites: {}
-  }
-
-  type PerformanceGetPayload<S extends boolean | null | undefined | PerformanceDefaultArgs> = $Result.GetResult<Prisma.$PerformancePayload, S>
-
-  type PerformanceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<PerformanceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: PerformanceCountAggregateInputType | true
-    }
-
-  export interface PerformanceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Performance'], meta: { name: 'Performance' } }
-    /**
-     * Find zero or one Performance that matches the filter.
-     * @param {PerformanceFindUniqueArgs} args - Arguments to find a Performance
-     * @example
-     * // Get one Performance
-     * const performance = await prisma.performance.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends PerformanceFindUniqueArgs>(args: SelectSubset<T, PerformanceFindUniqueArgs<ExtArgs>>): Prisma__PerformanceClient<$Result.GetResult<Prisma.$PerformancePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Performance that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {PerformanceFindUniqueOrThrowArgs} args - Arguments to find a Performance
-     * @example
-     * // Get one Performance
-     * const performance = await prisma.performance.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends PerformanceFindUniqueOrThrowArgs>(args: SelectSubset<T, PerformanceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PerformanceClient<$Result.GetResult<Prisma.$PerformancePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Performance that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PerformanceFindFirstArgs} args - Arguments to find a Performance
-     * @example
-     * // Get one Performance
-     * const performance = await prisma.performance.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends PerformanceFindFirstArgs>(args?: SelectSubset<T, PerformanceFindFirstArgs<ExtArgs>>): Prisma__PerformanceClient<$Result.GetResult<Prisma.$PerformancePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Performance that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PerformanceFindFirstOrThrowArgs} args - Arguments to find a Performance
-     * @example
-     * // Get one Performance
-     * const performance = await prisma.performance.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends PerformanceFindFirstOrThrowArgs>(args?: SelectSubset<T, PerformanceFindFirstOrThrowArgs<ExtArgs>>): Prisma__PerformanceClient<$Result.GetResult<Prisma.$PerformancePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Performances that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PerformanceFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Performances
-     * const performances = await prisma.performance.findMany()
-     * 
-     * // Get first 10 Performances
-     * const performances = await prisma.performance.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const performanceWithIdOnly = await prisma.performance.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends PerformanceFindManyArgs>(args?: SelectSubset<T, PerformanceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PerformancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Performance.
-     * @param {PerformanceCreateArgs} args - Arguments to create a Performance.
-     * @example
-     * // Create one Performance
-     * const Performance = await prisma.performance.create({
-     *   data: {
-     *     // ... data to create a Performance
-     *   }
-     * })
-     * 
-     */
-    create<T extends PerformanceCreateArgs>(args: SelectSubset<T, PerformanceCreateArgs<ExtArgs>>): Prisma__PerformanceClient<$Result.GetResult<Prisma.$PerformancePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Performances.
-     * @param {PerformanceCreateManyArgs} args - Arguments to create many Performances.
-     * @example
-     * // Create many Performances
-     * const performance = await prisma.performance.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends PerformanceCreateManyArgs>(args?: SelectSubset<T, PerformanceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Performances and returns the data saved in the database.
-     * @param {PerformanceCreateManyAndReturnArgs} args - Arguments to create many Performances.
-     * @example
-     * // Create many Performances
-     * const performance = await prisma.performance.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Performances and only return the `id`
-     * const performanceWithIdOnly = await prisma.performance.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends PerformanceCreateManyAndReturnArgs>(args?: SelectSubset<T, PerformanceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PerformancePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Performance.
-     * @param {PerformanceDeleteArgs} args - Arguments to delete one Performance.
-     * @example
-     * // Delete one Performance
-     * const Performance = await prisma.performance.delete({
-     *   where: {
-     *     // ... filter to delete one Performance
-     *   }
-     * })
-     * 
-     */
-    delete<T extends PerformanceDeleteArgs>(args: SelectSubset<T, PerformanceDeleteArgs<ExtArgs>>): Prisma__PerformanceClient<$Result.GetResult<Prisma.$PerformancePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Performance.
-     * @param {PerformanceUpdateArgs} args - Arguments to update one Performance.
-     * @example
-     * // Update one Performance
-     * const performance = await prisma.performance.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends PerformanceUpdateArgs>(args: SelectSubset<T, PerformanceUpdateArgs<ExtArgs>>): Prisma__PerformanceClient<$Result.GetResult<Prisma.$PerformancePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Performances.
-     * @param {PerformanceDeleteManyArgs} args - Arguments to filter Performances to delete.
-     * @example
-     * // Delete a few Performances
-     * const { count } = await prisma.performance.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends PerformanceDeleteManyArgs>(args?: SelectSubset<T, PerformanceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Performances.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PerformanceUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Performances
-     * const performance = await prisma.performance.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends PerformanceUpdateManyArgs>(args: SelectSubset<T, PerformanceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Performances and returns the data updated in the database.
-     * @param {PerformanceUpdateManyAndReturnArgs} args - Arguments to update many Performances.
-     * @example
-     * // Update many Performances
-     * const performance = await prisma.performance.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Performances and only return the `id`
-     * const performanceWithIdOnly = await prisma.performance.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends PerformanceUpdateManyAndReturnArgs>(args: SelectSubset<T, PerformanceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PerformancePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Performance.
-     * @param {PerformanceUpsertArgs} args - Arguments to update or create a Performance.
-     * @example
-     * // Update or create a Performance
-     * const performance = await prisma.performance.upsert({
-     *   create: {
-     *     // ... data to create a Performance
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Performance we want to update
-     *   }
-     * })
-     */
-    upsert<T extends PerformanceUpsertArgs>(args: SelectSubset<T, PerformanceUpsertArgs<ExtArgs>>): Prisma__PerformanceClient<$Result.GetResult<Prisma.$PerformancePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Performances.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PerformanceCountArgs} args - Arguments to filter Performances to count.
-     * @example
-     * // Count the number of Performances
-     * const count = await prisma.performance.count({
-     *   where: {
-     *     // ... the filter for the Performances we want to count
-     *   }
-     * })
-    **/
-    count<T extends PerformanceCountArgs>(
-      args?: Subset<T, PerformanceCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], PerformanceCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Performance.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PerformanceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends PerformanceAggregateArgs>(args: Subset<T, PerformanceAggregateArgs>): Prisma.PrismaPromise<GetPerformanceAggregateType<T>>
-
-    /**
-     * Group by Performance.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PerformanceGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends PerformanceGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: PerformanceGroupByArgs['orderBy'] }
-        : { orderBy?: PerformanceGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, PerformanceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPerformanceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Performance model
-   */
-  readonly fields: PerformanceFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Performance.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__PerformanceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    piece<T extends PieceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PieceDefaultArgs<ExtArgs>>): Prisma__PieceClient<$Result.GetResult<Prisma.$PiecePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    artist<T extends ArtistDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ArtistDefaultArgs<ExtArgs>>): Prisma__ArtistClient<$Result.GetResult<Prisma.$ArtistPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    quizSlices<T extends Performance$quizSlicesArgs<ExtArgs> = {}>(args?: Subset<T, Performance$quizSlicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizSlicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Performance model
-   */
-  interface PerformanceFieldRefs {
-    readonly id: FieldRef<"Performance", 'String'>
-    readonly youtubeUrl: FieldRef<"Performance", 'String'>
-    readonly pieceId: FieldRef<"Performance", 'String'>
-    readonly artistId: FieldRef<"Performance", 'String'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Performance findUnique
-   */
-  export type PerformanceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Performance
-     */
-    select?: PerformanceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Performance
-     */
-    omit?: PerformanceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PerformanceInclude<ExtArgs> | null
-    /**
-     * Filter, which Performance to fetch.
-     */
-    where: PerformanceWhereUniqueInput
-  }
-
-  /**
-   * Performance findUniqueOrThrow
-   */
-  export type PerformanceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Performance
-     */
-    select?: PerformanceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Performance
-     */
-    omit?: PerformanceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PerformanceInclude<ExtArgs> | null
-    /**
-     * Filter, which Performance to fetch.
-     */
-    where: PerformanceWhereUniqueInput
-  }
-
-  /**
-   * Performance findFirst
-   */
-  export type PerformanceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Performance
-     */
-    select?: PerformanceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Performance
-     */
-    omit?: PerformanceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PerformanceInclude<ExtArgs> | null
-    /**
-     * Filter, which Performance to fetch.
-     */
-    where?: PerformanceWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Performances to fetch.
-     */
-    orderBy?: PerformanceOrderByWithRelationInput | PerformanceOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Performances.
-     */
-    cursor?: PerformanceWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Performances from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Performances.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Performances.
-     */
-    distinct?: PerformanceScalarFieldEnum | PerformanceScalarFieldEnum[]
-  }
-
-  /**
-   * Performance findFirstOrThrow
-   */
-  export type PerformanceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Performance
-     */
-    select?: PerformanceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Performance
-     */
-    omit?: PerformanceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PerformanceInclude<ExtArgs> | null
-    /**
-     * Filter, which Performance to fetch.
-     */
-    where?: PerformanceWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Performances to fetch.
-     */
-    orderBy?: PerformanceOrderByWithRelationInput | PerformanceOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Performances.
-     */
-    cursor?: PerformanceWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Performances from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Performances.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Performances.
-     */
-    distinct?: PerformanceScalarFieldEnum | PerformanceScalarFieldEnum[]
-  }
-
-  /**
-   * Performance findMany
-   */
-  export type PerformanceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Performance
-     */
-    select?: PerformanceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Performance
-     */
-    omit?: PerformanceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PerformanceInclude<ExtArgs> | null
-    /**
-     * Filter, which Performances to fetch.
-     */
-    where?: PerformanceWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Performances to fetch.
-     */
-    orderBy?: PerformanceOrderByWithRelationInput | PerformanceOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Performances.
-     */
-    cursor?: PerformanceWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Performances from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Performances.
-     */
-    skip?: number
-    distinct?: PerformanceScalarFieldEnum | PerformanceScalarFieldEnum[]
-  }
-
-  /**
-   * Performance create
-   */
-  export type PerformanceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Performance
-     */
-    select?: PerformanceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Performance
-     */
-    omit?: PerformanceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PerformanceInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Performance.
-     */
-    data: XOR<PerformanceCreateInput, PerformanceUncheckedCreateInput>
-  }
-
-  /**
-   * Performance createMany
-   */
-  export type PerformanceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Performances.
-     */
-    data: PerformanceCreateManyInput | PerformanceCreateManyInput[]
-  }
-
-  /**
-   * Performance createManyAndReturn
-   */
-  export type PerformanceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Performance
-     */
-    select?: PerformanceSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Performance
-     */
-    omit?: PerformanceOmit<ExtArgs> | null
-    /**
-     * The data used to create many Performances.
-     */
-    data: PerformanceCreateManyInput | PerformanceCreateManyInput[]
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PerformanceIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Performance update
-   */
-  export type PerformanceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Performance
-     */
-    select?: PerformanceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Performance
-     */
-    omit?: PerformanceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PerformanceInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Performance.
-     */
-    data: XOR<PerformanceUpdateInput, PerformanceUncheckedUpdateInput>
-    /**
-     * Choose, which Performance to update.
-     */
-    where: PerformanceWhereUniqueInput
-  }
-
-  /**
-   * Performance updateMany
-   */
-  export type PerformanceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Performances.
-     */
-    data: XOR<PerformanceUpdateManyMutationInput, PerformanceUncheckedUpdateManyInput>
-    /**
-     * Filter which Performances to update
-     */
-    where?: PerformanceWhereInput
-    /**
-     * Limit how many Performances to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Performance updateManyAndReturn
-   */
-  export type PerformanceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Performance
-     */
-    select?: PerformanceSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Performance
-     */
-    omit?: PerformanceOmit<ExtArgs> | null
-    /**
-     * The data used to update Performances.
-     */
-    data: XOR<PerformanceUpdateManyMutationInput, PerformanceUncheckedUpdateManyInput>
-    /**
-     * Filter which Performances to update
-     */
-    where?: PerformanceWhereInput
-    /**
-     * Limit how many Performances to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PerformanceIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Performance upsert
-   */
-  export type PerformanceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Performance
-     */
-    select?: PerformanceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Performance
-     */
-    omit?: PerformanceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PerformanceInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Performance to update in case it exists.
-     */
-    where: PerformanceWhereUniqueInput
-    /**
-     * In case the Performance found by the `where` argument doesn't exist, create a new Performance with this data.
-     */
-    create: XOR<PerformanceCreateInput, PerformanceUncheckedCreateInput>
-    /**
-     * In case the Performance was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<PerformanceUpdateInput, PerformanceUncheckedUpdateInput>
-  }
-
-  /**
-   * Performance delete
-   */
-  export type PerformanceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Performance
-     */
-    select?: PerformanceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Performance
-     */
-    omit?: PerformanceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PerformanceInclude<ExtArgs> | null
-    /**
-     * Filter which Performance to delete.
-     */
-    where: PerformanceWhereUniqueInput
-  }
-
-  /**
-   * Performance deleteMany
-   */
-  export type PerformanceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Performances to delete
-     */
-    where?: PerformanceWhereInput
-    /**
-     * Limit how many Performances to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Performance.quizSlices
-   */
-  export type Performance$quizSlicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Artist$quizSlicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the QuizSlice
      */
@@ -11677,21 +9255,21 @@ export namespace Prisma {
   }
 
   /**
-   * Performance without action
+   * Artist without action
    */
-  export type PerformanceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ArtistDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Performance
+     * Select specific fields to fetch from the Artist
      */
-    select?: PerformanceSelect<ExtArgs> | null
+    select?: ArtistSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Performance
+     * Omit specific fields from the Artist
      */
-    omit?: PerformanceOmit<ExtArgs> | null
+    omit?: ArtistOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PerformanceInclude<ExtArgs> | null
+    include?: ArtistInclude<ExtArgs> | null
   }
 
 
@@ -11717,25 +9295,28 @@ export namespace Prisma {
 
   export type QuizMinAggregateOutputType = {
     id: string | null
+    pieceName: string | null
     duration: number | null
     createdAt: Date | null
-    pieceId: string | null
+    composerId: string | null
     createdById: string | null
   }
 
   export type QuizMaxAggregateOutputType = {
     id: string | null
+    pieceName: string | null
     duration: number | null
     createdAt: Date | null
-    pieceId: string | null
+    composerId: string | null
     createdById: string | null
   }
 
   export type QuizCountAggregateOutputType = {
     id: number
+    pieceName: number
     duration: number
     createdAt: number
-    pieceId: number
+    composerId: number
     createdById: number
     _all: number
   }
@@ -11751,25 +9332,28 @@ export namespace Prisma {
 
   export type QuizMinAggregateInputType = {
     id?: true
+    pieceName?: true
     duration?: true
     createdAt?: true
-    pieceId?: true
+    composerId?: true
     createdById?: true
   }
 
   export type QuizMaxAggregateInputType = {
     id?: true
+    pieceName?: true
     duration?: true
     createdAt?: true
-    pieceId?: true
+    composerId?: true
     createdById?: true
   }
 
   export type QuizCountAggregateInputType = {
     id?: true
+    pieceName?: true
     duration?: true
     createdAt?: true
-    pieceId?: true
+    composerId?: true
     createdById?: true
     _all?: true
   }
@@ -11862,9 +9446,10 @@ export namespace Prisma {
 
   export type QuizGroupByOutputType = {
     id: string
+    pieceName: string
     duration: number
     createdAt: Date
-    pieceId: string
+    composerId: string
     createdById: string
     _count: QuizCountAggregateOutputType | null
     _avg: QuizAvgAggregateOutputType | null
@@ -11889,11 +9474,12 @@ export namespace Prisma {
 
   export type QuizSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    pieceName?: boolean
     duration?: boolean
     createdAt?: boolean
-    pieceId?: boolean
+    composerId?: boolean
     createdById?: boolean
-    piece?: boolean | PieceDefaultArgs<ExtArgs>
+    composer?: boolean | ComposerDefaultArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
     slices?: boolean | Quiz$slicesArgs<ExtArgs>
     _count?: boolean | QuizCountOutputTypeDefaultArgs<ExtArgs>
@@ -11901,60 +9487,64 @@ export namespace Prisma {
 
   export type QuizSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    pieceName?: boolean
     duration?: boolean
     createdAt?: boolean
-    pieceId?: boolean
+    composerId?: boolean
     createdById?: boolean
-    piece?: boolean | PieceDefaultArgs<ExtArgs>
+    composer?: boolean | ComposerDefaultArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["quiz"]>
 
   export type QuizSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    pieceName?: boolean
     duration?: boolean
     createdAt?: boolean
-    pieceId?: boolean
+    composerId?: boolean
     createdById?: boolean
-    piece?: boolean | PieceDefaultArgs<ExtArgs>
+    composer?: boolean | ComposerDefaultArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["quiz"]>
 
   export type QuizSelectScalar = {
     id?: boolean
+    pieceName?: boolean
     duration?: boolean
     createdAt?: boolean
-    pieceId?: boolean
+    composerId?: boolean
     createdById?: boolean
   }
 
-  export type QuizOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "duration" | "createdAt" | "pieceId" | "createdById", ExtArgs["result"]["quiz"]>
+  export type QuizOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "pieceName" | "duration" | "createdAt" | "composerId" | "createdById", ExtArgs["result"]["quiz"]>
   export type QuizInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    piece?: boolean | PieceDefaultArgs<ExtArgs>
+    composer?: boolean | ComposerDefaultArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
     slices?: boolean | Quiz$slicesArgs<ExtArgs>
     _count?: boolean | QuizCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type QuizIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    piece?: boolean | PieceDefaultArgs<ExtArgs>
+    composer?: boolean | ComposerDefaultArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type QuizIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    piece?: boolean | PieceDefaultArgs<ExtArgs>
+    composer?: boolean | ComposerDefaultArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $QuizPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Quiz"
     objects: {
-      piece: Prisma.$PiecePayload<ExtArgs>
+      composer: Prisma.$ComposerPayload<ExtArgs>
       createdBy: Prisma.$UserPayload<ExtArgs>
       slices: Prisma.$QuizSlicePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      pieceName: string
       duration: number
       createdAt: Date
-      pieceId: string
+      composerId: string
       createdById: string
     }, ExtArgs["result"]["quiz"]>
     composites: {}
@@ -12350,7 +9940,7 @@ export namespace Prisma {
    */
   export interface Prisma__QuizClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    piece<T extends PieceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PieceDefaultArgs<ExtArgs>>): Prisma__PieceClient<$Result.GetResult<Prisma.$PiecePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    composer<T extends ComposerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ComposerDefaultArgs<ExtArgs>>): Prisma__ComposerClient<$Result.GetResult<Prisma.$ComposerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     createdBy<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     slices<T extends Quiz$slicesArgs<ExtArgs> = {}>(args?: Subset<T, Quiz$slicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizSlicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -12383,9 +9973,10 @@ export namespace Prisma {
    */
   interface QuizFieldRefs {
     readonly id: FieldRef<"Quiz", 'String'>
+    readonly pieceName: FieldRef<"Quiz", 'String'>
     readonly duration: FieldRef<"Quiz", 'Int'>
     readonly createdAt: FieldRef<"Quiz", 'DateTime'>
-    readonly pieceId: FieldRef<"Quiz", 'String'>
+    readonly composerId: FieldRef<"Quiz", 'String'>
     readonly createdById: FieldRef<"Quiz", 'String'>
   }
     
@@ -12846,22 +10437,25 @@ export namespace Prisma {
   export type QuizSliceMinAggregateOutputType = {
     id: string | null
     startTime: number | null
+    youtubeUrl: string | null
     quizId: string | null
-    performanceId: string | null
+    artistId: string | null
   }
 
   export type QuizSliceMaxAggregateOutputType = {
     id: string | null
     startTime: number | null
+    youtubeUrl: string | null
     quizId: string | null
-    performanceId: string | null
+    artistId: string | null
   }
 
   export type QuizSliceCountAggregateOutputType = {
     id: number
     startTime: number
+    youtubeUrl: number
     quizId: number
-    performanceId: number
+    artistId: number
     _all: number
   }
 
@@ -12877,22 +10471,25 @@ export namespace Prisma {
   export type QuizSliceMinAggregateInputType = {
     id?: true
     startTime?: true
+    youtubeUrl?: true
     quizId?: true
-    performanceId?: true
+    artistId?: true
   }
 
   export type QuizSliceMaxAggregateInputType = {
     id?: true
     startTime?: true
+    youtubeUrl?: true
     quizId?: true
-    performanceId?: true
+    artistId?: true
   }
 
   export type QuizSliceCountAggregateInputType = {
     id?: true
     startTime?: true
+    youtubeUrl?: true
     quizId?: true
-    performanceId?: true
+    artistId?: true
     _all?: true
   }
 
@@ -12985,8 +10582,9 @@ export namespace Prisma {
   export type QuizSliceGroupByOutputType = {
     id: string
     startTime: number
+    youtubeUrl: string
     quizId: string
-    performanceId: string
+    artistId: string
     _count: QuizSliceCountAggregateOutputType | null
     _avg: QuizSliceAvgAggregateOutputType | null
     _sum: QuizSliceSumAggregateOutputType | null
@@ -13011,62 +10609,67 @@ export namespace Prisma {
   export type QuizSliceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     startTime?: boolean
+    youtubeUrl?: boolean
     quizId?: boolean
-    performanceId?: boolean
+    artistId?: boolean
     quiz?: boolean | QuizDefaultArgs<ExtArgs>
-    performance?: boolean | PerformanceDefaultArgs<ExtArgs>
+    artist?: boolean | ArtistDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["quizSlice"]>
 
   export type QuizSliceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     startTime?: boolean
+    youtubeUrl?: boolean
     quizId?: boolean
-    performanceId?: boolean
+    artistId?: boolean
     quiz?: boolean | QuizDefaultArgs<ExtArgs>
-    performance?: boolean | PerformanceDefaultArgs<ExtArgs>
+    artist?: boolean | ArtistDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["quizSlice"]>
 
   export type QuizSliceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     startTime?: boolean
+    youtubeUrl?: boolean
     quizId?: boolean
-    performanceId?: boolean
+    artistId?: boolean
     quiz?: boolean | QuizDefaultArgs<ExtArgs>
-    performance?: boolean | PerformanceDefaultArgs<ExtArgs>
+    artist?: boolean | ArtistDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["quizSlice"]>
 
   export type QuizSliceSelectScalar = {
     id?: boolean
     startTime?: boolean
+    youtubeUrl?: boolean
     quizId?: boolean
-    performanceId?: boolean
+    artistId?: boolean
   }
 
-  export type QuizSliceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "startTime" | "quizId" | "performanceId", ExtArgs["result"]["quizSlice"]>
+  export type QuizSliceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "startTime" | "youtubeUrl" | "quizId" | "artistId", ExtArgs["result"]["quizSlice"]>
   export type QuizSliceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     quiz?: boolean | QuizDefaultArgs<ExtArgs>
-    performance?: boolean | PerformanceDefaultArgs<ExtArgs>
+    artist?: boolean | ArtistDefaultArgs<ExtArgs>
   }
   export type QuizSliceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     quiz?: boolean | QuizDefaultArgs<ExtArgs>
-    performance?: boolean | PerformanceDefaultArgs<ExtArgs>
+    artist?: boolean | ArtistDefaultArgs<ExtArgs>
   }
   export type QuizSliceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     quiz?: boolean | QuizDefaultArgs<ExtArgs>
-    performance?: boolean | PerformanceDefaultArgs<ExtArgs>
+    artist?: boolean | ArtistDefaultArgs<ExtArgs>
   }
 
   export type $QuizSlicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "QuizSlice"
     objects: {
       quiz: Prisma.$QuizPayload<ExtArgs>
-      performance: Prisma.$PerformancePayload<ExtArgs>
+      artist: Prisma.$ArtistPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       startTime: number
+      youtubeUrl: string
       quizId: string
-      performanceId: string
+      artistId: string
     }, ExtArgs["result"]["quizSlice"]>
     composites: {}
   }
@@ -13462,7 +11065,7 @@ export namespace Prisma {
   export interface Prisma__QuizSliceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     quiz<T extends QuizDefaultArgs<ExtArgs> = {}>(args?: Subset<T, QuizDefaultArgs<ExtArgs>>): Prisma__QuizClient<$Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    performance<T extends PerformanceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PerformanceDefaultArgs<ExtArgs>>): Prisma__PerformanceClient<$Result.GetResult<Prisma.$PerformancePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    artist<T extends ArtistDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ArtistDefaultArgs<ExtArgs>>): Prisma__ArtistClient<$Result.GetResult<Prisma.$ArtistPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13494,8 +11097,9 @@ export namespace Prisma {
   interface QuizSliceFieldRefs {
     readonly id: FieldRef<"QuizSlice", 'String'>
     readonly startTime: FieldRef<"QuizSlice", 'Int'>
+    readonly youtubeUrl: FieldRef<"QuizSlice", 'String'>
     readonly quizId: FieldRef<"QuizSlice", 'String'>
-    readonly performanceId: FieldRef<"QuizSlice", 'String'>
+    readonly artistId: FieldRef<"QuizSlice", 'String'>
   }
     
 
@@ -13988,15 +11592,6 @@ export namespace Prisma {
   export type ComposerScalarFieldEnum = (typeof ComposerScalarFieldEnum)[keyof typeof ComposerScalarFieldEnum]
 
 
-  export const PieceScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    composerId: 'composerId'
-  };
-
-  export type PieceScalarFieldEnum = (typeof PieceScalarFieldEnum)[keyof typeof PieceScalarFieldEnum]
-
-
   export const ArtistScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -14006,21 +11601,12 @@ export namespace Prisma {
   export type ArtistScalarFieldEnum = (typeof ArtistScalarFieldEnum)[keyof typeof ArtistScalarFieldEnum]
 
 
-  export const PerformanceScalarFieldEnum: {
-    id: 'id',
-    youtubeUrl: 'youtubeUrl',
-    pieceId: 'pieceId',
-    artistId: 'artistId'
-  };
-
-  export type PerformanceScalarFieldEnum = (typeof PerformanceScalarFieldEnum)[keyof typeof PerformanceScalarFieldEnum]
-
-
   export const QuizScalarFieldEnum: {
     id: 'id',
+    pieceName: 'pieceName',
     duration: 'duration',
     createdAt: 'createdAt',
-    pieceId: 'pieceId',
+    composerId: 'composerId',
     createdById: 'createdById'
   };
 
@@ -14030,8 +11616,9 @@ export namespace Prisma {
   export const QuizSliceScalarFieldEnum: {
     id: 'id',
     startTime: 'startTime',
+    youtubeUrl: 'youtubeUrl',
     quizId: 'quizId',
-    performanceId: 'performanceId'
+    artistId: 'artistId'
   };
 
   export type QuizSliceScalarFieldEnum = (typeof QuizSliceScalarFieldEnum)[keyof typeof QuizSliceScalarFieldEnum]
@@ -14408,14 +11995,14 @@ export namespace Prisma {
     id?: StringFilter<"Composer"> | string
     name?: StringFilter<"Composer"> | string
     photoUrl?: StringNullableFilter<"Composer"> | string | null
-    pieces?: PieceListRelationFilter
+    quizzes?: QuizListRelationFilter
   }
 
   export type ComposerOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
     photoUrl?: SortOrderInput | SortOrder
-    pieces?: PieceOrderByRelationAggregateInput
+    quizzes?: QuizOrderByRelationAggregateInput
   }
 
   export type ComposerWhereUniqueInput = Prisma.AtLeast<{
@@ -14425,7 +12012,7 @@ export namespace Prisma {
     NOT?: ComposerWhereInput | ComposerWhereInput[]
     name?: StringFilter<"Composer"> | string
     photoUrl?: StringNullableFilter<"Composer"> | string | null
-    pieces?: PieceListRelationFilter
+    quizzes?: QuizListRelationFilter
   }, "id">
 
   export type ComposerOrderByWithAggregationInput = {
@@ -14446,57 +12033,6 @@ export namespace Prisma {
     photoUrl?: StringNullableWithAggregatesFilter<"Composer"> | string | null
   }
 
-  export type PieceWhereInput = {
-    AND?: PieceWhereInput | PieceWhereInput[]
-    OR?: PieceWhereInput[]
-    NOT?: PieceWhereInput | PieceWhereInput[]
-    id?: StringFilter<"Piece"> | string
-    name?: StringFilter<"Piece"> | string
-    composerId?: StringFilter<"Piece"> | string
-    composer?: XOR<ComposerScalarRelationFilter, ComposerWhereInput>
-    performances?: PerformanceListRelationFilter
-    quizzes?: QuizListRelationFilter
-  }
-
-  export type PieceOrderByWithRelationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    composerId?: SortOrder
-    composer?: ComposerOrderByWithRelationInput
-    performances?: PerformanceOrderByRelationAggregateInput
-    quizzes?: QuizOrderByRelationAggregateInput
-  }
-
-  export type PieceWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: PieceWhereInput | PieceWhereInput[]
-    OR?: PieceWhereInput[]
-    NOT?: PieceWhereInput | PieceWhereInput[]
-    name?: StringFilter<"Piece"> | string
-    composerId?: StringFilter<"Piece"> | string
-    composer?: XOR<ComposerScalarRelationFilter, ComposerWhereInput>
-    performances?: PerformanceListRelationFilter
-    quizzes?: QuizListRelationFilter
-  }, "id">
-
-  export type PieceOrderByWithAggregationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    composerId?: SortOrder
-    _count?: PieceCountOrderByAggregateInput
-    _max?: PieceMaxOrderByAggregateInput
-    _min?: PieceMinOrderByAggregateInput
-  }
-
-  export type PieceScalarWhereWithAggregatesInput = {
-    AND?: PieceScalarWhereWithAggregatesInput | PieceScalarWhereWithAggregatesInput[]
-    OR?: PieceScalarWhereWithAggregatesInput[]
-    NOT?: PieceScalarWhereWithAggregatesInput | PieceScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Piece"> | string
-    name?: StringWithAggregatesFilter<"Piece"> | string
-    composerId?: StringWithAggregatesFilter<"Piece"> | string
-  }
-
   export type ArtistWhereInput = {
     AND?: ArtistWhereInput | ArtistWhereInput[]
     OR?: ArtistWhereInput[]
@@ -14504,14 +12040,14 @@ export namespace Prisma {
     id?: StringFilter<"Artist"> | string
     name?: StringFilter<"Artist"> | string
     photoUrl?: StringNullableFilter<"Artist"> | string | null
-    performances?: PerformanceListRelationFilter
+    quizSlices?: QuizSliceListRelationFilter
   }
 
   export type ArtistOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
     photoUrl?: SortOrderInput | SortOrder
-    performances?: PerformanceOrderByRelationAggregateInput
+    quizSlices?: QuizSliceOrderByRelationAggregateInput
   }
 
   export type ArtistWhereUniqueInput = Prisma.AtLeast<{
@@ -14521,7 +12057,7 @@ export namespace Prisma {
     NOT?: ArtistWhereInput | ArtistWhereInput[]
     name?: StringFilter<"Artist"> | string
     photoUrl?: StringNullableFilter<"Artist"> | string | null
-    performances?: PerformanceListRelationFilter
+    quizSlices?: QuizSliceListRelationFilter
   }, "id">
 
   export type ArtistOrderByWithAggregationInput = {
@@ -14542,84 +12078,29 @@ export namespace Prisma {
     photoUrl?: StringNullableWithAggregatesFilter<"Artist"> | string | null
   }
 
-  export type PerformanceWhereInput = {
-    AND?: PerformanceWhereInput | PerformanceWhereInput[]
-    OR?: PerformanceWhereInput[]
-    NOT?: PerformanceWhereInput | PerformanceWhereInput[]
-    id?: StringFilter<"Performance"> | string
-    youtubeUrl?: StringFilter<"Performance"> | string
-    pieceId?: StringFilter<"Performance"> | string
-    artistId?: StringFilter<"Performance"> | string
-    piece?: XOR<PieceScalarRelationFilter, PieceWhereInput>
-    artist?: XOR<ArtistScalarRelationFilter, ArtistWhereInput>
-    quizSlices?: QuizSliceListRelationFilter
-  }
-
-  export type PerformanceOrderByWithRelationInput = {
-    id?: SortOrder
-    youtubeUrl?: SortOrder
-    pieceId?: SortOrder
-    artistId?: SortOrder
-    piece?: PieceOrderByWithRelationInput
-    artist?: ArtistOrderByWithRelationInput
-    quizSlices?: QuizSliceOrderByRelationAggregateInput
-  }
-
-  export type PerformanceWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    pieceId_artistId?: PerformancePieceIdArtistIdCompoundUniqueInput
-    AND?: PerformanceWhereInput | PerformanceWhereInput[]
-    OR?: PerformanceWhereInput[]
-    NOT?: PerformanceWhereInput | PerformanceWhereInput[]
-    youtubeUrl?: StringFilter<"Performance"> | string
-    pieceId?: StringFilter<"Performance"> | string
-    artistId?: StringFilter<"Performance"> | string
-    piece?: XOR<PieceScalarRelationFilter, PieceWhereInput>
-    artist?: XOR<ArtistScalarRelationFilter, ArtistWhereInput>
-    quizSlices?: QuizSliceListRelationFilter
-  }, "id" | "pieceId_artistId">
-
-  export type PerformanceOrderByWithAggregationInput = {
-    id?: SortOrder
-    youtubeUrl?: SortOrder
-    pieceId?: SortOrder
-    artistId?: SortOrder
-    _count?: PerformanceCountOrderByAggregateInput
-    _max?: PerformanceMaxOrderByAggregateInput
-    _min?: PerformanceMinOrderByAggregateInput
-  }
-
-  export type PerformanceScalarWhereWithAggregatesInput = {
-    AND?: PerformanceScalarWhereWithAggregatesInput | PerformanceScalarWhereWithAggregatesInput[]
-    OR?: PerformanceScalarWhereWithAggregatesInput[]
-    NOT?: PerformanceScalarWhereWithAggregatesInput | PerformanceScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Performance"> | string
-    youtubeUrl?: StringWithAggregatesFilter<"Performance"> | string
-    pieceId?: StringWithAggregatesFilter<"Performance"> | string
-    artistId?: StringWithAggregatesFilter<"Performance"> | string
-  }
-
   export type QuizWhereInput = {
     AND?: QuizWhereInput | QuizWhereInput[]
     OR?: QuizWhereInput[]
     NOT?: QuizWhereInput | QuizWhereInput[]
     id?: StringFilter<"Quiz"> | string
+    pieceName?: StringFilter<"Quiz"> | string
     duration?: IntFilter<"Quiz"> | number
     createdAt?: DateTimeFilter<"Quiz"> | Date | string
-    pieceId?: StringFilter<"Quiz"> | string
+    composerId?: StringFilter<"Quiz"> | string
     createdById?: StringFilter<"Quiz"> | string
-    piece?: XOR<PieceScalarRelationFilter, PieceWhereInput>
+    composer?: XOR<ComposerScalarRelationFilter, ComposerWhereInput>
     createdBy?: XOR<UserScalarRelationFilter, UserWhereInput>
     slices?: QuizSliceListRelationFilter
   }
 
   export type QuizOrderByWithRelationInput = {
     id?: SortOrder
+    pieceName?: SortOrder
     duration?: SortOrder
     createdAt?: SortOrder
-    pieceId?: SortOrder
+    composerId?: SortOrder
     createdById?: SortOrder
-    piece?: PieceOrderByWithRelationInput
+    composer?: ComposerOrderByWithRelationInput
     createdBy?: UserOrderByWithRelationInput
     slices?: QuizSliceOrderByRelationAggregateInput
   }
@@ -14629,20 +12110,22 @@ export namespace Prisma {
     AND?: QuizWhereInput | QuizWhereInput[]
     OR?: QuizWhereInput[]
     NOT?: QuizWhereInput | QuizWhereInput[]
+    pieceName?: StringFilter<"Quiz"> | string
     duration?: IntFilter<"Quiz"> | number
     createdAt?: DateTimeFilter<"Quiz"> | Date | string
-    pieceId?: StringFilter<"Quiz"> | string
+    composerId?: StringFilter<"Quiz"> | string
     createdById?: StringFilter<"Quiz"> | string
-    piece?: XOR<PieceScalarRelationFilter, PieceWhereInput>
+    composer?: XOR<ComposerScalarRelationFilter, ComposerWhereInput>
     createdBy?: XOR<UserScalarRelationFilter, UserWhereInput>
     slices?: QuizSliceListRelationFilter
   }, "id">
 
   export type QuizOrderByWithAggregationInput = {
     id?: SortOrder
+    pieceName?: SortOrder
     duration?: SortOrder
     createdAt?: SortOrder
-    pieceId?: SortOrder
+    composerId?: SortOrder
     createdById?: SortOrder
     _count?: QuizCountOrderByAggregateInput
     _avg?: QuizAvgOrderByAggregateInput
@@ -14656,9 +12139,10 @@ export namespace Prisma {
     OR?: QuizScalarWhereWithAggregatesInput[]
     NOT?: QuizScalarWhereWithAggregatesInput | QuizScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Quiz"> | string
+    pieceName?: StringWithAggregatesFilter<"Quiz"> | string
     duration?: IntWithAggregatesFilter<"Quiz"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Quiz"> | Date | string
-    pieceId?: StringWithAggregatesFilter<"Quiz"> | string
+    composerId?: StringWithAggregatesFilter<"Quiz"> | string
     createdById?: StringWithAggregatesFilter<"Quiz"> | string
   }
 
@@ -14668,19 +12152,21 @@ export namespace Prisma {
     NOT?: QuizSliceWhereInput | QuizSliceWhereInput[]
     id?: StringFilter<"QuizSlice"> | string
     startTime?: IntFilter<"QuizSlice"> | number
+    youtubeUrl?: StringFilter<"QuizSlice"> | string
     quizId?: StringFilter<"QuizSlice"> | string
-    performanceId?: StringFilter<"QuizSlice"> | string
+    artistId?: StringFilter<"QuizSlice"> | string
     quiz?: XOR<QuizScalarRelationFilter, QuizWhereInput>
-    performance?: XOR<PerformanceScalarRelationFilter, PerformanceWhereInput>
+    artist?: XOR<ArtistScalarRelationFilter, ArtistWhereInput>
   }
 
   export type QuizSliceOrderByWithRelationInput = {
     id?: SortOrder
     startTime?: SortOrder
+    youtubeUrl?: SortOrder
     quizId?: SortOrder
-    performanceId?: SortOrder
+    artistId?: SortOrder
     quiz?: QuizOrderByWithRelationInput
-    performance?: PerformanceOrderByWithRelationInput
+    artist?: ArtistOrderByWithRelationInput
   }
 
   export type QuizSliceWhereUniqueInput = Prisma.AtLeast<{
@@ -14689,17 +12175,19 @@ export namespace Prisma {
     OR?: QuizSliceWhereInput[]
     NOT?: QuizSliceWhereInput | QuizSliceWhereInput[]
     startTime?: IntFilter<"QuizSlice"> | number
+    youtubeUrl?: StringFilter<"QuizSlice"> | string
     quizId?: StringFilter<"QuizSlice"> | string
-    performanceId?: StringFilter<"QuizSlice"> | string
+    artistId?: StringFilter<"QuizSlice"> | string
     quiz?: XOR<QuizScalarRelationFilter, QuizWhereInput>
-    performance?: XOR<PerformanceScalarRelationFilter, PerformanceWhereInput>
+    artist?: XOR<ArtistScalarRelationFilter, ArtistWhereInput>
   }, "id">
 
   export type QuizSliceOrderByWithAggregationInput = {
     id?: SortOrder
     startTime?: SortOrder
+    youtubeUrl?: SortOrder
     quizId?: SortOrder
-    performanceId?: SortOrder
+    artistId?: SortOrder
     _count?: QuizSliceCountOrderByAggregateInput
     _avg?: QuizSliceAvgOrderByAggregateInput
     _max?: QuizSliceMaxOrderByAggregateInput
@@ -14713,8 +12201,9 @@ export namespace Prisma {
     NOT?: QuizSliceScalarWhereWithAggregatesInput | QuizSliceScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"QuizSlice"> | string
     startTime?: IntWithAggregatesFilter<"QuizSlice"> | number
+    youtubeUrl?: StringWithAggregatesFilter<"QuizSlice"> | string
     quizId?: StringWithAggregatesFilter<"QuizSlice"> | string
-    performanceId?: StringWithAggregatesFilter<"QuizSlice"> | string
+    artistId?: StringWithAggregatesFilter<"QuizSlice"> | string
   }
 
   export type PostCreateInput = {
@@ -15046,28 +12535,28 @@ export namespace Prisma {
     id?: string
     name: string
     photoUrl?: string | null
-    pieces?: PieceCreateNestedManyWithoutComposerInput
+    quizzes?: QuizCreateNestedManyWithoutComposerInput
   }
 
   export type ComposerUncheckedCreateInput = {
     id?: string
     name: string
     photoUrl?: string | null
-    pieces?: PieceUncheckedCreateNestedManyWithoutComposerInput
+    quizzes?: QuizUncheckedCreateNestedManyWithoutComposerInput
   }
 
   export type ComposerUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    pieces?: PieceUpdateManyWithoutComposerNestedInput
+    quizzes?: QuizUpdateManyWithoutComposerNestedInput
   }
 
   export type ComposerUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    pieces?: PieceUncheckedUpdateManyWithoutComposerNestedInput
+    quizzes?: QuizUncheckedUpdateManyWithoutComposerNestedInput
   }
 
   export type ComposerCreateManyInput = {
@@ -15088,81 +12577,32 @@ export namespace Prisma {
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type PieceCreateInput = {
-    id?: string
-    name: string
-    composer: ComposerCreateNestedOneWithoutPiecesInput
-    performances?: PerformanceCreateNestedManyWithoutPieceInput
-    quizzes?: QuizCreateNestedManyWithoutPieceInput
-  }
-
-  export type PieceUncheckedCreateInput = {
-    id?: string
-    name: string
-    composerId: string
-    performances?: PerformanceUncheckedCreateNestedManyWithoutPieceInput
-    quizzes?: QuizUncheckedCreateNestedManyWithoutPieceInput
-  }
-
-  export type PieceUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    composer?: ComposerUpdateOneRequiredWithoutPiecesNestedInput
-    performances?: PerformanceUpdateManyWithoutPieceNestedInput
-    quizzes?: QuizUpdateManyWithoutPieceNestedInput
-  }
-
-  export type PieceUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    composerId?: StringFieldUpdateOperationsInput | string
-    performances?: PerformanceUncheckedUpdateManyWithoutPieceNestedInput
-    quizzes?: QuizUncheckedUpdateManyWithoutPieceNestedInput
-  }
-
-  export type PieceCreateManyInput = {
-    id?: string
-    name: string
-    composerId: string
-  }
-
-  export type PieceUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type PieceUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    composerId?: StringFieldUpdateOperationsInput | string
-  }
-
   export type ArtistCreateInput = {
     id?: string
     name: string
     photoUrl?: string | null
-    performances?: PerformanceCreateNestedManyWithoutArtistInput
+    quizSlices?: QuizSliceCreateNestedManyWithoutArtistInput
   }
 
   export type ArtistUncheckedCreateInput = {
     id?: string
     name: string
     photoUrl?: string | null
-    performances?: PerformanceUncheckedCreateNestedManyWithoutArtistInput
+    quizSlices?: QuizSliceUncheckedCreateNestedManyWithoutArtistInput
   }
 
   export type ArtistUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    performances?: PerformanceUpdateManyWithoutArtistNestedInput
+    quizSlices?: QuizSliceUpdateManyWithoutArtistNestedInput
   }
 
   export type ArtistUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    performances?: PerformanceUncheckedUpdateManyWithoutArtistNestedInput
+    quizSlices?: QuizSliceUncheckedUpdateManyWithoutArtistNestedInput
   }
 
   export type ArtistCreateManyInput = {
@@ -15183,160 +12623,123 @@ export namespace Prisma {
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type PerformanceCreateInput = {
-    id?: string
-    youtubeUrl: string
-    piece: PieceCreateNestedOneWithoutPerformancesInput
-    artist: ArtistCreateNestedOneWithoutPerformancesInput
-    quizSlices?: QuizSliceCreateNestedManyWithoutPerformanceInput
-  }
-
-  export type PerformanceUncheckedCreateInput = {
-    id?: string
-    youtubeUrl: string
-    pieceId: string
-    artistId: string
-    quizSlices?: QuizSliceUncheckedCreateNestedManyWithoutPerformanceInput
-  }
-
-  export type PerformanceUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    youtubeUrl?: StringFieldUpdateOperationsInput | string
-    piece?: PieceUpdateOneRequiredWithoutPerformancesNestedInput
-    artist?: ArtistUpdateOneRequiredWithoutPerformancesNestedInput
-    quizSlices?: QuizSliceUpdateManyWithoutPerformanceNestedInput
-  }
-
-  export type PerformanceUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    youtubeUrl?: StringFieldUpdateOperationsInput | string
-    pieceId?: StringFieldUpdateOperationsInput | string
-    artistId?: StringFieldUpdateOperationsInput | string
-    quizSlices?: QuizSliceUncheckedUpdateManyWithoutPerformanceNestedInput
-  }
-
-  export type PerformanceCreateManyInput = {
-    id?: string
-    youtubeUrl: string
-    pieceId: string
-    artistId: string
-  }
-
-  export type PerformanceUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    youtubeUrl?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type PerformanceUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    youtubeUrl?: StringFieldUpdateOperationsInput | string
-    pieceId?: StringFieldUpdateOperationsInput | string
-    artistId?: StringFieldUpdateOperationsInput | string
-  }
-
   export type QuizCreateInput = {
     id?: string
+    pieceName: string
     duration?: number
     createdAt?: Date | string
-    piece: PieceCreateNestedOneWithoutQuizzesInput
+    composer: ComposerCreateNestedOneWithoutQuizzesInput
     createdBy: UserCreateNestedOneWithoutQuizzesInput
     slices?: QuizSliceCreateNestedManyWithoutQuizInput
   }
 
   export type QuizUncheckedCreateInput = {
     id?: string
+    pieceName: string
     duration?: number
     createdAt?: Date | string
-    pieceId: string
+    composerId: string
     createdById: string
     slices?: QuizSliceUncheckedCreateNestedManyWithoutQuizInput
   }
 
   export type QuizUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pieceName?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    piece?: PieceUpdateOneRequiredWithoutQuizzesNestedInput
+    composer?: ComposerUpdateOneRequiredWithoutQuizzesNestedInput
     createdBy?: UserUpdateOneRequiredWithoutQuizzesNestedInput
     slices?: QuizSliceUpdateManyWithoutQuizNestedInput
   }
 
   export type QuizUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pieceName?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pieceId?: StringFieldUpdateOperationsInput | string
+    composerId?: StringFieldUpdateOperationsInput | string
     createdById?: StringFieldUpdateOperationsInput | string
     slices?: QuizSliceUncheckedUpdateManyWithoutQuizNestedInput
   }
 
   export type QuizCreateManyInput = {
     id?: string
+    pieceName: string
     duration?: number
     createdAt?: Date | string
-    pieceId: string
+    composerId: string
     createdById: string
   }
 
   export type QuizUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pieceName?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type QuizUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pieceName?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pieceId?: StringFieldUpdateOperationsInput | string
+    composerId?: StringFieldUpdateOperationsInput | string
     createdById?: StringFieldUpdateOperationsInput | string
   }
 
   export type QuizSliceCreateInput = {
     id?: string
     startTime?: number
+    youtubeUrl: string
     quiz: QuizCreateNestedOneWithoutSlicesInput
-    performance: PerformanceCreateNestedOneWithoutQuizSlicesInput
+    artist: ArtistCreateNestedOneWithoutQuizSlicesInput
   }
 
   export type QuizSliceUncheckedCreateInput = {
     id?: string
     startTime?: number
+    youtubeUrl: string
     quizId: string
-    performanceId: string
+    artistId: string
   }
 
   export type QuizSliceUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     startTime?: IntFieldUpdateOperationsInput | number
+    youtubeUrl?: StringFieldUpdateOperationsInput | string
     quiz?: QuizUpdateOneRequiredWithoutSlicesNestedInput
-    performance?: PerformanceUpdateOneRequiredWithoutQuizSlicesNestedInput
+    artist?: ArtistUpdateOneRequiredWithoutQuizSlicesNestedInput
   }
 
   export type QuizSliceUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     startTime?: IntFieldUpdateOperationsInput | number
+    youtubeUrl?: StringFieldUpdateOperationsInput | string
     quizId?: StringFieldUpdateOperationsInput | string
-    performanceId?: StringFieldUpdateOperationsInput | string
+    artistId?: StringFieldUpdateOperationsInput | string
   }
 
   export type QuizSliceCreateManyInput = {
     id?: string
     startTime?: number
+    youtubeUrl: string
     quizId: string
-    performanceId: string
+    artistId: string
   }
 
   export type QuizSliceUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     startTime?: IntFieldUpdateOperationsInput | number
+    youtubeUrl?: StringFieldUpdateOperationsInput | string
   }
 
   export type QuizSliceUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     startTime?: IntFieldUpdateOperationsInput | number
+    youtubeUrl?: StringFieldUpdateOperationsInput | string
     quizId?: StringFieldUpdateOperationsInput | string
-    performanceId?: StringFieldUpdateOperationsInput | string
+    artistId?: StringFieldUpdateOperationsInput | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -15718,16 +13121,6 @@ export namespace Prisma {
     expires?: SortOrder
   }
 
-  export type PieceListRelationFilter = {
-    every?: PieceWhereInput
-    some?: PieceWhereInput
-    none?: PieceWhereInput
-  }
-
-  export type PieceOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type ComposerCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -15746,37 +13139,14 @@ export namespace Prisma {
     photoUrl?: SortOrder
   }
 
-  export type ComposerScalarRelationFilter = {
-    is?: ComposerWhereInput
-    isNot?: ComposerWhereInput
+  export type QuizSliceListRelationFilter = {
+    every?: QuizSliceWhereInput
+    some?: QuizSliceWhereInput
+    none?: QuizSliceWhereInput
   }
 
-  export type PerformanceListRelationFilter = {
-    every?: PerformanceWhereInput
-    some?: PerformanceWhereInput
-    none?: PerformanceWhereInput
-  }
-
-  export type PerformanceOrderByRelationAggregateInput = {
+  export type QuizSliceOrderByRelationAggregateInput = {
     _count?: SortOrder
-  }
-
-  export type PieceCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    composerId?: SortOrder
-  }
-
-  export type PieceMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    composerId?: SortOrder
-  }
-
-  export type PieceMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    composerId?: SortOrder
   }
 
   export type ArtistCountOrderByAggregateInput = {
@@ -15797,57 +13167,17 @@ export namespace Prisma {
     photoUrl?: SortOrder
   }
 
-  export type PieceScalarRelationFilter = {
-    is?: PieceWhereInput
-    isNot?: PieceWhereInput
-  }
-
-  export type ArtistScalarRelationFilter = {
-    is?: ArtistWhereInput
-    isNot?: ArtistWhereInput
-  }
-
-  export type QuizSliceListRelationFilter = {
-    every?: QuizSliceWhereInput
-    some?: QuizSliceWhereInput
-    none?: QuizSliceWhereInput
-  }
-
-  export type QuizSliceOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type PerformancePieceIdArtistIdCompoundUniqueInput = {
-    pieceId: string
-    artistId: string
-  }
-
-  export type PerformanceCountOrderByAggregateInput = {
-    id?: SortOrder
-    youtubeUrl?: SortOrder
-    pieceId?: SortOrder
-    artistId?: SortOrder
-  }
-
-  export type PerformanceMaxOrderByAggregateInput = {
-    id?: SortOrder
-    youtubeUrl?: SortOrder
-    pieceId?: SortOrder
-    artistId?: SortOrder
-  }
-
-  export type PerformanceMinOrderByAggregateInput = {
-    id?: SortOrder
-    youtubeUrl?: SortOrder
-    pieceId?: SortOrder
-    artistId?: SortOrder
+  export type ComposerScalarRelationFilter = {
+    is?: ComposerWhereInput
+    isNot?: ComposerWhereInput
   }
 
   export type QuizCountOrderByAggregateInput = {
     id?: SortOrder
+    pieceName?: SortOrder
     duration?: SortOrder
     createdAt?: SortOrder
-    pieceId?: SortOrder
+    composerId?: SortOrder
     createdById?: SortOrder
   }
 
@@ -15857,17 +13187,19 @@ export namespace Prisma {
 
   export type QuizMaxOrderByAggregateInput = {
     id?: SortOrder
+    pieceName?: SortOrder
     duration?: SortOrder
     createdAt?: SortOrder
-    pieceId?: SortOrder
+    composerId?: SortOrder
     createdById?: SortOrder
   }
 
   export type QuizMinOrderByAggregateInput = {
     id?: SortOrder
+    pieceName?: SortOrder
     duration?: SortOrder
     createdAt?: SortOrder
-    pieceId?: SortOrder
+    composerId?: SortOrder
     createdById?: SortOrder
   }
 
@@ -15880,16 +13212,17 @@ export namespace Prisma {
     isNot?: QuizWhereInput
   }
 
-  export type PerformanceScalarRelationFilter = {
-    is?: PerformanceWhereInput
-    isNot?: PerformanceWhereInput
+  export type ArtistScalarRelationFilter = {
+    is?: ArtistWhereInput
+    isNot?: ArtistWhereInput
   }
 
   export type QuizSliceCountOrderByAggregateInput = {
     id?: SortOrder
     startTime?: SortOrder
+    youtubeUrl?: SortOrder
     quizId?: SortOrder
-    performanceId?: SortOrder
+    artistId?: SortOrder
   }
 
   export type QuizSliceAvgOrderByAggregateInput = {
@@ -15899,15 +13232,17 @@ export namespace Prisma {
   export type QuizSliceMaxOrderByAggregateInput = {
     id?: SortOrder
     startTime?: SortOrder
+    youtubeUrl?: SortOrder
     quizId?: SortOrder
-    performanceId?: SortOrder
+    artistId?: SortOrder
   }
 
   export type QuizSliceMinOrderByAggregateInput = {
     id?: SortOrder
     startTime?: SortOrder
+    youtubeUrl?: SortOrder
     quizId?: SortOrder
-    performanceId?: SortOrder
+    artistId?: SortOrder
   }
 
   export type QuizSliceSumOrderByAggregateInput = {
@@ -16156,262 +13491,94 @@ export namespace Prisma {
     deleteMany?: QuizScalarWhereInput | QuizScalarWhereInput[]
   }
 
-  export type PieceCreateNestedManyWithoutComposerInput = {
-    create?: XOR<PieceCreateWithoutComposerInput, PieceUncheckedCreateWithoutComposerInput> | PieceCreateWithoutComposerInput[] | PieceUncheckedCreateWithoutComposerInput[]
-    connectOrCreate?: PieceCreateOrConnectWithoutComposerInput | PieceCreateOrConnectWithoutComposerInput[]
-    createMany?: PieceCreateManyComposerInputEnvelope
-    connect?: PieceWhereUniqueInput | PieceWhereUniqueInput[]
-  }
-
-  export type PieceUncheckedCreateNestedManyWithoutComposerInput = {
-    create?: XOR<PieceCreateWithoutComposerInput, PieceUncheckedCreateWithoutComposerInput> | PieceCreateWithoutComposerInput[] | PieceUncheckedCreateWithoutComposerInput[]
-    connectOrCreate?: PieceCreateOrConnectWithoutComposerInput | PieceCreateOrConnectWithoutComposerInput[]
-    createMany?: PieceCreateManyComposerInputEnvelope
-    connect?: PieceWhereUniqueInput | PieceWhereUniqueInput[]
-  }
-
-  export type PieceUpdateManyWithoutComposerNestedInput = {
-    create?: XOR<PieceCreateWithoutComposerInput, PieceUncheckedCreateWithoutComposerInput> | PieceCreateWithoutComposerInput[] | PieceUncheckedCreateWithoutComposerInput[]
-    connectOrCreate?: PieceCreateOrConnectWithoutComposerInput | PieceCreateOrConnectWithoutComposerInput[]
-    upsert?: PieceUpsertWithWhereUniqueWithoutComposerInput | PieceUpsertWithWhereUniqueWithoutComposerInput[]
-    createMany?: PieceCreateManyComposerInputEnvelope
-    set?: PieceWhereUniqueInput | PieceWhereUniqueInput[]
-    disconnect?: PieceWhereUniqueInput | PieceWhereUniqueInput[]
-    delete?: PieceWhereUniqueInput | PieceWhereUniqueInput[]
-    connect?: PieceWhereUniqueInput | PieceWhereUniqueInput[]
-    update?: PieceUpdateWithWhereUniqueWithoutComposerInput | PieceUpdateWithWhereUniqueWithoutComposerInput[]
-    updateMany?: PieceUpdateManyWithWhereWithoutComposerInput | PieceUpdateManyWithWhereWithoutComposerInput[]
-    deleteMany?: PieceScalarWhereInput | PieceScalarWhereInput[]
-  }
-
-  export type PieceUncheckedUpdateManyWithoutComposerNestedInput = {
-    create?: XOR<PieceCreateWithoutComposerInput, PieceUncheckedCreateWithoutComposerInput> | PieceCreateWithoutComposerInput[] | PieceUncheckedCreateWithoutComposerInput[]
-    connectOrCreate?: PieceCreateOrConnectWithoutComposerInput | PieceCreateOrConnectWithoutComposerInput[]
-    upsert?: PieceUpsertWithWhereUniqueWithoutComposerInput | PieceUpsertWithWhereUniqueWithoutComposerInput[]
-    createMany?: PieceCreateManyComposerInputEnvelope
-    set?: PieceWhereUniqueInput | PieceWhereUniqueInput[]
-    disconnect?: PieceWhereUniqueInput | PieceWhereUniqueInput[]
-    delete?: PieceWhereUniqueInput | PieceWhereUniqueInput[]
-    connect?: PieceWhereUniqueInput | PieceWhereUniqueInput[]
-    update?: PieceUpdateWithWhereUniqueWithoutComposerInput | PieceUpdateWithWhereUniqueWithoutComposerInput[]
-    updateMany?: PieceUpdateManyWithWhereWithoutComposerInput | PieceUpdateManyWithWhereWithoutComposerInput[]
-    deleteMany?: PieceScalarWhereInput | PieceScalarWhereInput[]
-  }
-
-  export type ComposerCreateNestedOneWithoutPiecesInput = {
-    create?: XOR<ComposerCreateWithoutPiecesInput, ComposerUncheckedCreateWithoutPiecesInput>
-    connectOrCreate?: ComposerCreateOrConnectWithoutPiecesInput
-    connect?: ComposerWhereUniqueInput
-  }
-
-  export type PerformanceCreateNestedManyWithoutPieceInput = {
-    create?: XOR<PerformanceCreateWithoutPieceInput, PerformanceUncheckedCreateWithoutPieceInput> | PerformanceCreateWithoutPieceInput[] | PerformanceUncheckedCreateWithoutPieceInput[]
-    connectOrCreate?: PerformanceCreateOrConnectWithoutPieceInput | PerformanceCreateOrConnectWithoutPieceInput[]
-    createMany?: PerformanceCreateManyPieceInputEnvelope
-    connect?: PerformanceWhereUniqueInput | PerformanceWhereUniqueInput[]
-  }
-
-  export type QuizCreateNestedManyWithoutPieceInput = {
-    create?: XOR<QuizCreateWithoutPieceInput, QuizUncheckedCreateWithoutPieceInput> | QuizCreateWithoutPieceInput[] | QuizUncheckedCreateWithoutPieceInput[]
-    connectOrCreate?: QuizCreateOrConnectWithoutPieceInput | QuizCreateOrConnectWithoutPieceInput[]
-    createMany?: QuizCreateManyPieceInputEnvelope
+  export type QuizCreateNestedManyWithoutComposerInput = {
+    create?: XOR<QuizCreateWithoutComposerInput, QuizUncheckedCreateWithoutComposerInput> | QuizCreateWithoutComposerInput[] | QuizUncheckedCreateWithoutComposerInput[]
+    connectOrCreate?: QuizCreateOrConnectWithoutComposerInput | QuizCreateOrConnectWithoutComposerInput[]
+    createMany?: QuizCreateManyComposerInputEnvelope
     connect?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
   }
 
-  export type PerformanceUncheckedCreateNestedManyWithoutPieceInput = {
-    create?: XOR<PerformanceCreateWithoutPieceInput, PerformanceUncheckedCreateWithoutPieceInput> | PerformanceCreateWithoutPieceInput[] | PerformanceUncheckedCreateWithoutPieceInput[]
-    connectOrCreate?: PerformanceCreateOrConnectWithoutPieceInput | PerformanceCreateOrConnectWithoutPieceInput[]
-    createMany?: PerformanceCreateManyPieceInputEnvelope
-    connect?: PerformanceWhereUniqueInput | PerformanceWhereUniqueInput[]
-  }
-
-  export type QuizUncheckedCreateNestedManyWithoutPieceInput = {
-    create?: XOR<QuizCreateWithoutPieceInput, QuizUncheckedCreateWithoutPieceInput> | QuizCreateWithoutPieceInput[] | QuizUncheckedCreateWithoutPieceInput[]
-    connectOrCreate?: QuizCreateOrConnectWithoutPieceInput | QuizCreateOrConnectWithoutPieceInput[]
-    createMany?: QuizCreateManyPieceInputEnvelope
+  export type QuizUncheckedCreateNestedManyWithoutComposerInput = {
+    create?: XOR<QuizCreateWithoutComposerInput, QuizUncheckedCreateWithoutComposerInput> | QuizCreateWithoutComposerInput[] | QuizUncheckedCreateWithoutComposerInput[]
+    connectOrCreate?: QuizCreateOrConnectWithoutComposerInput | QuizCreateOrConnectWithoutComposerInput[]
+    createMany?: QuizCreateManyComposerInputEnvelope
     connect?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
   }
 
-  export type ComposerUpdateOneRequiredWithoutPiecesNestedInput = {
-    create?: XOR<ComposerCreateWithoutPiecesInput, ComposerUncheckedCreateWithoutPiecesInput>
-    connectOrCreate?: ComposerCreateOrConnectWithoutPiecesInput
-    upsert?: ComposerUpsertWithoutPiecesInput
-    connect?: ComposerWhereUniqueInput
-    update?: XOR<XOR<ComposerUpdateToOneWithWhereWithoutPiecesInput, ComposerUpdateWithoutPiecesInput>, ComposerUncheckedUpdateWithoutPiecesInput>
-  }
-
-  export type PerformanceUpdateManyWithoutPieceNestedInput = {
-    create?: XOR<PerformanceCreateWithoutPieceInput, PerformanceUncheckedCreateWithoutPieceInput> | PerformanceCreateWithoutPieceInput[] | PerformanceUncheckedCreateWithoutPieceInput[]
-    connectOrCreate?: PerformanceCreateOrConnectWithoutPieceInput | PerformanceCreateOrConnectWithoutPieceInput[]
-    upsert?: PerformanceUpsertWithWhereUniqueWithoutPieceInput | PerformanceUpsertWithWhereUniqueWithoutPieceInput[]
-    createMany?: PerformanceCreateManyPieceInputEnvelope
-    set?: PerformanceWhereUniqueInput | PerformanceWhereUniqueInput[]
-    disconnect?: PerformanceWhereUniqueInput | PerformanceWhereUniqueInput[]
-    delete?: PerformanceWhereUniqueInput | PerformanceWhereUniqueInput[]
-    connect?: PerformanceWhereUniqueInput | PerformanceWhereUniqueInput[]
-    update?: PerformanceUpdateWithWhereUniqueWithoutPieceInput | PerformanceUpdateWithWhereUniqueWithoutPieceInput[]
-    updateMany?: PerformanceUpdateManyWithWhereWithoutPieceInput | PerformanceUpdateManyWithWhereWithoutPieceInput[]
-    deleteMany?: PerformanceScalarWhereInput | PerformanceScalarWhereInput[]
-  }
-
-  export type QuizUpdateManyWithoutPieceNestedInput = {
-    create?: XOR<QuizCreateWithoutPieceInput, QuizUncheckedCreateWithoutPieceInput> | QuizCreateWithoutPieceInput[] | QuizUncheckedCreateWithoutPieceInput[]
-    connectOrCreate?: QuizCreateOrConnectWithoutPieceInput | QuizCreateOrConnectWithoutPieceInput[]
-    upsert?: QuizUpsertWithWhereUniqueWithoutPieceInput | QuizUpsertWithWhereUniqueWithoutPieceInput[]
-    createMany?: QuizCreateManyPieceInputEnvelope
+  export type QuizUpdateManyWithoutComposerNestedInput = {
+    create?: XOR<QuizCreateWithoutComposerInput, QuizUncheckedCreateWithoutComposerInput> | QuizCreateWithoutComposerInput[] | QuizUncheckedCreateWithoutComposerInput[]
+    connectOrCreate?: QuizCreateOrConnectWithoutComposerInput | QuizCreateOrConnectWithoutComposerInput[]
+    upsert?: QuizUpsertWithWhereUniqueWithoutComposerInput | QuizUpsertWithWhereUniqueWithoutComposerInput[]
+    createMany?: QuizCreateManyComposerInputEnvelope
     set?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
     disconnect?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
     delete?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
     connect?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
-    update?: QuizUpdateWithWhereUniqueWithoutPieceInput | QuizUpdateWithWhereUniqueWithoutPieceInput[]
-    updateMany?: QuizUpdateManyWithWhereWithoutPieceInput | QuizUpdateManyWithWhereWithoutPieceInput[]
+    update?: QuizUpdateWithWhereUniqueWithoutComposerInput | QuizUpdateWithWhereUniqueWithoutComposerInput[]
+    updateMany?: QuizUpdateManyWithWhereWithoutComposerInput | QuizUpdateManyWithWhereWithoutComposerInput[]
     deleteMany?: QuizScalarWhereInput | QuizScalarWhereInput[]
   }
 
-  export type PerformanceUncheckedUpdateManyWithoutPieceNestedInput = {
-    create?: XOR<PerformanceCreateWithoutPieceInput, PerformanceUncheckedCreateWithoutPieceInput> | PerformanceCreateWithoutPieceInput[] | PerformanceUncheckedCreateWithoutPieceInput[]
-    connectOrCreate?: PerformanceCreateOrConnectWithoutPieceInput | PerformanceCreateOrConnectWithoutPieceInput[]
-    upsert?: PerformanceUpsertWithWhereUniqueWithoutPieceInput | PerformanceUpsertWithWhereUniqueWithoutPieceInput[]
-    createMany?: PerformanceCreateManyPieceInputEnvelope
-    set?: PerformanceWhereUniqueInput | PerformanceWhereUniqueInput[]
-    disconnect?: PerformanceWhereUniqueInput | PerformanceWhereUniqueInput[]
-    delete?: PerformanceWhereUniqueInput | PerformanceWhereUniqueInput[]
-    connect?: PerformanceWhereUniqueInput | PerformanceWhereUniqueInput[]
-    update?: PerformanceUpdateWithWhereUniqueWithoutPieceInput | PerformanceUpdateWithWhereUniqueWithoutPieceInput[]
-    updateMany?: PerformanceUpdateManyWithWhereWithoutPieceInput | PerformanceUpdateManyWithWhereWithoutPieceInput[]
-    deleteMany?: PerformanceScalarWhereInput | PerformanceScalarWhereInput[]
-  }
-
-  export type QuizUncheckedUpdateManyWithoutPieceNestedInput = {
-    create?: XOR<QuizCreateWithoutPieceInput, QuizUncheckedCreateWithoutPieceInput> | QuizCreateWithoutPieceInput[] | QuizUncheckedCreateWithoutPieceInput[]
-    connectOrCreate?: QuizCreateOrConnectWithoutPieceInput | QuizCreateOrConnectWithoutPieceInput[]
-    upsert?: QuizUpsertWithWhereUniqueWithoutPieceInput | QuizUpsertWithWhereUniqueWithoutPieceInput[]
-    createMany?: QuizCreateManyPieceInputEnvelope
+  export type QuizUncheckedUpdateManyWithoutComposerNestedInput = {
+    create?: XOR<QuizCreateWithoutComposerInput, QuizUncheckedCreateWithoutComposerInput> | QuizCreateWithoutComposerInput[] | QuizUncheckedCreateWithoutComposerInput[]
+    connectOrCreate?: QuizCreateOrConnectWithoutComposerInput | QuizCreateOrConnectWithoutComposerInput[]
+    upsert?: QuizUpsertWithWhereUniqueWithoutComposerInput | QuizUpsertWithWhereUniqueWithoutComposerInput[]
+    createMany?: QuizCreateManyComposerInputEnvelope
     set?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
     disconnect?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
     delete?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
     connect?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
-    update?: QuizUpdateWithWhereUniqueWithoutPieceInput | QuizUpdateWithWhereUniqueWithoutPieceInput[]
-    updateMany?: QuizUpdateManyWithWhereWithoutPieceInput | QuizUpdateManyWithWhereWithoutPieceInput[]
+    update?: QuizUpdateWithWhereUniqueWithoutComposerInput | QuizUpdateWithWhereUniqueWithoutComposerInput[]
+    updateMany?: QuizUpdateManyWithWhereWithoutComposerInput | QuizUpdateManyWithWhereWithoutComposerInput[]
     deleteMany?: QuizScalarWhereInput | QuizScalarWhereInput[]
   }
 
-  export type PerformanceCreateNestedManyWithoutArtistInput = {
-    create?: XOR<PerformanceCreateWithoutArtistInput, PerformanceUncheckedCreateWithoutArtistInput> | PerformanceCreateWithoutArtistInput[] | PerformanceUncheckedCreateWithoutArtistInput[]
-    connectOrCreate?: PerformanceCreateOrConnectWithoutArtistInput | PerformanceCreateOrConnectWithoutArtistInput[]
-    createMany?: PerformanceCreateManyArtistInputEnvelope
-    connect?: PerformanceWhereUniqueInput | PerformanceWhereUniqueInput[]
-  }
-
-  export type PerformanceUncheckedCreateNestedManyWithoutArtistInput = {
-    create?: XOR<PerformanceCreateWithoutArtistInput, PerformanceUncheckedCreateWithoutArtistInput> | PerformanceCreateWithoutArtistInput[] | PerformanceUncheckedCreateWithoutArtistInput[]
-    connectOrCreate?: PerformanceCreateOrConnectWithoutArtistInput | PerformanceCreateOrConnectWithoutArtistInput[]
-    createMany?: PerformanceCreateManyArtistInputEnvelope
-    connect?: PerformanceWhereUniqueInput | PerformanceWhereUniqueInput[]
-  }
-
-  export type PerformanceUpdateManyWithoutArtistNestedInput = {
-    create?: XOR<PerformanceCreateWithoutArtistInput, PerformanceUncheckedCreateWithoutArtistInput> | PerformanceCreateWithoutArtistInput[] | PerformanceUncheckedCreateWithoutArtistInput[]
-    connectOrCreate?: PerformanceCreateOrConnectWithoutArtistInput | PerformanceCreateOrConnectWithoutArtistInput[]
-    upsert?: PerformanceUpsertWithWhereUniqueWithoutArtistInput | PerformanceUpsertWithWhereUniqueWithoutArtistInput[]
-    createMany?: PerformanceCreateManyArtistInputEnvelope
-    set?: PerformanceWhereUniqueInput | PerformanceWhereUniqueInput[]
-    disconnect?: PerformanceWhereUniqueInput | PerformanceWhereUniqueInput[]
-    delete?: PerformanceWhereUniqueInput | PerformanceWhereUniqueInput[]
-    connect?: PerformanceWhereUniqueInput | PerformanceWhereUniqueInput[]
-    update?: PerformanceUpdateWithWhereUniqueWithoutArtistInput | PerformanceUpdateWithWhereUniqueWithoutArtistInput[]
-    updateMany?: PerformanceUpdateManyWithWhereWithoutArtistInput | PerformanceUpdateManyWithWhereWithoutArtistInput[]
-    deleteMany?: PerformanceScalarWhereInput | PerformanceScalarWhereInput[]
-  }
-
-  export type PerformanceUncheckedUpdateManyWithoutArtistNestedInput = {
-    create?: XOR<PerformanceCreateWithoutArtistInput, PerformanceUncheckedCreateWithoutArtistInput> | PerformanceCreateWithoutArtistInput[] | PerformanceUncheckedCreateWithoutArtistInput[]
-    connectOrCreate?: PerformanceCreateOrConnectWithoutArtistInput | PerformanceCreateOrConnectWithoutArtistInput[]
-    upsert?: PerformanceUpsertWithWhereUniqueWithoutArtistInput | PerformanceUpsertWithWhereUniqueWithoutArtistInput[]
-    createMany?: PerformanceCreateManyArtistInputEnvelope
-    set?: PerformanceWhereUniqueInput | PerformanceWhereUniqueInput[]
-    disconnect?: PerformanceWhereUniqueInput | PerformanceWhereUniqueInput[]
-    delete?: PerformanceWhereUniqueInput | PerformanceWhereUniqueInput[]
-    connect?: PerformanceWhereUniqueInput | PerformanceWhereUniqueInput[]
-    update?: PerformanceUpdateWithWhereUniqueWithoutArtistInput | PerformanceUpdateWithWhereUniqueWithoutArtistInput[]
-    updateMany?: PerformanceUpdateManyWithWhereWithoutArtistInput | PerformanceUpdateManyWithWhereWithoutArtistInput[]
-    deleteMany?: PerformanceScalarWhereInput | PerformanceScalarWhereInput[]
-  }
-
-  export type PieceCreateNestedOneWithoutPerformancesInput = {
-    create?: XOR<PieceCreateWithoutPerformancesInput, PieceUncheckedCreateWithoutPerformancesInput>
-    connectOrCreate?: PieceCreateOrConnectWithoutPerformancesInput
-    connect?: PieceWhereUniqueInput
-  }
-
-  export type ArtistCreateNestedOneWithoutPerformancesInput = {
-    create?: XOR<ArtistCreateWithoutPerformancesInput, ArtistUncheckedCreateWithoutPerformancesInput>
-    connectOrCreate?: ArtistCreateOrConnectWithoutPerformancesInput
-    connect?: ArtistWhereUniqueInput
-  }
-
-  export type QuizSliceCreateNestedManyWithoutPerformanceInput = {
-    create?: XOR<QuizSliceCreateWithoutPerformanceInput, QuizSliceUncheckedCreateWithoutPerformanceInput> | QuizSliceCreateWithoutPerformanceInput[] | QuizSliceUncheckedCreateWithoutPerformanceInput[]
-    connectOrCreate?: QuizSliceCreateOrConnectWithoutPerformanceInput | QuizSliceCreateOrConnectWithoutPerformanceInput[]
-    createMany?: QuizSliceCreateManyPerformanceInputEnvelope
+  export type QuizSliceCreateNestedManyWithoutArtistInput = {
+    create?: XOR<QuizSliceCreateWithoutArtistInput, QuizSliceUncheckedCreateWithoutArtistInput> | QuizSliceCreateWithoutArtistInput[] | QuizSliceUncheckedCreateWithoutArtistInput[]
+    connectOrCreate?: QuizSliceCreateOrConnectWithoutArtistInput | QuizSliceCreateOrConnectWithoutArtistInput[]
+    createMany?: QuizSliceCreateManyArtistInputEnvelope
     connect?: QuizSliceWhereUniqueInput | QuizSliceWhereUniqueInput[]
   }
 
-  export type QuizSliceUncheckedCreateNestedManyWithoutPerformanceInput = {
-    create?: XOR<QuizSliceCreateWithoutPerformanceInput, QuizSliceUncheckedCreateWithoutPerformanceInput> | QuizSliceCreateWithoutPerformanceInput[] | QuizSliceUncheckedCreateWithoutPerformanceInput[]
-    connectOrCreate?: QuizSliceCreateOrConnectWithoutPerformanceInput | QuizSliceCreateOrConnectWithoutPerformanceInput[]
-    createMany?: QuizSliceCreateManyPerformanceInputEnvelope
+  export type QuizSliceUncheckedCreateNestedManyWithoutArtistInput = {
+    create?: XOR<QuizSliceCreateWithoutArtistInput, QuizSliceUncheckedCreateWithoutArtistInput> | QuizSliceCreateWithoutArtistInput[] | QuizSliceUncheckedCreateWithoutArtistInput[]
+    connectOrCreate?: QuizSliceCreateOrConnectWithoutArtistInput | QuizSliceCreateOrConnectWithoutArtistInput[]
+    createMany?: QuizSliceCreateManyArtistInputEnvelope
     connect?: QuizSliceWhereUniqueInput | QuizSliceWhereUniqueInput[]
   }
 
-  export type PieceUpdateOneRequiredWithoutPerformancesNestedInput = {
-    create?: XOR<PieceCreateWithoutPerformancesInput, PieceUncheckedCreateWithoutPerformancesInput>
-    connectOrCreate?: PieceCreateOrConnectWithoutPerformancesInput
-    upsert?: PieceUpsertWithoutPerformancesInput
-    connect?: PieceWhereUniqueInput
-    update?: XOR<XOR<PieceUpdateToOneWithWhereWithoutPerformancesInput, PieceUpdateWithoutPerformancesInput>, PieceUncheckedUpdateWithoutPerformancesInput>
-  }
-
-  export type ArtistUpdateOneRequiredWithoutPerformancesNestedInput = {
-    create?: XOR<ArtistCreateWithoutPerformancesInput, ArtistUncheckedCreateWithoutPerformancesInput>
-    connectOrCreate?: ArtistCreateOrConnectWithoutPerformancesInput
-    upsert?: ArtistUpsertWithoutPerformancesInput
-    connect?: ArtistWhereUniqueInput
-    update?: XOR<XOR<ArtistUpdateToOneWithWhereWithoutPerformancesInput, ArtistUpdateWithoutPerformancesInput>, ArtistUncheckedUpdateWithoutPerformancesInput>
-  }
-
-  export type QuizSliceUpdateManyWithoutPerformanceNestedInput = {
-    create?: XOR<QuizSliceCreateWithoutPerformanceInput, QuizSliceUncheckedCreateWithoutPerformanceInput> | QuizSliceCreateWithoutPerformanceInput[] | QuizSliceUncheckedCreateWithoutPerformanceInput[]
-    connectOrCreate?: QuizSliceCreateOrConnectWithoutPerformanceInput | QuizSliceCreateOrConnectWithoutPerformanceInput[]
-    upsert?: QuizSliceUpsertWithWhereUniqueWithoutPerformanceInput | QuizSliceUpsertWithWhereUniqueWithoutPerformanceInput[]
-    createMany?: QuizSliceCreateManyPerformanceInputEnvelope
+  export type QuizSliceUpdateManyWithoutArtistNestedInput = {
+    create?: XOR<QuizSliceCreateWithoutArtistInput, QuizSliceUncheckedCreateWithoutArtistInput> | QuizSliceCreateWithoutArtistInput[] | QuizSliceUncheckedCreateWithoutArtistInput[]
+    connectOrCreate?: QuizSliceCreateOrConnectWithoutArtistInput | QuizSliceCreateOrConnectWithoutArtistInput[]
+    upsert?: QuizSliceUpsertWithWhereUniqueWithoutArtistInput | QuizSliceUpsertWithWhereUniqueWithoutArtistInput[]
+    createMany?: QuizSliceCreateManyArtistInputEnvelope
     set?: QuizSliceWhereUniqueInput | QuizSliceWhereUniqueInput[]
     disconnect?: QuizSliceWhereUniqueInput | QuizSliceWhereUniqueInput[]
     delete?: QuizSliceWhereUniqueInput | QuizSliceWhereUniqueInput[]
     connect?: QuizSliceWhereUniqueInput | QuizSliceWhereUniqueInput[]
-    update?: QuizSliceUpdateWithWhereUniqueWithoutPerformanceInput | QuizSliceUpdateWithWhereUniqueWithoutPerformanceInput[]
-    updateMany?: QuizSliceUpdateManyWithWhereWithoutPerformanceInput | QuizSliceUpdateManyWithWhereWithoutPerformanceInput[]
+    update?: QuizSliceUpdateWithWhereUniqueWithoutArtistInput | QuizSliceUpdateWithWhereUniqueWithoutArtistInput[]
+    updateMany?: QuizSliceUpdateManyWithWhereWithoutArtistInput | QuizSliceUpdateManyWithWhereWithoutArtistInput[]
     deleteMany?: QuizSliceScalarWhereInput | QuizSliceScalarWhereInput[]
   }
 
-  export type QuizSliceUncheckedUpdateManyWithoutPerformanceNestedInput = {
-    create?: XOR<QuizSliceCreateWithoutPerformanceInput, QuizSliceUncheckedCreateWithoutPerformanceInput> | QuizSliceCreateWithoutPerformanceInput[] | QuizSliceUncheckedCreateWithoutPerformanceInput[]
-    connectOrCreate?: QuizSliceCreateOrConnectWithoutPerformanceInput | QuizSliceCreateOrConnectWithoutPerformanceInput[]
-    upsert?: QuizSliceUpsertWithWhereUniqueWithoutPerformanceInput | QuizSliceUpsertWithWhereUniqueWithoutPerformanceInput[]
-    createMany?: QuizSliceCreateManyPerformanceInputEnvelope
+  export type QuizSliceUncheckedUpdateManyWithoutArtistNestedInput = {
+    create?: XOR<QuizSliceCreateWithoutArtistInput, QuizSliceUncheckedCreateWithoutArtistInput> | QuizSliceCreateWithoutArtistInput[] | QuizSliceUncheckedCreateWithoutArtistInput[]
+    connectOrCreate?: QuizSliceCreateOrConnectWithoutArtistInput | QuizSliceCreateOrConnectWithoutArtistInput[]
+    upsert?: QuizSliceUpsertWithWhereUniqueWithoutArtistInput | QuizSliceUpsertWithWhereUniqueWithoutArtistInput[]
+    createMany?: QuizSliceCreateManyArtistInputEnvelope
     set?: QuizSliceWhereUniqueInput | QuizSliceWhereUniqueInput[]
     disconnect?: QuizSliceWhereUniqueInput | QuizSliceWhereUniqueInput[]
     delete?: QuizSliceWhereUniqueInput | QuizSliceWhereUniqueInput[]
     connect?: QuizSliceWhereUniqueInput | QuizSliceWhereUniqueInput[]
-    update?: QuizSliceUpdateWithWhereUniqueWithoutPerformanceInput | QuizSliceUpdateWithWhereUniqueWithoutPerformanceInput[]
-    updateMany?: QuizSliceUpdateManyWithWhereWithoutPerformanceInput | QuizSliceUpdateManyWithWhereWithoutPerformanceInput[]
+    update?: QuizSliceUpdateWithWhereUniqueWithoutArtistInput | QuizSliceUpdateWithWhereUniqueWithoutArtistInput[]
+    updateMany?: QuizSliceUpdateManyWithWhereWithoutArtistInput | QuizSliceUpdateManyWithWhereWithoutArtistInput[]
     deleteMany?: QuizSliceScalarWhereInput | QuizSliceScalarWhereInput[]
   }
 
-  export type PieceCreateNestedOneWithoutQuizzesInput = {
-    create?: XOR<PieceCreateWithoutQuizzesInput, PieceUncheckedCreateWithoutQuizzesInput>
-    connectOrCreate?: PieceCreateOrConnectWithoutQuizzesInput
-    connect?: PieceWhereUniqueInput
+  export type ComposerCreateNestedOneWithoutQuizzesInput = {
+    create?: XOR<ComposerCreateWithoutQuizzesInput, ComposerUncheckedCreateWithoutQuizzesInput>
+    connectOrCreate?: ComposerCreateOrConnectWithoutQuizzesInput
+    connect?: ComposerWhereUniqueInput
   }
 
   export type UserCreateNestedOneWithoutQuizzesInput = {
@@ -16434,12 +13601,12 @@ export namespace Prisma {
     connect?: QuizSliceWhereUniqueInput | QuizSliceWhereUniqueInput[]
   }
 
-  export type PieceUpdateOneRequiredWithoutQuizzesNestedInput = {
-    create?: XOR<PieceCreateWithoutQuizzesInput, PieceUncheckedCreateWithoutQuizzesInput>
-    connectOrCreate?: PieceCreateOrConnectWithoutQuizzesInput
-    upsert?: PieceUpsertWithoutQuizzesInput
-    connect?: PieceWhereUniqueInput
-    update?: XOR<XOR<PieceUpdateToOneWithWhereWithoutQuizzesInput, PieceUpdateWithoutQuizzesInput>, PieceUncheckedUpdateWithoutQuizzesInput>
+  export type ComposerUpdateOneRequiredWithoutQuizzesNestedInput = {
+    create?: XOR<ComposerCreateWithoutQuizzesInput, ComposerUncheckedCreateWithoutQuizzesInput>
+    connectOrCreate?: ComposerCreateOrConnectWithoutQuizzesInput
+    upsert?: ComposerUpsertWithoutQuizzesInput
+    connect?: ComposerWhereUniqueInput
+    update?: XOR<XOR<ComposerUpdateToOneWithWhereWithoutQuizzesInput, ComposerUpdateWithoutQuizzesInput>, ComposerUncheckedUpdateWithoutQuizzesInput>
   }
 
   export type UserUpdateOneRequiredWithoutQuizzesNestedInput = {
@@ -16484,10 +13651,10 @@ export namespace Prisma {
     connect?: QuizWhereUniqueInput
   }
 
-  export type PerformanceCreateNestedOneWithoutQuizSlicesInput = {
-    create?: XOR<PerformanceCreateWithoutQuizSlicesInput, PerformanceUncheckedCreateWithoutQuizSlicesInput>
-    connectOrCreate?: PerformanceCreateOrConnectWithoutQuizSlicesInput
-    connect?: PerformanceWhereUniqueInput
+  export type ArtistCreateNestedOneWithoutQuizSlicesInput = {
+    create?: XOR<ArtistCreateWithoutQuizSlicesInput, ArtistUncheckedCreateWithoutQuizSlicesInput>
+    connectOrCreate?: ArtistCreateOrConnectWithoutQuizSlicesInput
+    connect?: ArtistWhereUniqueInput
   }
 
   export type QuizUpdateOneRequiredWithoutSlicesNestedInput = {
@@ -16498,12 +13665,12 @@ export namespace Prisma {
     update?: XOR<XOR<QuizUpdateToOneWithWhereWithoutSlicesInput, QuizUpdateWithoutSlicesInput>, QuizUncheckedUpdateWithoutSlicesInput>
   }
 
-  export type PerformanceUpdateOneRequiredWithoutQuizSlicesNestedInput = {
-    create?: XOR<PerformanceCreateWithoutQuizSlicesInput, PerformanceUncheckedCreateWithoutQuizSlicesInput>
-    connectOrCreate?: PerformanceCreateOrConnectWithoutQuizSlicesInput
-    upsert?: PerformanceUpsertWithoutQuizSlicesInput
-    connect?: PerformanceWhereUniqueInput
-    update?: XOR<XOR<PerformanceUpdateToOneWithWhereWithoutQuizSlicesInput, PerformanceUpdateWithoutQuizSlicesInput>, PerformanceUncheckedUpdateWithoutQuizSlicesInput>
+  export type ArtistUpdateOneRequiredWithoutQuizSlicesNestedInput = {
+    create?: XOR<ArtistCreateWithoutQuizSlicesInput, ArtistUncheckedCreateWithoutQuizSlicesInput>
+    connectOrCreate?: ArtistCreateOrConnectWithoutQuizSlicesInput
+    upsert?: ArtistUpsertWithoutQuizSlicesInput
+    connect?: ArtistWhereUniqueInput
+    update?: XOR<XOR<ArtistUpdateToOneWithWhereWithoutQuizSlicesInput, ArtistUpdateWithoutQuizSlicesInput>, ArtistUncheckedUpdateWithoutQuizSlicesInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -16958,17 +14125,19 @@ export namespace Prisma {
 
   export type QuizCreateWithoutCreatedByInput = {
     id?: string
+    pieceName: string
     duration?: number
     createdAt?: Date | string
-    piece: PieceCreateNestedOneWithoutQuizzesInput
+    composer: ComposerCreateNestedOneWithoutQuizzesInput
     slices?: QuizSliceCreateNestedManyWithoutQuizInput
   }
 
   export type QuizUncheckedCreateWithoutCreatedByInput = {
     id?: string
+    pieceName: string
     duration?: number
     createdAt?: Date | string
-    pieceId: string
+    composerId: string
     slices?: QuizSliceUncheckedCreateNestedManyWithoutQuizInput
   }
 
@@ -17090,348 +14259,93 @@ export namespace Prisma {
     OR?: QuizScalarWhereInput[]
     NOT?: QuizScalarWhereInput | QuizScalarWhereInput[]
     id?: StringFilter<"Quiz"> | string
+    pieceName?: StringFilter<"Quiz"> | string
     duration?: IntFilter<"Quiz"> | number
     createdAt?: DateTimeFilter<"Quiz"> | Date | string
-    pieceId?: StringFilter<"Quiz"> | string
+    composerId?: StringFilter<"Quiz"> | string
     createdById?: StringFilter<"Quiz"> | string
   }
 
-  export type PieceCreateWithoutComposerInput = {
+  export type QuizCreateWithoutComposerInput = {
     id?: string
-    name: string
-    performances?: PerformanceCreateNestedManyWithoutPieceInput
-    quizzes?: QuizCreateNestedManyWithoutPieceInput
-  }
-
-  export type PieceUncheckedCreateWithoutComposerInput = {
-    id?: string
-    name: string
-    performances?: PerformanceUncheckedCreateNestedManyWithoutPieceInput
-    quizzes?: QuizUncheckedCreateNestedManyWithoutPieceInput
-  }
-
-  export type PieceCreateOrConnectWithoutComposerInput = {
-    where: PieceWhereUniqueInput
-    create: XOR<PieceCreateWithoutComposerInput, PieceUncheckedCreateWithoutComposerInput>
-  }
-
-  export type PieceCreateManyComposerInputEnvelope = {
-    data: PieceCreateManyComposerInput | PieceCreateManyComposerInput[]
-  }
-
-  export type PieceUpsertWithWhereUniqueWithoutComposerInput = {
-    where: PieceWhereUniqueInput
-    update: XOR<PieceUpdateWithoutComposerInput, PieceUncheckedUpdateWithoutComposerInput>
-    create: XOR<PieceCreateWithoutComposerInput, PieceUncheckedCreateWithoutComposerInput>
-  }
-
-  export type PieceUpdateWithWhereUniqueWithoutComposerInput = {
-    where: PieceWhereUniqueInput
-    data: XOR<PieceUpdateWithoutComposerInput, PieceUncheckedUpdateWithoutComposerInput>
-  }
-
-  export type PieceUpdateManyWithWhereWithoutComposerInput = {
-    where: PieceScalarWhereInput
-    data: XOR<PieceUpdateManyMutationInput, PieceUncheckedUpdateManyWithoutComposerInput>
-  }
-
-  export type PieceScalarWhereInput = {
-    AND?: PieceScalarWhereInput | PieceScalarWhereInput[]
-    OR?: PieceScalarWhereInput[]
-    NOT?: PieceScalarWhereInput | PieceScalarWhereInput[]
-    id?: StringFilter<"Piece"> | string
-    name?: StringFilter<"Piece"> | string
-    composerId?: StringFilter<"Piece"> | string
-  }
-
-  export type ComposerCreateWithoutPiecesInput = {
-    id?: string
-    name: string
-    photoUrl?: string | null
-  }
-
-  export type ComposerUncheckedCreateWithoutPiecesInput = {
-    id?: string
-    name: string
-    photoUrl?: string | null
-  }
-
-  export type ComposerCreateOrConnectWithoutPiecesInput = {
-    where: ComposerWhereUniqueInput
-    create: XOR<ComposerCreateWithoutPiecesInput, ComposerUncheckedCreateWithoutPiecesInput>
-  }
-
-  export type PerformanceCreateWithoutPieceInput = {
-    id?: string
-    youtubeUrl: string
-    artist: ArtistCreateNestedOneWithoutPerformancesInput
-    quizSlices?: QuizSliceCreateNestedManyWithoutPerformanceInput
-  }
-
-  export type PerformanceUncheckedCreateWithoutPieceInput = {
-    id?: string
-    youtubeUrl: string
-    artistId: string
-    quizSlices?: QuizSliceUncheckedCreateNestedManyWithoutPerformanceInput
-  }
-
-  export type PerformanceCreateOrConnectWithoutPieceInput = {
-    where: PerformanceWhereUniqueInput
-    create: XOR<PerformanceCreateWithoutPieceInput, PerformanceUncheckedCreateWithoutPieceInput>
-  }
-
-  export type PerformanceCreateManyPieceInputEnvelope = {
-    data: PerformanceCreateManyPieceInput | PerformanceCreateManyPieceInput[]
-  }
-
-  export type QuizCreateWithoutPieceInput = {
-    id?: string
+    pieceName: string
     duration?: number
     createdAt?: Date | string
     createdBy: UserCreateNestedOneWithoutQuizzesInput
     slices?: QuizSliceCreateNestedManyWithoutQuizInput
   }
 
-  export type QuizUncheckedCreateWithoutPieceInput = {
+  export type QuizUncheckedCreateWithoutComposerInput = {
     id?: string
+    pieceName: string
     duration?: number
     createdAt?: Date | string
     createdById: string
     slices?: QuizSliceUncheckedCreateNestedManyWithoutQuizInput
   }
 
-  export type QuizCreateOrConnectWithoutPieceInput = {
+  export type QuizCreateOrConnectWithoutComposerInput = {
     where: QuizWhereUniqueInput
-    create: XOR<QuizCreateWithoutPieceInput, QuizUncheckedCreateWithoutPieceInput>
+    create: XOR<QuizCreateWithoutComposerInput, QuizUncheckedCreateWithoutComposerInput>
   }
 
-  export type QuizCreateManyPieceInputEnvelope = {
-    data: QuizCreateManyPieceInput | QuizCreateManyPieceInput[]
+  export type QuizCreateManyComposerInputEnvelope = {
+    data: QuizCreateManyComposerInput | QuizCreateManyComposerInput[]
   }
 
-  export type ComposerUpsertWithoutPiecesInput = {
-    update: XOR<ComposerUpdateWithoutPiecesInput, ComposerUncheckedUpdateWithoutPiecesInput>
-    create: XOR<ComposerCreateWithoutPiecesInput, ComposerUncheckedCreateWithoutPiecesInput>
-    where?: ComposerWhereInput
-  }
-
-  export type ComposerUpdateToOneWithWhereWithoutPiecesInput = {
-    where?: ComposerWhereInput
-    data: XOR<ComposerUpdateWithoutPiecesInput, ComposerUncheckedUpdateWithoutPiecesInput>
-  }
-
-  export type ComposerUpdateWithoutPiecesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type ComposerUncheckedUpdateWithoutPiecesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type PerformanceUpsertWithWhereUniqueWithoutPieceInput = {
-    where: PerformanceWhereUniqueInput
-    update: XOR<PerformanceUpdateWithoutPieceInput, PerformanceUncheckedUpdateWithoutPieceInput>
-    create: XOR<PerformanceCreateWithoutPieceInput, PerformanceUncheckedCreateWithoutPieceInput>
-  }
-
-  export type PerformanceUpdateWithWhereUniqueWithoutPieceInput = {
-    where: PerformanceWhereUniqueInput
-    data: XOR<PerformanceUpdateWithoutPieceInput, PerformanceUncheckedUpdateWithoutPieceInput>
-  }
-
-  export type PerformanceUpdateManyWithWhereWithoutPieceInput = {
-    where: PerformanceScalarWhereInput
-    data: XOR<PerformanceUpdateManyMutationInput, PerformanceUncheckedUpdateManyWithoutPieceInput>
-  }
-
-  export type PerformanceScalarWhereInput = {
-    AND?: PerformanceScalarWhereInput | PerformanceScalarWhereInput[]
-    OR?: PerformanceScalarWhereInput[]
-    NOT?: PerformanceScalarWhereInput | PerformanceScalarWhereInput[]
-    id?: StringFilter<"Performance"> | string
-    youtubeUrl?: StringFilter<"Performance"> | string
-    pieceId?: StringFilter<"Performance"> | string
-    artistId?: StringFilter<"Performance"> | string
-  }
-
-  export type QuizUpsertWithWhereUniqueWithoutPieceInput = {
+  export type QuizUpsertWithWhereUniqueWithoutComposerInput = {
     where: QuizWhereUniqueInput
-    update: XOR<QuizUpdateWithoutPieceInput, QuizUncheckedUpdateWithoutPieceInput>
-    create: XOR<QuizCreateWithoutPieceInput, QuizUncheckedCreateWithoutPieceInput>
+    update: XOR<QuizUpdateWithoutComposerInput, QuizUncheckedUpdateWithoutComposerInput>
+    create: XOR<QuizCreateWithoutComposerInput, QuizUncheckedCreateWithoutComposerInput>
   }
 
-  export type QuizUpdateWithWhereUniqueWithoutPieceInput = {
+  export type QuizUpdateWithWhereUniqueWithoutComposerInput = {
     where: QuizWhereUniqueInput
-    data: XOR<QuizUpdateWithoutPieceInput, QuizUncheckedUpdateWithoutPieceInput>
+    data: XOR<QuizUpdateWithoutComposerInput, QuizUncheckedUpdateWithoutComposerInput>
   }
 
-  export type QuizUpdateManyWithWhereWithoutPieceInput = {
+  export type QuizUpdateManyWithWhereWithoutComposerInput = {
     where: QuizScalarWhereInput
-    data: XOR<QuizUpdateManyMutationInput, QuizUncheckedUpdateManyWithoutPieceInput>
+    data: XOR<QuizUpdateManyMutationInput, QuizUncheckedUpdateManyWithoutComposerInput>
   }
 
-  export type PerformanceCreateWithoutArtistInput = {
-    id?: string
-    youtubeUrl: string
-    piece: PieceCreateNestedOneWithoutPerformancesInput
-    quizSlices?: QuizSliceCreateNestedManyWithoutPerformanceInput
-  }
-
-  export type PerformanceUncheckedCreateWithoutArtistInput = {
-    id?: string
-    youtubeUrl: string
-    pieceId: string
-    quizSlices?: QuizSliceUncheckedCreateNestedManyWithoutPerformanceInput
-  }
-
-  export type PerformanceCreateOrConnectWithoutArtistInput = {
-    where: PerformanceWhereUniqueInput
-    create: XOR<PerformanceCreateWithoutArtistInput, PerformanceUncheckedCreateWithoutArtistInput>
-  }
-
-  export type PerformanceCreateManyArtistInputEnvelope = {
-    data: PerformanceCreateManyArtistInput | PerformanceCreateManyArtistInput[]
-  }
-
-  export type PerformanceUpsertWithWhereUniqueWithoutArtistInput = {
-    where: PerformanceWhereUniqueInput
-    update: XOR<PerformanceUpdateWithoutArtistInput, PerformanceUncheckedUpdateWithoutArtistInput>
-    create: XOR<PerformanceCreateWithoutArtistInput, PerformanceUncheckedCreateWithoutArtistInput>
-  }
-
-  export type PerformanceUpdateWithWhereUniqueWithoutArtistInput = {
-    where: PerformanceWhereUniqueInput
-    data: XOR<PerformanceUpdateWithoutArtistInput, PerformanceUncheckedUpdateWithoutArtistInput>
-  }
-
-  export type PerformanceUpdateManyWithWhereWithoutArtistInput = {
-    where: PerformanceScalarWhereInput
-    data: XOR<PerformanceUpdateManyMutationInput, PerformanceUncheckedUpdateManyWithoutArtistInput>
-  }
-
-  export type PieceCreateWithoutPerformancesInput = {
-    id?: string
-    name: string
-    composer: ComposerCreateNestedOneWithoutPiecesInput
-    quizzes?: QuizCreateNestedManyWithoutPieceInput
-  }
-
-  export type PieceUncheckedCreateWithoutPerformancesInput = {
-    id?: string
-    name: string
-    composerId: string
-    quizzes?: QuizUncheckedCreateNestedManyWithoutPieceInput
-  }
-
-  export type PieceCreateOrConnectWithoutPerformancesInput = {
-    where: PieceWhereUniqueInput
-    create: XOR<PieceCreateWithoutPerformancesInput, PieceUncheckedCreateWithoutPerformancesInput>
-  }
-
-  export type ArtistCreateWithoutPerformancesInput = {
-    id?: string
-    name: string
-    photoUrl?: string | null
-  }
-
-  export type ArtistUncheckedCreateWithoutPerformancesInput = {
-    id?: string
-    name: string
-    photoUrl?: string | null
-  }
-
-  export type ArtistCreateOrConnectWithoutPerformancesInput = {
-    where: ArtistWhereUniqueInput
-    create: XOR<ArtistCreateWithoutPerformancesInput, ArtistUncheckedCreateWithoutPerformancesInput>
-  }
-
-  export type QuizSliceCreateWithoutPerformanceInput = {
+  export type QuizSliceCreateWithoutArtistInput = {
     id?: string
     startTime?: number
+    youtubeUrl: string
     quiz: QuizCreateNestedOneWithoutSlicesInput
   }
 
-  export type QuizSliceUncheckedCreateWithoutPerformanceInput = {
+  export type QuizSliceUncheckedCreateWithoutArtistInput = {
     id?: string
     startTime?: number
+    youtubeUrl: string
     quizId: string
   }
 
-  export type QuizSliceCreateOrConnectWithoutPerformanceInput = {
+  export type QuizSliceCreateOrConnectWithoutArtistInput = {
     where: QuizSliceWhereUniqueInput
-    create: XOR<QuizSliceCreateWithoutPerformanceInput, QuizSliceUncheckedCreateWithoutPerformanceInput>
+    create: XOR<QuizSliceCreateWithoutArtistInput, QuizSliceUncheckedCreateWithoutArtistInput>
   }
 
-  export type QuizSliceCreateManyPerformanceInputEnvelope = {
-    data: QuizSliceCreateManyPerformanceInput | QuizSliceCreateManyPerformanceInput[]
+  export type QuizSliceCreateManyArtistInputEnvelope = {
+    data: QuizSliceCreateManyArtistInput | QuizSliceCreateManyArtistInput[]
   }
 
-  export type PieceUpsertWithoutPerformancesInput = {
-    update: XOR<PieceUpdateWithoutPerformancesInput, PieceUncheckedUpdateWithoutPerformancesInput>
-    create: XOR<PieceCreateWithoutPerformancesInput, PieceUncheckedCreateWithoutPerformancesInput>
-    where?: PieceWhereInput
-  }
-
-  export type PieceUpdateToOneWithWhereWithoutPerformancesInput = {
-    where?: PieceWhereInput
-    data: XOR<PieceUpdateWithoutPerformancesInput, PieceUncheckedUpdateWithoutPerformancesInput>
-  }
-
-  export type PieceUpdateWithoutPerformancesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    composer?: ComposerUpdateOneRequiredWithoutPiecesNestedInput
-    quizzes?: QuizUpdateManyWithoutPieceNestedInput
-  }
-
-  export type PieceUncheckedUpdateWithoutPerformancesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    composerId?: StringFieldUpdateOperationsInput | string
-    quizzes?: QuizUncheckedUpdateManyWithoutPieceNestedInput
-  }
-
-  export type ArtistUpsertWithoutPerformancesInput = {
-    update: XOR<ArtistUpdateWithoutPerformancesInput, ArtistUncheckedUpdateWithoutPerformancesInput>
-    create: XOR<ArtistCreateWithoutPerformancesInput, ArtistUncheckedCreateWithoutPerformancesInput>
-    where?: ArtistWhereInput
-  }
-
-  export type ArtistUpdateToOneWithWhereWithoutPerformancesInput = {
-    where?: ArtistWhereInput
-    data: XOR<ArtistUpdateWithoutPerformancesInput, ArtistUncheckedUpdateWithoutPerformancesInput>
-  }
-
-  export type ArtistUpdateWithoutPerformancesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type ArtistUncheckedUpdateWithoutPerformancesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type QuizSliceUpsertWithWhereUniqueWithoutPerformanceInput = {
+  export type QuizSliceUpsertWithWhereUniqueWithoutArtistInput = {
     where: QuizSliceWhereUniqueInput
-    update: XOR<QuizSliceUpdateWithoutPerformanceInput, QuizSliceUncheckedUpdateWithoutPerformanceInput>
-    create: XOR<QuizSliceCreateWithoutPerformanceInput, QuizSliceUncheckedCreateWithoutPerformanceInput>
+    update: XOR<QuizSliceUpdateWithoutArtistInput, QuizSliceUncheckedUpdateWithoutArtistInput>
+    create: XOR<QuizSliceCreateWithoutArtistInput, QuizSliceUncheckedCreateWithoutArtistInput>
   }
 
-  export type QuizSliceUpdateWithWhereUniqueWithoutPerformanceInput = {
+  export type QuizSliceUpdateWithWhereUniqueWithoutArtistInput = {
     where: QuizSliceWhereUniqueInput
-    data: XOR<QuizSliceUpdateWithoutPerformanceInput, QuizSliceUncheckedUpdateWithoutPerformanceInput>
+    data: XOR<QuizSliceUpdateWithoutArtistInput, QuizSliceUncheckedUpdateWithoutArtistInput>
   }
 
-  export type QuizSliceUpdateManyWithWhereWithoutPerformanceInput = {
+  export type QuizSliceUpdateManyWithWhereWithoutArtistInput = {
     where: QuizSliceScalarWhereInput
-    data: XOR<QuizSliceUpdateManyMutationInput, QuizSliceUncheckedUpdateManyWithoutPerformanceInput>
+    data: XOR<QuizSliceUpdateManyMutationInput, QuizSliceUncheckedUpdateManyWithoutArtistInput>
   }
 
   export type QuizSliceScalarWhereInput = {
@@ -17440,27 +14354,26 @@ export namespace Prisma {
     NOT?: QuizSliceScalarWhereInput | QuizSliceScalarWhereInput[]
     id?: StringFilter<"QuizSlice"> | string
     startTime?: IntFilter<"QuizSlice"> | number
+    youtubeUrl?: StringFilter<"QuizSlice"> | string
     quizId?: StringFilter<"QuizSlice"> | string
-    performanceId?: StringFilter<"QuizSlice"> | string
+    artistId?: StringFilter<"QuizSlice"> | string
   }
 
-  export type PieceCreateWithoutQuizzesInput = {
+  export type ComposerCreateWithoutQuizzesInput = {
     id?: string
     name: string
-    composer: ComposerCreateNestedOneWithoutPiecesInput
-    performances?: PerformanceCreateNestedManyWithoutPieceInput
+    photoUrl?: string | null
   }
 
-  export type PieceUncheckedCreateWithoutQuizzesInput = {
+  export type ComposerUncheckedCreateWithoutQuizzesInput = {
     id?: string
     name: string
-    composerId: string
-    performances?: PerformanceUncheckedCreateNestedManyWithoutPieceInput
+    photoUrl?: string | null
   }
 
-  export type PieceCreateOrConnectWithoutQuizzesInput = {
-    where: PieceWhereUniqueInput
-    create: XOR<PieceCreateWithoutQuizzesInput, PieceUncheckedCreateWithoutQuizzesInput>
+  export type ComposerCreateOrConnectWithoutQuizzesInput = {
+    where: ComposerWhereUniqueInput
+    create: XOR<ComposerCreateWithoutQuizzesInput, ComposerUncheckedCreateWithoutQuizzesInput>
   }
 
   export type UserCreateWithoutQuizzesInput = {
@@ -17493,13 +14406,15 @@ export namespace Prisma {
   export type QuizSliceCreateWithoutQuizInput = {
     id?: string
     startTime?: number
-    performance: PerformanceCreateNestedOneWithoutQuizSlicesInput
+    youtubeUrl: string
+    artist: ArtistCreateNestedOneWithoutQuizSlicesInput
   }
 
   export type QuizSliceUncheckedCreateWithoutQuizInput = {
     id?: string
     startTime?: number
-    performanceId: string
+    youtubeUrl: string
+    artistId: string
   }
 
   export type QuizSliceCreateOrConnectWithoutQuizInput = {
@@ -17511,29 +14426,27 @@ export namespace Prisma {
     data: QuizSliceCreateManyQuizInput | QuizSliceCreateManyQuizInput[]
   }
 
-  export type PieceUpsertWithoutQuizzesInput = {
-    update: XOR<PieceUpdateWithoutQuizzesInput, PieceUncheckedUpdateWithoutQuizzesInput>
-    create: XOR<PieceCreateWithoutQuizzesInput, PieceUncheckedCreateWithoutQuizzesInput>
-    where?: PieceWhereInput
+  export type ComposerUpsertWithoutQuizzesInput = {
+    update: XOR<ComposerUpdateWithoutQuizzesInput, ComposerUncheckedUpdateWithoutQuizzesInput>
+    create: XOR<ComposerCreateWithoutQuizzesInput, ComposerUncheckedCreateWithoutQuizzesInput>
+    where?: ComposerWhereInput
   }
 
-  export type PieceUpdateToOneWithWhereWithoutQuizzesInput = {
-    where?: PieceWhereInput
-    data: XOR<PieceUpdateWithoutQuizzesInput, PieceUncheckedUpdateWithoutQuizzesInput>
+  export type ComposerUpdateToOneWithWhereWithoutQuizzesInput = {
+    where?: ComposerWhereInput
+    data: XOR<ComposerUpdateWithoutQuizzesInput, ComposerUncheckedUpdateWithoutQuizzesInput>
   }
 
-  export type PieceUpdateWithoutQuizzesInput = {
+  export type ComposerUpdateWithoutQuizzesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    composer?: ComposerUpdateOneRequiredWithoutPiecesNestedInput
-    performances?: PerformanceUpdateManyWithoutPieceNestedInput
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type PieceUncheckedUpdateWithoutQuizzesInput = {
+  export type ComposerUncheckedUpdateWithoutQuizzesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    composerId?: StringFieldUpdateOperationsInput | string
-    performances?: PerformanceUncheckedUpdateManyWithoutPieceNestedInput
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUpsertWithoutQuizzesInput = {
@@ -17587,17 +14500,19 @@ export namespace Prisma {
 
   export type QuizCreateWithoutSlicesInput = {
     id?: string
+    pieceName: string
     duration?: number
     createdAt?: Date | string
-    piece: PieceCreateNestedOneWithoutQuizzesInput
+    composer: ComposerCreateNestedOneWithoutQuizzesInput
     createdBy: UserCreateNestedOneWithoutQuizzesInput
   }
 
   export type QuizUncheckedCreateWithoutSlicesInput = {
     id?: string
+    pieceName: string
     duration?: number
     createdAt?: Date | string
-    pieceId: string
+    composerId: string
     createdById: string
   }
 
@@ -17606,23 +14521,21 @@ export namespace Prisma {
     create: XOR<QuizCreateWithoutSlicesInput, QuizUncheckedCreateWithoutSlicesInput>
   }
 
-  export type PerformanceCreateWithoutQuizSlicesInput = {
+  export type ArtistCreateWithoutQuizSlicesInput = {
     id?: string
-    youtubeUrl: string
-    piece: PieceCreateNestedOneWithoutPerformancesInput
-    artist: ArtistCreateNestedOneWithoutPerformancesInput
+    name: string
+    photoUrl?: string | null
   }
 
-  export type PerformanceUncheckedCreateWithoutQuizSlicesInput = {
+  export type ArtistUncheckedCreateWithoutQuizSlicesInput = {
     id?: string
-    youtubeUrl: string
-    pieceId: string
-    artistId: string
+    name: string
+    photoUrl?: string | null
   }
 
-  export type PerformanceCreateOrConnectWithoutQuizSlicesInput = {
-    where: PerformanceWhereUniqueInput
-    create: XOR<PerformanceCreateWithoutQuizSlicesInput, PerformanceUncheckedCreateWithoutQuizSlicesInput>
+  export type ArtistCreateOrConnectWithoutQuizSlicesInput = {
+    where: ArtistWhereUniqueInput
+    create: XOR<ArtistCreateWithoutQuizSlicesInput, ArtistUncheckedCreateWithoutQuizSlicesInput>
   }
 
   export type QuizUpsertWithoutSlicesInput = {
@@ -17638,43 +14551,43 @@ export namespace Prisma {
 
   export type QuizUpdateWithoutSlicesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pieceName?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    piece?: PieceUpdateOneRequiredWithoutQuizzesNestedInput
+    composer?: ComposerUpdateOneRequiredWithoutQuizzesNestedInput
     createdBy?: UserUpdateOneRequiredWithoutQuizzesNestedInput
   }
 
   export type QuizUncheckedUpdateWithoutSlicesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pieceName?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pieceId?: StringFieldUpdateOperationsInput | string
+    composerId?: StringFieldUpdateOperationsInput | string
     createdById?: StringFieldUpdateOperationsInput | string
   }
 
-  export type PerformanceUpsertWithoutQuizSlicesInput = {
-    update: XOR<PerformanceUpdateWithoutQuizSlicesInput, PerformanceUncheckedUpdateWithoutQuizSlicesInput>
-    create: XOR<PerformanceCreateWithoutQuizSlicesInput, PerformanceUncheckedCreateWithoutQuizSlicesInput>
-    where?: PerformanceWhereInput
+  export type ArtistUpsertWithoutQuizSlicesInput = {
+    update: XOR<ArtistUpdateWithoutQuizSlicesInput, ArtistUncheckedUpdateWithoutQuizSlicesInput>
+    create: XOR<ArtistCreateWithoutQuizSlicesInput, ArtistUncheckedCreateWithoutQuizSlicesInput>
+    where?: ArtistWhereInput
   }
 
-  export type PerformanceUpdateToOneWithWhereWithoutQuizSlicesInput = {
-    where?: PerformanceWhereInput
-    data: XOR<PerformanceUpdateWithoutQuizSlicesInput, PerformanceUncheckedUpdateWithoutQuizSlicesInput>
+  export type ArtistUpdateToOneWithWhereWithoutQuizSlicesInput = {
+    where?: ArtistWhereInput
+    data: XOR<ArtistUpdateWithoutQuizSlicesInput, ArtistUncheckedUpdateWithoutQuizSlicesInput>
   }
 
-  export type PerformanceUpdateWithoutQuizSlicesInput = {
+  export type ArtistUpdateWithoutQuizSlicesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    youtubeUrl?: StringFieldUpdateOperationsInput | string
-    piece?: PieceUpdateOneRequiredWithoutPerformancesNestedInput
-    artist?: ArtistUpdateOneRequiredWithoutPerformancesNestedInput
+    name?: StringFieldUpdateOperationsInput | string
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type PerformanceUncheckedUpdateWithoutQuizSlicesInput = {
+  export type ArtistUncheckedUpdateWithoutQuizSlicesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    youtubeUrl?: StringFieldUpdateOperationsInput | string
-    pieceId?: StringFieldUpdateOperationsInput | string
-    artistId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AccountCreateManyUserInput = {
@@ -17707,9 +14620,10 @@ export namespace Prisma {
 
   export type QuizCreateManyCreatedByInput = {
     id?: string
+    pieceName: string
     duration?: number
     createdAt?: Date | string
-    pieceId: string
+    composerId: string
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -17797,179 +14711,118 @@ export namespace Prisma {
 
   export type QuizUpdateWithoutCreatedByInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pieceName?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    piece?: PieceUpdateOneRequiredWithoutQuizzesNestedInput
+    composer?: ComposerUpdateOneRequiredWithoutQuizzesNestedInput
     slices?: QuizSliceUpdateManyWithoutQuizNestedInput
   }
 
   export type QuizUncheckedUpdateWithoutCreatedByInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pieceName?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pieceId?: StringFieldUpdateOperationsInput | string
+    composerId?: StringFieldUpdateOperationsInput | string
     slices?: QuizSliceUncheckedUpdateManyWithoutQuizNestedInput
   }
 
   export type QuizUncheckedUpdateManyWithoutCreatedByInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pieceName?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pieceId?: StringFieldUpdateOperationsInput | string
+    composerId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type PieceCreateManyComposerInput = {
+  export type QuizCreateManyComposerInput = {
     id?: string
-    name: string
-  }
-
-  export type PieceUpdateWithoutComposerInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    performances?: PerformanceUpdateManyWithoutPieceNestedInput
-    quizzes?: QuizUpdateManyWithoutPieceNestedInput
-  }
-
-  export type PieceUncheckedUpdateWithoutComposerInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    performances?: PerformanceUncheckedUpdateManyWithoutPieceNestedInput
-    quizzes?: QuizUncheckedUpdateManyWithoutPieceNestedInput
-  }
-
-  export type PieceUncheckedUpdateManyWithoutComposerInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type PerformanceCreateManyPieceInput = {
-    id?: string
-    youtubeUrl: string
-    artistId: string
-  }
-
-  export type QuizCreateManyPieceInput = {
-    id?: string
+    pieceName: string
     duration?: number
     createdAt?: Date | string
     createdById: string
   }
 
-  export type PerformanceUpdateWithoutPieceInput = {
+  export type QuizUpdateWithoutComposerInput = {
     id?: StringFieldUpdateOperationsInput | string
-    youtubeUrl?: StringFieldUpdateOperationsInput | string
-    artist?: ArtistUpdateOneRequiredWithoutPerformancesNestedInput
-    quizSlices?: QuizSliceUpdateManyWithoutPerformanceNestedInput
-  }
-
-  export type PerformanceUncheckedUpdateWithoutPieceInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    youtubeUrl?: StringFieldUpdateOperationsInput | string
-    artistId?: StringFieldUpdateOperationsInput | string
-    quizSlices?: QuizSliceUncheckedUpdateManyWithoutPerformanceNestedInput
-  }
-
-  export type PerformanceUncheckedUpdateManyWithoutPieceInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    youtubeUrl?: StringFieldUpdateOperationsInput | string
-    artistId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type QuizUpdateWithoutPieceInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    pieceName?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: UserUpdateOneRequiredWithoutQuizzesNestedInput
     slices?: QuizSliceUpdateManyWithoutQuizNestedInput
   }
 
-  export type QuizUncheckedUpdateWithoutPieceInput = {
+  export type QuizUncheckedUpdateWithoutComposerInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pieceName?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
     slices?: QuizSliceUncheckedUpdateManyWithoutQuizNestedInput
   }
 
-  export type QuizUncheckedUpdateManyWithoutPieceInput = {
+  export type QuizUncheckedUpdateManyWithoutComposerInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pieceName?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: StringFieldUpdateOperationsInput | string
   }
 
-  export type PerformanceCreateManyArtistInput = {
-    id?: string
-    youtubeUrl: string
-    pieceId: string
-  }
-
-  export type PerformanceUpdateWithoutArtistInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    youtubeUrl?: StringFieldUpdateOperationsInput | string
-    piece?: PieceUpdateOneRequiredWithoutPerformancesNestedInput
-    quizSlices?: QuizSliceUpdateManyWithoutPerformanceNestedInput
-  }
-
-  export type PerformanceUncheckedUpdateWithoutArtistInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    youtubeUrl?: StringFieldUpdateOperationsInput | string
-    pieceId?: StringFieldUpdateOperationsInput | string
-    quizSlices?: QuizSliceUncheckedUpdateManyWithoutPerformanceNestedInput
-  }
-
-  export type PerformanceUncheckedUpdateManyWithoutArtistInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    youtubeUrl?: StringFieldUpdateOperationsInput | string
-    pieceId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type QuizSliceCreateManyPerformanceInput = {
+  export type QuizSliceCreateManyArtistInput = {
     id?: string
     startTime?: number
+    youtubeUrl: string
     quizId: string
   }
 
-  export type QuizSliceUpdateWithoutPerformanceInput = {
+  export type QuizSliceUpdateWithoutArtistInput = {
     id?: StringFieldUpdateOperationsInput | string
     startTime?: IntFieldUpdateOperationsInput | number
+    youtubeUrl?: StringFieldUpdateOperationsInput | string
     quiz?: QuizUpdateOneRequiredWithoutSlicesNestedInput
   }
 
-  export type QuizSliceUncheckedUpdateWithoutPerformanceInput = {
+  export type QuizSliceUncheckedUpdateWithoutArtistInput = {
     id?: StringFieldUpdateOperationsInput | string
     startTime?: IntFieldUpdateOperationsInput | number
+    youtubeUrl?: StringFieldUpdateOperationsInput | string
     quizId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type QuizSliceUncheckedUpdateManyWithoutPerformanceInput = {
+  export type QuizSliceUncheckedUpdateManyWithoutArtistInput = {
     id?: StringFieldUpdateOperationsInput | string
     startTime?: IntFieldUpdateOperationsInput | number
+    youtubeUrl?: StringFieldUpdateOperationsInput | string
     quizId?: StringFieldUpdateOperationsInput | string
   }
 
   export type QuizSliceCreateManyQuizInput = {
     id?: string
     startTime?: number
-    performanceId: string
+    youtubeUrl: string
+    artistId: string
   }
 
   export type QuizSliceUpdateWithoutQuizInput = {
     id?: StringFieldUpdateOperationsInput | string
     startTime?: IntFieldUpdateOperationsInput | number
-    performance?: PerformanceUpdateOneRequiredWithoutQuizSlicesNestedInput
+    youtubeUrl?: StringFieldUpdateOperationsInput | string
+    artist?: ArtistUpdateOneRequiredWithoutQuizSlicesNestedInput
   }
 
   export type QuizSliceUncheckedUpdateWithoutQuizInput = {
     id?: StringFieldUpdateOperationsInput | string
     startTime?: IntFieldUpdateOperationsInput | number
-    performanceId?: StringFieldUpdateOperationsInput | string
+    youtubeUrl?: StringFieldUpdateOperationsInput | string
+    artistId?: StringFieldUpdateOperationsInput | string
   }
 
   export type QuizSliceUncheckedUpdateManyWithoutQuizInput = {
     id?: StringFieldUpdateOperationsInput | string
     startTime?: IntFieldUpdateOperationsInput | number
-    performanceId?: StringFieldUpdateOperationsInput | string
+    youtubeUrl?: StringFieldUpdateOperationsInput | string
+    artistId?: StringFieldUpdateOperationsInput | string
   }
 
 

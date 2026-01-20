@@ -5,7 +5,8 @@ import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/
 const ADMIN_EMAIL = "tomerflute@gmail.com";
 
 const quizSliceSchema = z.object({
-  performanceId: z.string(),
+  artistId: z.string(),
+  youtubeUrl: z.string().url(),
   startTime: z.number().int().min(0).default(0),
 });
 
@@ -13,11 +14,11 @@ export const quizRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
     return ctx.db.quiz.findMany({
       include: {
-        piece: { include: { composer: true } },
+        composer: true,
         createdBy: { select: { id: true, name: true, image: true } },
         slices: {
           include: {
-            performance: { include: { artist: true } },
+            artist: true,
           },
         },
       },
@@ -31,11 +32,11 @@ export const quizRouter = createTRPCRouter({
       return ctx.db.quiz.findUnique({
         where: { id: input.id },
         include: {
-          piece: { include: { composer: true } },
+          composer: true,
           createdBy: { select: { id: true, name: true, image: true } },
           slices: {
             include: {
-              performance: { include: { artist: true } },
+              artist: true,
             },
           },
         },
@@ -46,10 +47,10 @@ export const quizRouter = createTRPCRouter({
     return ctx.db.quiz.findMany({
       where: { createdById: ctx.session.user.id },
       include: {
-        piece: { include: { composer: true } },
+        composer: true,
         slices: {
           include: {
-            performance: { include: { artist: true } },
+            artist: true,
           },
         },
       },
@@ -59,7 +60,8 @@ export const quizRouter = createTRPCRouter({
 
   create: protectedProcedure
     .input(z.object({
-      pieceId: z.string(),
+      composerId: z.string(),
+      pieceName: z.string().min(1),
       duration: z.number().int().min(5).max(120).default(30),
       slices: z.array(quizSliceSchema).length(3),
     }))
@@ -75,10 +77,10 @@ export const quizRouter = createTRPCRouter({
           },
         },
         include: {
-          piece: { include: { composer: true } },
+          composer: true,
           slices: {
             include: {
-              performance: { include: { artist: true } },
+              artist: true,
             },
           },
         },

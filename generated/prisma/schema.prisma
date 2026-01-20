@@ -84,22 +84,9 @@ model Composer {
   name     String
   photoUrl String?
 
-  pieces Piece[]
+  quizzes Quiz[]
 
   @@index([name])
-}
-
-model Piece {
-  id         String   @id @default(cuid())
-  name       String
-  composer   Composer @relation(fields: [composerId], references: [id], onDelete: Cascade)
-  composerId String
-
-  performances Performance[]
-  quizzes      Quiz[]
-
-  @@index([name])
-  @@index([composerId])
 }
 
 model Artist {
@@ -107,52 +94,38 @@ model Artist {
   name     String
   photoUrl String?
 
-  performances Performance[]
+  quizSlices QuizSlice[]
 
   @@index([name])
 }
 
-model Performance {
-  id         String @id @default(cuid())
-  youtubeUrl String
-
-  piece    Piece  @relation(fields: [pieceId], references: [id], onDelete: Cascade)
-  pieceId  String
-  artist   Artist @relation(fields: [artistId], references: [id], onDelete: Cascade)
-  artistId String
-
-  quizSlices QuizSlice[]
-
-  @@unique([pieceId, artistId])
-  @@index([pieceId])
-  @@index([artistId])
-}
-
 model Quiz {
   id        String   @id @default(cuid())
+  pieceName String
   duration  Int      @default(30)
   createdAt DateTime @default(now())
 
-  piece       Piece  @relation(fields: [pieceId], references: [id], onDelete: Cascade)
-  pieceId     String
-  createdBy   User   @relation(fields: [createdById], references: [id])
+  composer    Composer @relation(fields: [composerId], references: [id], onDelete: Cascade)
+  composerId  String
+  createdBy   User     @relation(fields: [createdById], references: [id])
   createdById String
 
   slices QuizSlice[]
 
-  @@index([pieceId])
+  @@index([composerId])
   @@index([createdById])
 }
 
 model QuizSlice {
-  id        String @id @default(cuid())
-  startTime Int    @default(0)
+  id         String @id @default(cuid())
+  startTime  Int    @default(0)
+  youtubeUrl String
 
-  quiz          Quiz        @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  quizId        String
-  performance   Performance @relation(fields: [performanceId], references: [id], onDelete: Cascade)
-  performanceId String
+  quiz     Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quizId   String
+  artist   Artist @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  artistId String
 
   @@index([quizId])
-  @@index([performanceId])
+  @@index([artistId])
 }

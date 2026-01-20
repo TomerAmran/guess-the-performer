@@ -8,8 +8,6 @@ async function main() {
   // Delete in order (respecting foreign keys)
   await prisma.quizSlice.deleteMany();
   await prisma.quiz.deleteMany();
-  await prisma.performance.deleteMany();
-  await prisma.piece.deleteMany();
   await prisma.artist.deleteMany();
   await prisma.composer.deleteMany();
 
@@ -31,6 +29,8 @@ async function main() {
     console.log(`✓ Using existing test user: ${testUser.name}`);
   }
 
+  // ==================== CHOPIN NOCTURNE ====================
+
   // Add composer
   const chopin = await prisma.composer.create({
     data: {
@@ -39,15 +39,6 @@ async function main() {
     },
   });
   console.log(`✓ Composer: ${chopin.name}`);
-
-  // Add piece
-  const nocturne = await prisma.piece.create({
-    data: {
-      name: "Nocturne Op. 9 No. 2",
-      composerId: chopin.id,
-    },
-  });
-  console.log(`✓ Piece: ${nocturne.name}`);
 
   // Add 3 famous pianists
   const rubinstein = await prisma.artist.create({
@@ -73,60 +64,46 @@ async function main() {
 
   console.log(`✓ Artists: ${rubinstein.name}, ${horowitz.name}, ${pollini.name}`);
 
-  // Add 3 performances
-  const perf1 = await prisma.performance.create({
+  // Create Chopin quiz with inline slices
+  const chopinQuiz = await prisma.quiz.create({
     data: {
-      pieceId: nocturne.id,
-      artistId: rubinstein.id,
-      youtubeUrl: "https://www.youtube.com/watch?v=YGRO05WcNDk",
-    },
-  });
-
-  const perf2 = await prisma.performance.create({
-    data: {
-      pieceId: nocturne.id,
-      artistId: horowitz.id,
-      youtubeUrl: "https://www.youtube.com/watch?v=3QS8p5TNzFI",
-    },
-  });
-
-  const perf3 = await prisma.performance.create({
-    data: {
-      pieceId: nocturne.id,
-      artistId: pollini.id,
-      youtubeUrl: "https://www.youtube.com/watch?v=S8YhDR2fOUg",
-    },
-  });
-
-  console.log(`✓ Performances: 3 created`);
-
-  // Create a quiz with 3 slices
-  const quiz = await prisma.quiz.create({
-    data: {
-      pieceId: nocturne.id,
+      composerId: chopin.id,
+      pieceName: "Nocturne Op. 9 No. 2",
       createdById: testUser.id,
       duration: 30,
       slices: {
         create: [
-          { performanceId: perf1.id, startTime: 0 },
-          { performanceId: perf2.id, startTime: 3 },
-          { performanceId: perf3.id, startTime: 0 },
+          {
+            artistId: rubinstein.id,
+            youtubeUrl: "https://www.youtube.com/watch?v=YGRO05WcNDk",
+            startTime: 0
+          },
+          {
+            artistId: horowitz.id,
+            youtubeUrl: "https://www.youtube.com/watch?v=3QS8p5TNzFI",
+            startTime: 3
+          },
+          {
+            artistId: pollini.id,
+            youtubeUrl: "https://www.youtube.com/watch?v=S8YhDR2fOUg",
+            startTime: 0
+          },
         ],
       },
     },
     include: {
-      piece: { include: { composer: true } },
-      slices: { include: { performance: { include: { artist: true } } } },
+      composer: true,
+      slices: { include: { artist: true } },
     },
   });
 
   console.log(`\n✅ Chopin Quiz created!`);
-  console.log(`   ID: ${quiz.id}`);
-  console.log(`   Piece: ${quiz.piece.composer.name} - ${quiz.piece.name}`);
-  console.log(`   Duration: ${quiz.duration}s`);
+  console.log(`   ID: ${chopinQuiz.id}`);
+  console.log(`   Piece: ${chopinQuiz.composer.name} - ${chopinQuiz.pieceName}`);
+  console.log(`   Duration: ${chopinQuiz.duration}s`);
   console.log(`   Slices:`);
-  quiz.slices.forEach((slice, i) => {
-    console.log(`     ${i + 1}. ${slice.performance.artist.name} (start: ${slice.startTime}s)`);
+  chopinQuiz.slices.forEach((slice, i) => {
+    console.log(`     ${i + 1}. ${slice.artist.name} (start: ${slice.startTime}s)`);
   });
 
   // ==================== PROKOFIEV FLUTE SONATA ====================
@@ -140,15 +117,6 @@ async function main() {
     },
   });
   console.log(`✓ Composer: ${prokofiev.name}`);
-
-  // Add Flute Sonata
-  const fluteSonata = await prisma.piece.create({
-    data: {
-      name: "Flute Sonata in D major, Op. 94",
-      composerId: prokofiev.id,
-    },
-  });
-  console.log(`✓ Piece: ${fluteSonata.name}`);
 
   // Add 3 famous flutists
   const galway = await prisma.artist.create({
@@ -174,60 +142,46 @@ async function main() {
 
   console.log(`✓ Artists: ${galway.name}, ${rampal.name}, ${pahud.name}`);
 
-  // Add 3 flute performances
-  const flutePerf1 = await prisma.performance.create({
-    data: {
-      pieceId: fluteSonata.id,
-      artistId: galway.id,
-      youtubeUrl: "https://www.youtube.com/watch?v=hfJ9-HenydQ",
-    },
-  });
-
-  const flutePerf2 = await prisma.performance.create({
-    data: {
-      pieceId: fluteSonata.id,
-      artistId: rampal.id,
-      youtubeUrl: "https://www.youtube.com/watch?v=qE5EBXceh24",
-    },
-  });
-
-  const flutePerf3 = await prisma.performance.create({
-    data: {
-      pieceId: fluteSonata.id,
-      artistId: pahud.id,
-      youtubeUrl: "https://www.youtube.com/watch?v=e1EX51ctiyI",
-    },
-  });
-
-  console.log(`✓ Performances: 3 created`);
-
-  // Create Prokofiev quiz
+  // Create Prokofiev quiz with inline slices
   const prokofievQuiz = await prisma.quiz.create({
     data: {
-      pieceId: fluteSonata.id,
+      composerId: prokofiev.id,
+      pieceName: "Flute Sonata in D major, Op. 94",
       createdById: testUser.id,
       duration: 30,
       slices: {
         create: [
-          { performanceId: flutePerf1.id, startTime: 0 },  // Galway
-          { performanceId: flutePerf2.id, startTime: 5 },  // Rampal
-          { performanceId: flutePerf3.id, startTime: 0 },  // Pahud
+          {
+            artistId: galway.id,
+            youtubeUrl: "https://www.youtube.com/watch?v=hfJ9-HenydQ",
+            startTime: 2
+          },
+          {
+            artistId: rampal.id,
+            youtubeUrl: "https://www.youtube.com/watch?v=qE5EBXceh24",
+            startTime: 5
+          },
+          {
+            artistId: pahud.id,
+            youtubeUrl: "https://www.youtube.com/watch?v=e1EX51ctiyI",
+            startTime: 0
+          },
         ],
       },
     },
     include: {
-      piece: { include: { composer: true } },
-      slices: { include: { performance: { include: { artist: true } } } },
+      composer: true,
+      slices: { include: { artist: true } },
     },
   });
 
   console.log(`\n✅ Prokofiev Quiz created!`);
   console.log(`   ID: ${prokofievQuiz.id}`);
-  console.log(`   Piece: ${prokofievQuiz.piece.composer.name} - ${prokofievQuiz.piece.name}`);
+  console.log(`   Piece: ${prokofievQuiz.composer.name} - ${prokofievQuiz.pieceName}`);
   console.log(`   Duration: ${prokofievQuiz.duration}s`);
   console.log(`   Slices:`);
   prokofievQuiz.slices.forEach((slice, i) => {
-    console.log(`     ${i + 1}. ${slice.performance.artist.name} (start: ${slice.startTime}s)`);
+    console.log(`     ${i + 1}. ${slice.artist.name} (start: ${slice.startTime}s)`);
   });
 }
 

@@ -27,26 +27,6 @@ export default function AdminPage() {
             Add performers like Horowitz, Argerich, Lang Lang...
           </p>
         </Link>
-
-        <Link
-          href="/admin/pieces"
-          className="rounded-xl bg-slate-800/50 p-6 transition-all hover:bg-slate-800/70 border border-slate-700/50 hover:border-amber-500/50"
-        >
-          <h2 className="mb-2 text-xl font-semibold text-amber-200">Pieces</h2>
-          <p className="text-slate-400">
-            Add musical works like Moonlight Sonata, Nocturne Op. 9...
-          </p>
-        </Link>
-
-        <Link
-          href="/admin/performances"
-          className="rounded-xl bg-slate-800/50 p-6 transition-all hover:bg-slate-800/70 border border-slate-700/50 hover:border-amber-500/50"
-        >
-          <h2 className="mb-2 text-xl font-semibold text-amber-200">Performances</h2>
-          <p className="text-slate-400">
-            Link YouTube recordings to pieces and artists
-          </p>
-        </Link>
       </div>
     </div>
   );
