@@ -16,6 +16,7 @@ type QuizSlice = {
 export default function CreateQuizPage() {
   const [pieceName, setPieceName] = useState("");
   const [composerId, setComposerId] = useState("");
+  const [instrumentId, setInstrumentId] = useState("");
   const [duration, setDuration] = useState(30);
   const [slices, setSlices] = useState<QuizSlice[]>([
     { artistId: "", youtubeUrl: "", startTime: 0 },
@@ -25,6 +26,7 @@ export default function CreateQuizPage() {
   const [showSuccess, setShowSuccess] = useState(false);
 
   const { data: composers, isLoading: composersLoading } = api.composer.getAll.useQuery();
+  const { data: instruments, isLoading: instrumentsLoading } = api.instrument.getAll.useQuery();
   const { data: artists, isLoading: artistsLoading, refetch: refetchArtists } = api.artist.getAll.useQuery();
 
   const createComposer = api.composer.create.useMutation({
@@ -33,6 +35,15 @@ export default function CreateQuizPage() {
     },
     onError: (error) => {
       alert(error.message || "Failed to create composer");
+    },
+  });
+
+  const createInstrument = api.instrument.create.useMutation({
+    onSuccess: async () => {
+      // Refetch is automatic with tRPC
+    },
+    onError: (error) => {
+      alert(error.message || "Failed to create instrument");
     },
   });
 
@@ -63,6 +74,7 @@ export default function CreateQuizPage() {
   const isFormValid = () => {
     if (!pieceName.trim()) return false;
     if (!composerId) return false;
+    if (!instrumentId) return false;
     if (duration < 5 || duration > 120) return false;
     
     return slices.every(
@@ -75,6 +87,7 @@ export default function CreateQuizPage() {
     
     createQuiz.mutate({
       composerId,
+      instrumentId,
       pieceName: pieceName.trim(),
       duration,
       slices,
@@ -84,6 +97,7 @@ export default function CreateQuizPage() {
   const handleReset = () => {
     setPieceName("");
     setComposerId("");
+    setInstrumentId("");
     setDuration(30);
     setSlices([
       { artistId: "", youtubeUrl: "", startTime: 0 },
@@ -176,6 +190,22 @@ export default function CreateQuizPage() {
                 createLabel="Add new composer"
                 onCreate={async (input) => {
                   const result = await createComposer.mutateAsync(input);
+                  return result;
+                }}
+              />
+
+              {/* Instrument */}
+              <SearchableSelect
+                label="Instrument *"
+                items={instruments?.map(i => ({ id: i.id, name: i.name })) ?? []}
+                valueId={instrumentId}
+                onChange={setInstrumentId}
+                placeholder="Search for an instrument..."
+                isLoading={instrumentsLoading}
+                emptyText="No instruments found"
+                createLabel="Add new instrument"
+                onCreate={async (input) => {
+                  const result = await createInstrument.mutateAsync({ name: input.name });
                   return result;
                 }}
               />

@@ -15,6 +15,7 @@ export const quizRouter = createTRPCRouter({
     return ctx.db.quiz.findMany({
       include: {
         composer: true,
+        instrument: true,
         createdBy: { select: { id: true, name: true, image: true } },
         slices: {
           include: {
@@ -33,6 +34,7 @@ export const quizRouter = createTRPCRouter({
         where: { id: input.id },
         include: {
           composer: true,
+          instrument: true,
           createdBy: { select: { id: true, name: true, image: true } },
           slices: {
             include: {
@@ -48,6 +50,7 @@ export const quizRouter = createTRPCRouter({
       where: { createdById: ctx.session.user.id },
       include: {
         composer: true,
+        instrument: true,
         slices: {
           include: {
             artist: true,
@@ -61,6 +64,7 @@ export const quizRouter = createTRPCRouter({
   create: protectedProcedure
     .input(z.object({
       composerId: z.string(),
+      instrumentId: z.string(),
       pieceName: z.string().min(1),
       duration: z.number().int().min(5).max(120).default(30),
       slices: z.array(quizSliceSchema).length(3),
@@ -78,6 +82,7 @@ export const quizRouter = createTRPCRouter({
         },
         include: {
           composer: true,
+          instrument: true,
           slices: {
             include: {
               artist: true,

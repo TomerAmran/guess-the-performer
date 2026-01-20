@@ -1,6 +1,7 @@
 import { postRouter } from "~/server/api/routers/post";
 import { composerRouter } from "~/server/api/routers/composer";
 import { artistRouter } from "~/server/api/routers/artist";
+import { instrumentRouter } from "~/server/api/routers/instrument";
 import { quizRouter } from "~/server/api/routers/quiz";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
@@ -13,6 +14,7 @@ export const appRouter = createTRPCRouter({
   post: postRouter,
   composer: composerRouter,
   artist: artistRouter,
+  instrument: instrumentRouter,
   quiz: quizRouter,
 });
 

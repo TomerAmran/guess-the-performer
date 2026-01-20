@@ -10,6 +10,7 @@ async function main() {
   await prisma.quiz.deleteMany();
   await prisma.artist.deleteMany();
   await prisma.composer.deleteMany();
+  await prisma.instrument.deleteMany();
 
   console.log("✓ Database cleaned\n");
   console.log("🎼 Adding test data...\n");
@@ -28,6 +29,27 @@ async function main() {
   } else {
     console.log(`✓ Using existing test user: ${testUser.name}`);
   }
+
+  // ==================== INSTRUMENTS ====================
+  console.log("\n🎹 Adding classical instruments...\n");
+
+  const piano = await prisma.instrument.create({ data: { name: "Piano" } });
+  const violin = await prisma.instrument.create({ data: { name: "Violin" } });
+  const cello = await prisma.instrument.create({ data: { name: "Cello" } });
+  const flute = await prisma.instrument.create({ data: { name: "Flute" } });
+  const clarinet = await prisma.instrument.create({ data: { name: "Clarinet" } });
+  const oboe = await prisma.instrument.create({ data: { name: "Oboe" } });
+  const trumpet = await prisma.instrument.create({ data: { name: "Trumpet" } });
+  const horn = await prisma.instrument.create({ data: { name: "French Horn" } });
+  const trombone = await prisma.instrument.create({ data: { name: "Trombone" } });
+  const guitar = await prisma.instrument.create({ data: { name: "Guitar" } });
+  const harp = await prisma.instrument.create({ data: { name: "Harp" } });
+  const viola = await prisma.instrument.create({ data: { name: "Viola" } });
+  const bassoon = await prisma.instrument.create({ data: { name: "Bassoon" } });
+  const saxophone = await prisma.instrument.create({ data: { name: "Saxophone" } });
+
+  console.log("✓ Created 14 classical instruments");
+
 
   // ==================== CHOPIN NOCTURNE ====================
 
@@ -68,6 +90,7 @@ async function main() {
   const chopinQuiz = await prisma.quiz.create({
     data: {
       composerId: chopin.id,
+      instrumentId: piano.id,
       pieceName: "Nocturne Op. 9 No. 2",
       createdById: testUser.id,
       duration: 30,
@@ -93,6 +116,7 @@ async function main() {
     },
     include: {
       composer: true,
+      instrument: true,
       slices: { include: { artist: true } },
     },
   });
@@ -100,6 +124,7 @@ async function main() {
   console.log(`\n✅ Chopin Quiz created!`);
   console.log(`   ID: ${chopinQuiz.id}`);
   console.log(`   Piece: ${chopinQuiz.composer.name} - ${chopinQuiz.pieceName}`);
+  console.log(`   Instrument: ${chopinQuiz.instrument.name}`);
   console.log(`   Duration: ${chopinQuiz.duration}s`);
   console.log(`   Slices:`);
   chopinQuiz.slices.forEach((slice, i) => {
@@ -146,6 +171,7 @@ async function main() {
   const prokofievQuiz = await prisma.quiz.create({
     data: {
       composerId: prokofiev.id,
+      instrumentId: flute.id,
       pieceName: "Flute Sonata in D major, Op. 94",
       createdById: testUser.id,
       duration: 30,
@@ -171,6 +197,7 @@ async function main() {
     },
     include: {
       composer: true,
+      instrument: true,
       slices: { include: { artist: true } },
     },
   });
@@ -178,6 +205,7 @@ async function main() {
   console.log(`\n✅ Prokofiev Quiz created!`);
   console.log(`   ID: ${prokofievQuiz.id}`);
   console.log(`   Piece: ${prokofievQuiz.composer.name} - ${prokofievQuiz.pieceName}`);
+  console.log(`   Instrument: ${prokofievQuiz.instrument.name}`);
   console.log(`   Duration: ${prokofievQuiz.duration}s`);
   console.log(`   Slices:`);
   prokofievQuiz.slices.forEach((slice, i) => {
