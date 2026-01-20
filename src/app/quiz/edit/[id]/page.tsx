@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, use } from "react";
+import { useState, useEffect, useRef, use } from "react";
 import Link from "next/link";
 import { api } from "~/trpc/react";
 import { SearchableSelect } from "../../create/_components/SearchableSelect";
@@ -13,7 +13,11 @@ type QuizSlice = { artistId: string; youtubeUrl: string; startTime: number };
 export default function EditQuizPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   
-  const { data: quiz, isLoading: quizLoading } = api.quiz.getById.useQuery({ id });
+  // Disable automatic refetching to prevent form data from being overwritten
+  const { data: quiz, isLoading: quizLoading } = api.quiz.getById.useQuery({ id }, {
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  });
   const { data: composers, isLoading: composersLoading, refetch: refetchComposers } = api.composer.getAll.useQuery();
   const { data: instruments, isLoading: instrumentsLoading, refetch: refetchInstruments } = api.instrument.getAll.useQuery();
   const { data: artists, isLoading: artistsLoading, refetch: refetchArtists } = api.artist.getAll.useQuery();
@@ -24,16 +28,24 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
   const [duration, setDuration] = useState(30);
   const [slices, setSlices] = useState<QuizSlice[]>([{ artistId: "", youtubeUrl: "", startTime: 0 }, { artistId: "", youtubeUrl: "", startTime: 0 }, { artistId: "", youtubeUrl: "", startTime: 0 }]);
   const [showSuccess, setShowSuccess] = useState(false);
+  
+  // Track if form has been initialized to prevent re-initialization on refetch
+  const formInitialized = useRef(false);
 
   const createComposer = api.composer.create.useMutation({ onSuccess: async () => { await refetchComposers(); } });
   const createInstrument = api.instrument.create.useMutation({ onSuccess: async () => { await refetchInstruments(); } });
   const createArtist = api.artist.create.useMutation({ onSuccess: async () => { await refetchArtists(); } });
   const updateQuiz = api.quiz.update.useMutation({ onSuccess: () => { setShowSuccess(true); }, onError: (error) => { alert(error.message || "Failed to update quiz"); } });
 
+  // Only initialize form once when quiz data first loads
   useEffect(() => {
-    if (quiz) {
-      setPieceName(quiz.pieceName); setComposerId(quiz.composerId); setInstrumentId(quiz.instrumentId); setDuration(quiz.duration);
+    if (quiz && !formInitialized.current) {
+      setPieceName(quiz.pieceName); 
+      setComposerId(quiz.composerId); 
+      setInstrumentId(quiz.instrumentId); 
+      setDuration(quiz.duration);
       setSlices(quiz.slices.map(s => ({ artistId: s.artistId, youtubeUrl: s.youtubeUrl, startTime: s.startTime })));
+      formInitialized.current = true;
     }
   }, [quiz]);
 
