@@ -154,7 +154,7 @@ async function main() {
   const galway = await prisma.artist.create({
     data: {
       name: "James Galway",
-      photoUrl: "https://upload.wikimedia.org/wikipedia/commons/8/8e/James_Galway_2015.jpg",
+      photoUrl: "https://upload.wikimedia.org/wikipedia/commons/7/7f/JamesGalway.jpg",
     },
   });
 
@@ -168,7 +168,7 @@ async function main() {
   const pahud = await prisma.artist.create({
     data: {
       name: "Emmanuel Pahud",
-      photoUrl: "https://upload.wikimedia.org/wikipedia/commons/d/db/Emmanuel_Pahud.jpg",
+      photoUrl: "https://upload.wikimedia.org/wikipedia/commons/7/76/Jean_Pierre_Rampal.jpg",
     },
   });
 

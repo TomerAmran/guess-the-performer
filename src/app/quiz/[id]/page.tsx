@@ -20,7 +20,7 @@ type PerformanceSlice = {
 
 // Extract YouTube video ID from URL
 function getYouTubeId(url: string): string | null {
-  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/);
+  const match = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/.exec(url);
   return match?.[1] ?? null;
 }
 
@@ -421,21 +421,15 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                 <div className="flex flex-wrap gap-2">
                   {shuffledArtists.map((artist) => {
                     const isSelected = answers[slice.id] === artist.id;
-                    const isUsedElsewhere =
-                      !isSelected &&
-                      Object.values(answers).includes(artist.id);
 
                     return (
                       <button
                         key={artist.id}
                         onClick={() => handleSelectArtist(slice.id, artist.id)}
-                        disabled={isUsedElsewhere}
                         className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all ${
                           isSelected
                             ? "bg-amber-500 text-black"
-                            : isUsedElsewhere
-                              ? "cursor-not-allowed bg-slate-800 text-slate-600 opacity-50"
-                              : "bg-slate-800 text-white hover:bg-slate-700"
+                            : "bg-slate-800 text-white hover:bg-slate-700"
                         }`}
                       >
                         {artist.photoUrl && (
@@ -457,15 +451,29 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
 
         {/* Submit / Results */}
         <div className="text-center">
-          {!submitted ? (
-            <button
-              onClick={handleSubmit}
-              disabled={Object.keys(answers).length !== 3}
-              className="rounded-lg bg-amber-600 px-8 py-3 font-semibold text-black transition-all hover:bg-amber-500 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              Submit Answers
-            </button>
-          ) : (
+          {!submitted ? (() => {
+            const selectedArtistIds = Object.values(answers);
+            const hasDuplicates = new Set(selectedArtistIds).size !== selectedArtistIds.length;
+            const allSelected = Object.keys(answers).length === 3;
+            const canSubmit = allSelected && !hasDuplicates;
+
+            return (
+              <div>
+                <button
+                  onClick={handleSubmit}
+                  disabled={!canSubmit}
+                  className="rounded-lg bg-amber-600 px-8 py-3 font-semibold text-black transition-all hover:bg-amber-500 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Submit Answers
+                </button>
+                {hasDuplicates && allSelected && (
+                  <p className="mt-2 text-sm text-red-400">
+                    Each recording must have a different artist
+                  </p>
+                )}
+              </div>
+            );
+          })() : (
             <div className="rounded-xl border border-slate-700 bg-slate-800/50 p-6">
               <h2 className="mb-2 font-serif text-2xl font-bold">
                 {score === 3
