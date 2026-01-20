@@ -25,18 +25,6 @@ export default function AdminLayout({
             >
               Artists
             </Link>
-            <Link
-              href="/admin/pieces"
-              className="rounded-lg px-4 py-2 text-slate-300 hover:bg-slate-800 transition-colors"
-            >
-              Pieces
-            </Link>
-            <Link
-              href="/admin/performances"
-              className="rounded-lg px-4 py-2 text-slate-300 hover:bg-slate-800 transition-colors"
-            >
-              Performances
-            </Link>
           </div>
         </div>
       </nav>

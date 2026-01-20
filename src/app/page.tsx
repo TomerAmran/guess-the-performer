@@ -38,7 +38,7 @@ export default async function Home() {
                         {quiz.composer.name} - {quiz.pieceName}
                       </div>
                       <div className="text-sm text-slate-400">
-                        {quiz.slices.length} recordings • {quiz.duration}s clips
+                        {quiz.instrument.name} • {quiz.slices.length} recordings • {quiz.duration}s clips
                       </div>
                     </div>
                     <span className="text-2xl">▶</span>

@@ -175,12 +175,18 @@ exports.Prisma.ArtistScalarFieldEnum = {
   photoUrl: 'photoUrl'
 };
 
+exports.Prisma.InstrumentScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+};
+
 exports.Prisma.QuizScalarFieldEnum = {
   id: 'id',
   pieceName: 'pieceName',
   duration: 'duration',
   createdAt: 'createdAt',
   composerId: 'composerId',
+  instrumentId: 'instrumentId',
   createdById: 'createdById'
 };
 
@@ -211,6 +217,7 @@ exports.Prisma.ModelName = {
   VerificationToken: 'VerificationToken',
   Composer: 'Composer',
   Artist: 'Artist',
+  Instrument: 'Instrument',
   Quiz: 'Quiz',
   QuizSlice: 'QuizSlice'
 };

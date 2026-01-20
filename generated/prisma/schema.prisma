@@ -99,20 +99,32 @@ model Artist {
   @@index([name])
 }
 
+model Instrument {
+  id   String @id @default(cuid())
+  name String
+
+  quizzes Quiz[]
+
+  @@index([name])
+}
+
 model Quiz {
   id        String   @id @default(cuid())
   pieceName String
   duration  Int      @default(30)
   createdAt DateTime @default(now())
 
-  composer    Composer @relation(fields: [composerId], references: [id], onDelete: Cascade)
-  composerId  String
-  createdBy   User     @relation(fields: [createdById], references: [id])
-  createdById String
+  composer     Composer   @relation(fields: [composerId], references: [id], onDelete: Cascade)
+  composerId   String
+  instrument   Instrument @relation(fields: [instrumentId], references: [id], onDelete: Cascade)
+  instrumentId String
+  createdBy    User       @relation(fields: [createdById], references: [id])
+  createdById  String
 
   slices QuizSlice[]
 
   @@index([composerId])
+  @@index([instrumentId])
   @@index([createdById])
 }
 

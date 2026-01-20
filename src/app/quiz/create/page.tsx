@@ -25,13 +25,13 @@ export default function CreateQuizPage() {
   ]);
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const { data: composers, isLoading: composersLoading } = api.composer.getAll.useQuery();
-  const { data: instruments, isLoading: instrumentsLoading } = api.instrument.getAll.useQuery();
+  const { data: composers, isLoading: composersLoading, refetch: refetchComposers } = api.composer.getAll.useQuery();
+  const { data: instruments, isLoading: instrumentsLoading, refetch: refetchInstruments } = api.instrument.getAll.useQuery();
   const { data: artists, isLoading: artistsLoading, refetch: refetchArtists } = api.artist.getAll.useQuery();
 
   const createComposer = api.composer.create.useMutation({
     onSuccess: async () => {
-      // Refetch is automatic with tRPC
+      await refetchComposers();
     },
     onError: (error) => {
       alert(error.message || "Failed to create composer");
@@ -40,7 +40,7 @@ export default function CreateQuizPage() {
 
   const createInstrument = api.instrument.create.useMutation({
     onSuccess: async () => {
-      // Refetch is automatic with tRPC
+      await refetchInstruments();
     },
     onError: (error) => {
       alert(error.message || "Failed to create instrument");

@@ -49,6 +49,11 @@ export type Composer = $Result.DefaultSelection<Prisma.$ComposerPayload>
  */
 export type Artist = $Result.DefaultSelection<Prisma.$ArtistPayload>
 /**
+ * Model Instrument
+ * 
+ */
+export type Instrument = $Result.DefaultSelection<Prisma.$InstrumentPayload>
+/**
  * Model Quiz
  * 
  */
@@ -246,6 +251,16 @@ export class PrismaClient<
     * ```
     */
   get artist(): Prisma.ArtistDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.instrument`: Exposes CRUD operations for the **Instrument** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Instruments
+    * const instruments = await prisma.instrument.findMany()
+    * ```
+    */
+  get instrument(): Prisma.InstrumentDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.quiz`: Exposes CRUD operations for the **Quiz** model.
@@ -714,6 +729,7 @@ export namespace Prisma {
     VerificationToken: 'VerificationToken',
     Composer: 'Composer',
     Artist: 'Artist',
+    Instrument: 'Instrument',
     Quiz: 'Quiz',
     QuizSlice: 'QuizSlice'
   };
@@ -734,7 +750,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "post" | "account" | "session" | "user" | "verificationToken" | "composer" | "artist" | "quiz" | "quizSlice"
+      modelProps: "post" | "account" | "session" | "user" | "verificationToken" | "composer" | "artist" | "instrument" | "quiz" | "quizSlice"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1256,6 +1272,80 @@ export namespace Prisma {
           }
         }
       }
+      Instrument: {
+        payload: Prisma.$InstrumentPayload<ExtArgs>
+        fields: Prisma.InstrumentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InstrumentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstrumentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InstrumentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstrumentPayload>
+          }
+          findFirst: {
+            args: Prisma.InstrumentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstrumentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InstrumentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstrumentPayload>
+          }
+          findMany: {
+            args: Prisma.InstrumentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstrumentPayload>[]
+          }
+          create: {
+            args: Prisma.InstrumentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstrumentPayload>
+          }
+          createMany: {
+            args: Prisma.InstrumentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InstrumentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstrumentPayload>[]
+          }
+          delete: {
+            args: Prisma.InstrumentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstrumentPayload>
+          }
+          update: {
+            args: Prisma.InstrumentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstrumentPayload>
+          }
+          deleteMany: {
+            args: Prisma.InstrumentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InstrumentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.InstrumentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstrumentPayload>[]
+          }
+          upsert: {
+            args: Prisma.InstrumentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstrumentPayload>
+          }
+          aggregate: {
+            args: Prisma.InstrumentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInstrument>
+          }
+          groupBy: {
+            args: Prisma.InstrumentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InstrumentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InstrumentCountArgs<ExtArgs>
+            result: $Utils.Optional<InstrumentCountAggregateOutputType> | number
+          }
+        }
+      }
       Quiz: {
         payload: Prisma.$QuizPayload<ExtArgs>
         fields: Prisma.QuizFieldRefs
@@ -1507,6 +1597,7 @@ export namespace Prisma {
     verificationToken?: VerificationTokenOmit
     composer?: ComposerOmit
     artist?: ArtistOmit
+    instrument?: InstrumentOmit
     quiz?: QuizOmit
     quizSlice?: QuizSliceOmit
   }
@@ -1701,6 +1792,37 @@ export namespace Prisma {
    */
   export type ArtistCountOutputTypeCountQuizSlicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: QuizSliceWhereInput
+  }
+
+
+  /**
+   * Count Type InstrumentCountOutputType
+   */
+
+  export type InstrumentCountOutputType = {
+    quizzes: number
+  }
+
+  export type InstrumentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    quizzes?: boolean | InstrumentCountOutputTypeCountQuizzesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * InstrumentCountOutputType without action
+   */
+  export type InstrumentCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstrumentCountOutputType
+     */
+    select?: InstrumentCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * InstrumentCountOutputType without action
+   */
+  export type InstrumentCountOutputTypeCountQuizzesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuizWhereInput
   }
 
 
@@ -9274,6 +9396,1035 @@ export namespace Prisma {
 
 
   /**
+   * Model Instrument
+   */
+
+  export type AggregateInstrument = {
+    _count: InstrumentCountAggregateOutputType | null
+    _min: InstrumentMinAggregateOutputType | null
+    _max: InstrumentMaxAggregateOutputType | null
+  }
+
+  export type InstrumentMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+  }
+
+  export type InstrumentMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+  }
+
+  export type InstrumentCountAggregateOutputType = {
+    id: number
+    name: number
+    _all: number
+  }
+
+
+  export type InstrumentMinAggregateInputType = {
+    id?: true
+    name?: true
+  }
+
+  export type InstrumentMaxAggregateInputType = {
+    id?: true
+    name?: true
+  }
+
+  export type InstrumentCountAggregateInputType = {
+    id?: true
+    name?: true
+    _all?: true
+  }
+
+  export type InstrumentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Instrument to aggregate.
+     */
+    where?: InstrumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Instruments to fetch.
+     */
+    orderBy?: InstrumentOrderByWithRelationInput | InstrumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InstrumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Instruments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Instruments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Instruments
+    **/
+    _count?: true | InstrumentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InstrumentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InstrumentMaxAggregateInputType
+  }
+
+  export type GetInstrumentAggregateType<T extends InstrumentAggregateArgs> = {
+        [P in keyof T & keyof AggregateInstrument]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInstrument[P]>
+      : GetScalarType<T[P], AggregateInstrument[P]>
+  }
+
+
+
+
+  export type InstrumentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InstrumentWhereInput
+    orderBy?: InstrumentOrderByWithAggregationInput | InstrumentOrderByWithAggregationInput[]
+    by: InstrumentScalarFieldEnum[] | InstrumentScalarFieldEnum
+    having?: InstrumentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InstrumentCountAggregateInputType | true
+    _min?: InstrumentMinAggregateInputType
+    _max?: InstrumentMaxAggregateInputType
+  }
+
+  export type InstrumentGroupByOutputType = {
+    id: string
+    name: string
+    _count: InstrumentCountAggregateOutputType | null
+    _min: InstrumentMinAggregateOutputType | null
+    _max: InstrumentMaxAggregateOutputType | null
+  }
+
+  type GetInstrumentGroupByPayload<T extends InstrumentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InstrumentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InstrumentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InstrumentGroupByOutputType[P]>
+            : GetScalarType<T[P], InstrumentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InstrumentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    quizzes?: boolean | Instrument$quizzesArgs<ExtArgs>
+    _count?: boolean | InstrumentCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["instrument"]>
+
+  export type InstrumentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+  }, ExtArgs["result"]["instrument"]>
+
+  export type InstrumentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+  }, ExtArgs["result"]["instrument"]>
+
+  export type InstrumentSelectScalar = {
+    id?: boolean
+    name?: boolean
+  }
+
+  export type InstrumentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name", ExtArgs["result"]["instrument"]>
+  export type InstrumentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    quizzes?: boolean | Instrument$quizzesArgs<ExtArgs>
+    _count?: boolean | InstrumentCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type InstrumentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type InstrumentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $InstrumentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Instrument"
+    objects: {
+      quizzes: Prisma.$QuizPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+    }, ExtArgs["result"]["instrument"]>
+    composites: {}
+  }
+
+  type InstrumentGetPayload<S extends boolean | null | undefined | InstrumentDefaultArgs> = $Result.GetResult<Prisma.$InstrumentPayload, S>
+
+  type InstrumentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InstrumentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InstrumentCountAggregateInputType | true
+    }
+
+  export interface InstrumentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Instrument'], meta: { name: 'Instrument' } }
+    /**
+     * Find zero or one Instrument that matches the filter.
+     * @param {InstrumentFindUniqueArgs} args - Arguments to find a Instrument
+     * @example
+     * // Get one Instrument
+     * const instrument = await prisma.instrument.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InstrumentFindUniqueArgs>(args: SelectSubset<T, InstrumentFindUniqueArgs<ExtArgs>>): Prisma__InstrumentClient<$Result.GetResult<Prisma.$InstrumentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Instrument that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InstrumentFindUniqueOrThrowArgs} args - Arguments to find a Instrument
+     * @example
+     * // Get one Instrument
+     * const instrument = await prisma.instrument.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InstrumentFindUniqueOrThrowArgs>(args: SelectSubset<T, InstrumentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InstrumentClient<$Result.GetResult<Prisma.$InstrumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Instrument that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstrumentFindFirstArgs} args - Arguments to find a Instrument
+     * @example
+     * // Get one Instrument
+     * const instrument = await prisma.instrument.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InstrumentFindFirstArgs>(args?: SelectSubset<T, InstrumentFindFirstArgs<ExtArgs>>): Prisma__InstrumentClient<$Result.GetResult<Prisma.$InstrumentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Instrument that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstrumentFindFirstOrThrowArgs} args - Arguments to find a Instrument
+     * @example
+     * // Get one Instrument
+     * const instrument = await prisma.instrument.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InstrumentFindFirstOrThrowArgs>(args?: SelectSubset<T, InstrumentFindFirstOrThrowArgs<ExtArgs>>): Prisma__InstrumentClient<$Result.GetResult<Prisma.$InstrumentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Instruments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstrumentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Instruments
+     * const instruments = await prisma.instrument.findMany()
+     * 
+     * // Get first 10 Instruments
+     * const instruments = await prisma.instrument.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const instrumentWithIdOnly = await prisma.instrument.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InstrumentFindManyArgs>(args?: SelectSubset<T, InstrumentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstrumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Instrument.
+     * @param {InstrumentCreateArgs} args - Arguments to create a Instrument.
+     * @example
+     * // Create one Instrument
+     * const Instrument = await prisma.instrument.create({
+     *   data: {
+     *     // ... data to create a Instrument
+     *   }
+     * })
+     * 
+     */
+    create<T extends InstrumentCreateArgs>(args: SelectSubset<T, InstrumentCreateArgs<ExtArgs>>): Prisma__InstrumentClient<$Result.GetResult<Prisma.$InstrumentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Instruments.
+     * @param {InstrumentCreateManyArgs} args - Arguments to create many Instruments.
+     * @example
+     * // Create many Instruments
+     * const instrument = await prisma.instrument.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InstrumentCreateManyArgs>(args?: SelectSubset<T, InstrumentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Instruments and returns the data saved in the database.
+     * @param {InstrumentCreateManyAndReturnArgs} args - Arguments to create many Instruments.
+     * @example
+     * // Create many Instruments
+     * const instrument = await prisma.instrument.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Instruments and only return the `id`
+     * const instrumentWithIdOnly = await prisma.instrument.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InstrumentCreateManyAndReturnArgs>(args?: SelectSubset<T, InstrumentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstrumentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Instrument.
+     * @param {InstrumentDeleteArgs} args - Arguments to delete one Instrument.
+     * @example
+     * // Delete one Instrument
+     * const Instrument = await prisma.instrument.delete({
+     *   where: {
+     *     // ... filter to delete one Instrument
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InstrumentDeleteArgs>(args: SelectSubset<T, InstrumentDeleteArgs<ExtArgs>>): Prisma__InstrumentClient<$Result.GetResult<Prisma.$InstrumentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Instrument.
+     * @param {InstrumentUpdateArgs} args - Arguments to update one Instrument.
+     * @example
+     * // Update one Instrument
+     * const instrument = await prisma.instrument.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InstrumentUpdateArgs>(args: SelectSubset<T, InstrumentUpdateArgs<ExtArgs>>): Prisma__InstrumentClient<$Result.GetResult<Prisma.$InstrumentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Instruments.
+     * @param {InstrumentDeleteManyArgs} args - Arguments to filter Instruments to delete.
+     * @example
+     * // Delete a few Instruments
+     * const { count } = await prisma.instrument.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InstrumentDeleteManyArgs>(args?: SelectSubset<T, InstrumentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Instruments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstrumentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Instruments
+     * const instrument = await prisma.instrument.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InstrumentUpdateManyArgs>(args: SelectSubset<T, InstrumentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Instruments and returns the data updated in the database.
+     * @param {InstrumentUpdateManyAndReturnArgs} args - Arguments to update many Instruments.
+     * @example
+     * // Update many Instruments
+     * const instrument = await prisma.instrument.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Instruments and only return the `id`
+     * const instrumentWithIdOnly = await prisma.instrument.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends InstrumentUpdateManyAndReturnArgs>(args: SelectSubset<T, InstrumentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstrumentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Instrument.
+     * @param {InstrumentUpsertArgs} args - Arguments to update or create a Instrument.
+     * @example
+     * // Update or create a Instrument
+     * const instrument = await prisma.instrument.upsert({
+     *   create: {
+     *     // ... data to create a Instrument
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Instrument we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InstrumentUpsertArgs>(args: SelectSubset<T, InstrumentUpsertArgs<ExtArgs>>): Prisma__InstrumentClient<$Result.GetResult<Prisma.$InstrumentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Instruments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstrumentCountArgs} args - Arguments to filter Instruments to count.
+     * @example
+     * // Count the number of Instruments
+     * const count = await prisma.instrument.count({
+     *   where: {
+     *     // ... the filter for the Instruments we want to count
+     *   }
+     * })
+    **/
+    count<T extends InstrumentCountArgs>(
+      args?: Subset<T, InstrumentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InstrumentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Instrument.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstrumentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InstrumentAggregateArgs>(args: Subset<T, InstrumentAggregateArgs>): Prisma.PrismaPromise<GetInstrumentAggregateType<T>>
+
+    /**
+     * Group by Instrument.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstrumentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InstrumentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InstrumentGroupByArgs['orderBy'] }
+        : { orderBy?: InstrumentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InstrumentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInstrumentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Instrument model
+   */
+  readonly fields: InstrumentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Instrument.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InstrumentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    quizzes<T extends Instrument$quizzesArgs<ExtArgs> = {}>(args?: Subset<T, Instrument$quizzesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Instrument model
+   */
+  interface InstrumentFieldRefs {
+    readonly id: FieldRef<"Instrument", 'String'>
+    readonly name: FieldRef<"Instrument", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Instrument findUnique
+   */
+  export type InstrumentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Instrument
+     */
+    select?: InstrumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Instrument
+     */
+    omit?: InstrumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstrumentInclude<ExtArgs> | null
+    /**
+     * Filter, which Instrument to fetch.
+     */
+    where: InstrumentWhereUniqueInput
+  }
+
+  /**
+   * Instrument findUniqueOrThrow
+   */
+  export type InstrumentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Instrument
+     */
+    select?: InstrumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Instrument
+     */
+    omit?: InstrumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstrumentInclude<ExtArgs> | null
+    /**
+     * Filter, which Instrument to fetch.
+     */
+    where: InstrumentWhereUniqueInput
+  }
+
+  /**
+   * Instrument findFirst
+   */
+  export type InstrumentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Instrument
+     */
+    select?: InstrumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Instrument
+     */
+    omit?: InstrumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstrumentInclude<ExtArgs> | null
+    /**
+     * Filter, which Instrument to fetch.
+     */
+    where?: InstrumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Instruments to fetch.
+     */
+    orderBy?: InstrumentOrderByWithRelationInput | InstrumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Instruments.
+     */
+    cursor?: InstrumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Instruments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Instruments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Instruments.
+     */
+    distinct?: InstrumentScalarFieldEnum | InstrumentScalarFieldEnum[]
+  }
+
+  /**
+   * Instrument findFirstOrThrow
+   */
+  export type InstrumentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Instrument
+     */
+    select?: InstrumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Instrument
+     */
+    omit?: InstrumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstrumentInclude<ExtArgs> | null
+    /**
+     * Filter, which Instrument to fetch.
+     */
+    where?: InstrumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Instruments to fetch.
+     */
+    orderBy?: InstrumentOrderByWithRelationInput | InstrumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Instruments.
+     */
+    cursor?: InstrumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Instruments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Instruments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Instruments.
+     */
+    distinct?: InstrumentScalarFieldEnum | InstrumentScalarFieldEnum[]
+  }
+
+  /**
+   * Instrument findMany
+   */
+  export type InstrumentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Instrument
+     */
+    select?: InstrumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Instrument
+     */
+    omit?: InstrumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstrumentInclude<ExtArgs> | null
+    /**
+     * Filter, which Instruments to fetch.
+     */
+    where?: InstrumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Instruments to fetch.
+     */
+    orderBy?: InstrumentOrderByWithRelationInput | InstrumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Instruments.
+     */
+    cursor?: InstrumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Instruments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Instruments.
+     */
+    skip?: number
+    distinct?: InstrumentScalarFieldEnum | InstrumentScalarFieldEnum[]
+  }
+
+  /**
+   * Instrument create
+   */
+  export type InstrumentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Instrument
+     */
+    select?: InstrumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Instrument
+     */
+    omit?: InstrumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstrumentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Instrument.
+     */
+    data: XOR<InstrumentCreateInput, InstrumentUncheckedCreateInput>
+  }
+
+  /**
+   * Instrument createMany
+   */
+  export type InstrumentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Instruments.
+     */
+    data: InstrumentCreateManyInput | InstrumentCreateManyInput[]
+  }
+
+  /**
+   * Instrument createManyAndReturn
+   */
+  export type InstrumentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Instrument
+     */
+    select?: InstrumentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Instrument
+     */
+    omit?: InstrumentOmit<ExtArgs> | null
+    /**
+     * The data used to create many Instruments.
+     */
+    data: InstrumentCreateManyInput | InstrumentCreateManyInput[]
+  }
+
+  /**
+   * Instrument update
+   */
+  export type InstrumentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Instrument
+     */
+    select?: InstrumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Instrument
+     */
+    omit?: InstrumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstrumentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Instrument.
+     */
+    data: XOR<InstrumentUpdateInput, InstrumentUncheckedUpdateInput>
+    /**
+     * Choose, which Instrument to update.
+     */
+    where: InstrumentWhereUniqueInput
+  }
+
+  /**
+   * Instrument updateMany
+   */
+  export type InstrumentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Instruments.
+     */
+    data: XOR<InstrumentUpdateManyMutationInput, InstrumentUncheckedUpdateManyInput>
+    /**
+     * Filter which Instruments to update
+     */
+    where?: InstrumentWhereInput
+    /**
+     * Limit how many Instruments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Instrument updateManyAndReturn
+   */
+  export type InstrumentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Instrument
+     */
+    select?: InstrumentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Instrument
+     */
+    omit?: InstrumentOmit<ExtArgs> | null
+    /**
+     * The data used to update Instruments.
+     */
+    data: XOR<InstrumentUpdateManyMutationInput, InstrumentUncheckedUpdateManyInput>
+    /**
+     * Filter which Instruments to update
+     */
+    where?: InstrumentWhereInput
+    /**
+     * Limit how many Instruments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Instrument upsert
+   */
+  export type InstrumentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Instrument
+     */
+    select?: InstrumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Instrument
+     */
+    omit?: InstrumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstrumentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Instrument to update in case it exists.
+     */
+    where: InstrumentWhereUniqueInput
+    /**
+     * In case the Instrument found by the `where` argument doesn't exist, create a new Instrument with this data.
+     */
+    create: XOR<InstrumentCreateInput, InstrumentUncheckedCreateInput>
+    /**
+     * In case the Instrument was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InstrumentUpdateInput, InstrumentUncheckedUpdateInput>
+  }
+
+  /**
+   * Instrument delete
+   */
+  export type InstrumentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Instrument
+     */
+    select?: InstrumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Instrument
+     */
+    omit?: InstrumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstrumentInclude<ExtArgs> | null
+    /**
+     * Filter which Instrument to delete.
+     */
+    where: InstrumentWhereUniqueInput
+  }
+
+  /**
+   * Instrument deleteMany
+   */
+  export type InstrumentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Instruments to delete
+     */
+    where?: InstrumentWhereInput
+    /**
+     * Limit how many Instruments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Instrument.quizzes
+   */
+  export type Instrument$quizzesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quiz
+     */
+    select?: QuizSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quiz
+     */
+    omit?: QuizOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizInclude<ExtArgs> | null
+    where?: QuizWhereInput
+    orderBy?: QuizOrderByWithRelationInput | QuizOrderByWithRelationInput[]
+    cursor?: QuizWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QuizScalarFieldEnum | QuizScalarFieldEnum[]
+  }
+
+  /**
+   * Instrument without action
+   */
+  export type InstrumentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Instrument
+     */
+    select?: InstrumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Instrument
+     */
+    omit?: InstrumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstrumentInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Quiz
    */
 
@@ -9299,6 +10450,7 @@ export namespace Prisma {
     duration: number | null
     createdAt: Date | null
     composerId: string | null
+    instrumentId: string | null
     createdById: string | null
   }
 
@@ -9308,6 +10460,7 @@ export namespace Prisma {
     duration: number | null
     createdAt: Date | null
     composerId: string | null
+    instrumentId: string | null
     createdById: string | null
   }
 
@@ -9317,6 +10470,7 @@ export namespace Prisma {
     duration: number
     createdAt: number
     composerId: number
+    instrumentId: number
     createdById: number
     _all: number
   }
@@ -9336,6 +10490,7 @@ export namespace Prisma {
     duration?: true
     createdAt?: true
     composerId?: true
+    instrumentId?: true
     createdById?: true
   }
 
@@ -9345,6 +10500,7 @@ export namespace Prisma {
     duration?: true
     createdAt?: true
     composerId?: true
+    instrumentId?: true
     createdById?: true
   }
 
@@ -9354,6 +10510,7 @@ export namespace Prisma {
     duration?: true
     createdAt?: true
     composerId?: true
+    instrumentId?: true
     createdById?: true
     _all?: true
   }
@@ -9450,6 +10607,7 @@ export namespace Prisma {
     duration: number
     createdAt: Date
     composerId: string
+    instrumentId: string
     createdById: string
     _count: QuizCountAggregateOutputType | null
     _avg: QuizAvgAggregateOutputType | null
@@ -9478,8 +10636,10 @@ export namespace Prisma {
     duration?: boolean
     createdAt?: boolean
     composerId?: boolean
+    instrumentId?: boolean
     createdById?: boolean
     composer?: boolean | ComposerDefaultArgs<ExtArgs>
+    instrument?: boolean | InstrumentDefaultArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
     slices?: boolean | Quiz$slicesArgs<ExtArgs>
     _count?: boolean | QuizCountOutputTypeDefaultArgs<ExtArgs>
@@ -9491,8 +10651,10 @@ export namespace Prisma {
     duration?: boolean
     createdAt?: boolean
     composerId?: boolean
+    instrumentId?: boolean
     createdById?: boolean
     composer?: boolean | ComposerDefaultArgs<ExtArgs>
+    instrument?: boolean | InstrumentDefaultArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["quiz"]>
 
@@ -9502,8 +10664,10 @@ export namespace Prisma {
     duration?: boolean
     createdAt?: boolean
     composerId?: boolean
+    instrumentId?: boolean
     createdById?: boolean
     composer?: boolean | ComposerDefaultArgs<ExtArgs>
+    instrument?: boolean | InstrumentDefaultArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["quiz"]>
 
@@ -9513,22 +10677,26 @@ export namespace Prisma {
     duration?: boolean
     createdAt?: boolean
     composerId?: boolean
+    instrumentId?: boolean
     createdById?: boolean
   }
 
-  export type QuizOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "pieceName" | "duration" | "createdAt" | "composerId" | "createdById", ExtArgs["result"]["quiz"]>
+  export type QuizOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "pieceName" | "duration" | "createdAt" | "composerId" | "instrumentId" | "createdById", ExtArgs["result"]["quiz"]>
   export type QuizInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     composer?: boolean | ComposerDefaultArgs<ExtArgs>
+    instrument?: boolean | InstrumentDefaultArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
     slices?: boolean | Quiz$slicesArgs<ExtArgs>
     _count?: boolean | QuizCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type QuizIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     composer?: boolean | ComposerDefaultArgs<ExtArgs>
+    instrument?: boolean | InstrumentDefaultArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type QuizIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     composer?: boolean | ComposerDefaultArgs<ExtArgs>
+    instrument?: boolean | InstrumentDefaultArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
   }
 
@@ -9536,6 +10704,7 @@ export namespace Prisma {
     name: "Quiz"
     objects: {
       composer: Prisma.$ComposerPayload<ExtArgs>
+      instrument: Prisma.$InstrumentPayload<ExtArgs>
       createdBy: Prisma.$UserPayload<ExtArgs>
       slices: Prisma.$QuizSlicePayload<ExtArgs>[]
     }
@@ -9545,6 +10714,7 @@ export namespace Prisma {
       duration: number
       createdAt: Date
       composerId: string
+      instrumentId: string
       createdById: string
     }, ExtArgs["result"]["quiz"]>
     composites: {}
@@ -9941,6 +11111,7 @@ export namespace Prisma {
   export interface Prisma__QuizClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     composer<T extends ComposerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ComposerDefaultArgs<ExtArgs>>): Prisma__ComposerClient<$Result.GetResult<Prisma.$ComposerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    instrument<T extends InstrumentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InstrumentDefaultArgs<ExtArgs>>): Prisma__InstrumentClient<$Result.GetResult<Prisma.$InstrumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     createdBy<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     slices<T extends Quiz$slicesArgs<ExtArgs> = {}>(args?: Subset<T, Quiz$slicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizSlicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -9977,6 +11148,7 @@ export namespace Prisma {
     readonly duration: FieldRef<"Quiz", 'Int'>
     readonly createdAt: FieldRef<"Quiz", 'DateTime'>
     readonly composerId: FieldRef<"Quiz", 'String'>
+    readonly instrumentId: FieldRef<"Quiz", 'String'>
     readonly createdById: FieldRef<"Quiz", 'String'>
   }
     
@@ -11601,12 +12773,21 @@ export namespace Prisma {
   export type ArtistScalarFieldEnum = (typeof ArtistScalarFieldEnum)[keyof typeof ArtistScalarFieldEnum]
 
 
+  export const InstrumentScalarFieldEnum: {
+    id: 'id',
+    name: 'name'
+  };
+
+  export type InstrumentScalarFieldEnum = (typeof InstrumentScalarFieldEnum)[keyof typeof InstrumentScalarFieldEnum]
+
+
   export const QuizScalarFieldEnum: {
     id: 'id',
     pieceName: 'pieceName',
     duration: 'duration',
     createdAt: 'createdAt',
     composerId: 'composerId',
+    instrumentId: 'instrumentId',
     createdById: 'createdById'
   };
 
@@ -12078,6 +13259,46 @@ export namespace Prisma {
     photoUrl?: StringNullableWithAggregatesFilter<"Artist"> | string | null
   }
 
+  export type InstrumentWhereInput = {
+    AND?: InstrumentWhereInput | InstrumentWhereInput[]
+    OR?: InstrumentWhereInput[]
+    NOT?: InstrumentWhereInput | InstrumentWhereInput[]
+    id?: StringFilter<"Instrument"> | string
+    name?: StringFilter<"Instrument"> | string
+    quizzes?: QuizListRelationFilter
+  }
+
+  export type InstrumentOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    quizzes?: QuizOrderByRelationAggregateInput
+  }
+
+  export type InstrumentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: InstrumentWhereInput | InstrumentWhereInput[]
+    OR?: InstrumentWhereInput[]
+    NOT?: InstrumentWhereInput | InstrumentWhereInput[]
+    name?: StringFilter<"Instrument"> | string
+    quizzes?: QuizListRelationFilter
+  }, "id">
+
+  export type InstrumentOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    _count?: InstrumentCountOrderByAggregateInput
+    _max?: InstrumentMaxOrderByAggregateInput
+    _min?: InstrumentMinOrderByAggregateInput
+  }
+
+  export type InstrumentScalarWhereWithAggregatesInput = {
+    AND?: InstrumentScalarWhereWithAggregatesInput | InstrumentScalarWhereWithAggregatesInput[]
+    OR?: InstrumentScalarWhereWithAggregatesInput[]
+    NOT?: InstrumentScalarWhereWithAggregatesInput | InstrumentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Instrument"> | string
+    name?: StringWithAggregatesFilter<"Instrument"> | string
+  }
+
   export type QuizWhereInput = {
     AND?: QuizWhereInput | QuizWhereInput[]
     OR?: QuizWhereInput[]
@@ -12087,8 +13308,10 @@ export namespace Prisma {
     duration?: IntFilter<"Quiz"> | number
     createdAt?: DateTimeFilter<"Quiz"> | Date | string
     composerId?: StringFilter<"Quiz"> | string
+    instrumentId?: StringFilter<"Quiz"> | string
     createdById?: StringFilter<"Quiz"> | string
     composer?: XOR<ComposerScalarRelationFilter, ComposerWhereInput>
+    instrument?: XOR<InstrumentScalarRelationFilter, InstrumentWhereInput>
     createdBy?: XOR<UserScalarRelationFilter, UserWhereInput>
     slices?: QuizSliceListRelationFilter
   }
@@ -12099,8 +13322,10 @@ export namespace Prisma {
     duration?: SortOrder
     createdAt?: SortOrder
     composerId?: SortOrder
+    instrumentId?: SortOrder
     createdById?: SortOrder
     composer?: ComposerOrderByWithRelationInput
+    instrument?: InstrumentOrderByWithRelationInput
     createdBy?: UserOrderByWithRelationInput
     slices?: QuizSliceOrderByRelationAggregateInput
   }
@@ -12114,8 +13339,10 @@ export namespace Prisma {
     duration?: IntFilter<"Quiz"> | number
     createdAt?: DateTimeFilter<"Quiz"> | Date | string
     composerId?: StringFilter<"Quiz"> | string
+    instrumentId?: StringFilter<"Quiz"> | string
     createdById?: StringFilter<"Quiz"> | string
     composer?: XOR<ComposerScalarRelationFilter, ComposerWhereInput>
+    instrument?: XOR<InstrumentScalarRelationFilter, InstrumentWhereInput>
     createdBy?: XOR<UserScalarRelationFilter, UserWhereInput>
     slices?: QuizSliceListRelationFilter
   }, "id">
@@ -12126,6 +13353,7 @@ export namespace Prisma {
     duration?: SortOrder
     createdAt?: SortOrder
     composerId?: SortOrder
+    instrumentId?: SortOrder
     createdById?: SortOrder
     _count?: QuizCountOrderByAggregateInput
     _avg?: QuizAvgOrderByAggregateInput
@@ -12143,6 +13371,7 @@ export namespace Prisma {
     duration?: IntWithAggregatesFilter<"Quiz"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Quiz"> | Date | string
     composerId?: StringWithAggregatesFilter<"Quiz"> | string
+    instrumentId?: StringWithAggregatesFilter<"Quiz"> | string
     createdById?: StringWithAggregatesFilter<"Quiz"> | string
   }
 
@@ -12623,12 +13852,52 @@ export namespace Prisma {
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type InstrumentCreateInput = {
+    id?: string
+    name: string
+    quizzes?: QuizCreateNestedManyWithoutInstrumentInput
+  }
+
+  export type InstrumentUncheckedCreateInput = {
+    id?: string
+    name: string
+    quizzes?: QuizUncheckedCreateNestedManyWithoutInstrumentInput
+  }
+
+  export type InstrumentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    quizzes?: QuizUpdateManyWithoutInstrumentNestedInput
+  }
+
+  export type InstrumentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    quizzes?: QuizUncheckedUpdateManyWithoutInstrumentNestedInput
+  }
+
+  export type InstrumentCreateManyInput = {
+    id?: string
+    name: string
+  }
+
+  export type InstrumentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type InstrumentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
   export type QuizCreateInput = {
     id?: string
     pieceName: string
     duration?: number
     createdAt?: Date | string
     composer: ComposerCreateNestedOneWithoutQuizzesInput
+    instrument: InstrumentCreateNestedOneWithoutQuizzesInput
     createdBy: UserCreateNestedOneWithoutQuizzesInput
     slices?: QuizSliceCreateNestedManyWithoutQuizInput
   }
@@ -12639,6 +13908,7 @@ export namespace Prisma {
     duration?: number
     createdAt?: Date | string
     composerId: string
+    instrumentId: string
     createdById: string
     slices?: QuizSliceUncheckedCreateNestedManyWithoutQuizInput
   }
@@ -12649,6 +13919,7 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     composer?: ComposerUpdateOneRequiredWithoutQuizzesNestedInput
+    instrument?: InstrumentUpdateOneRequiredWithoutQuizzesNestedInput
     createdBy?: UserUpdateOneRequiredWithoutQuizzesNestedInput
     slices?: QuizSliceUpdateManyWithoutQuizNestedInput
   }
@@ -12659,6 +13930,7 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     composerId?: StringFieldUpdateOperationsInput | string
+    instrumentId?: StringFieldUpdateOperationsInput | string
     createdById?: StringFieldUpdateOperationsInput | string
     slices?: QuizSliceUncheckedUpdateManyWithoutQuizNestedInput
   }
@@ -12669,6 +13941,7 @@ export namespace Prisma {
     duration?: number
     createdAt?: Date | string
     composerId: string
+    instrumentId: string
     createdById: string
   }
 
@@ -12685,6 +13958,7 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     composerId?: StringFieldUpdateOperationsInput | string
+    instrumentId?: StringFieldUpdateOperationsInput | string
     createdById?: StringFieldUpdateOperationsInput | string
   }
 
@@ -13167,9 +14441,29 @@ export namespace Prisma {
     photoUrl?: SortOrder
   }
 
+  export type InstrumentCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+  }
+
+  export type InstrumentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+  }
+
+  export type InstrumentMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+  }
+
   export type ComposerScalarRelationFilter = {
     is?: ComposerWhereInput
     isNot?: ComposerWhereInput
+  }
+
+  export type InstrumentScalarRelationFilter = {
+    is?: InstrumentWhereInput
+    isNot?: InstrumentWhereInput
   }
 
   export type QuizCountOrderByAggregateInput = {
@@ -13178,6 +14472,7 @@ export namespace Prisma {
     duration?: SortOrder
     createdAt?: SortOrder
     composerId?: SortOrder
+    instrumentId?: SortOrder
     createdById?: SortOrder
   }
 
@@ -13191,6 +14486,7 @@ export namespace Prisma {
     duration?: SortOrder
     createdAt?: SortOrder
     composerId?: SortOrder
+    instrumentId?: SortOrder
     createdById?: SortOrder
   }
 
@@ -13200,6 +14496,7 @@ export namespace Prisma {
     duration?: SortOrder
     createdAt?: SortOrder
     composerId?: SortOrder
+    instrumentId?: SortOrder
     createdById?: SortOrder
   }
 
@@ -13575,10 +14872,58 @@ export namespace Prisma {
     deleteMany?: QuizSliceScalarWhereInput | QuizSliceScalarWhereInput[]
   }
 
+  export type QuizCreateNestedManyWithoutInstrumentInput = {
+    create?: XOR<QuizCreateWithoutInstrumentInput, QuizUncheckedCreateWithoutInstrumentInput> | QuizCreateWithoutInstrumentInput[] | QuizUncheckedCreateWithoutInstrumentInput[]
+    connectOrCreate?: QuizCreateOrConnectWithoutInstrumentInput | QuizCreateOrConnectWithoutInstrumentInput[]
+    createMany?: QuizCreateManyInstrumentInputEnvelope
+    connect?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
+  }
+
+  export type QuizUncheckedCreateNestedManyWithoutInstrumentInput = {
+    create?: XOR<QuizCreateWithoutInstrumentInput, QuizUncheckedCreateWithoutInstrumentInput> | QuizCreateWithoutInstrumentInput[] | QuizUncheckedCreateWithoutInstrumentInput[]
+    connectOrCreate?: QuizCreateOrConnectWithoutInstrumentInput | QuizCreateOrConnectWithoutInstrumentInput[]
+    createMany?: QuizCreateManyInstrumentInputEnvelope
+    connect?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
+  }
+
+  export type QuizUpdateManyWithoutInstrumentNestedInput = {
+    create?: XOR<QuizCreateWithoutInstrumentInput, QuizUncheckedCreateWithoutInstrumentInput> | QuizCreateWithoutInstrumentInput[] | QuizUncheckedCreateWithoutInstrumentInput[]
+    connectOrCreate?: QuizCreateOrConnectWithoutInstrumentInput | QuizCreateOrConnectWithoutInstrumentInput[]
+    upsert?: QuizUpsertWithWhereUniqueWithoutInstrumentInput | QuizUpsertWithWhereUniqueWithoutInstrumentInput[]
+    createMany?: QuizCreateManyInstrumentInputEnvelope
+    set?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
+    disconnect?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
+    delete?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
+    connect?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
+    update?: QuizUpdateWithWhereUniqueWithoutInstrumentInput | QuizUpdateWithWhereUniqueWithoutInstrumentInput[]
+    updateMany?: QuizUpdateManyWithWhereWithoutInstrumentInput | QuizUpdateManyWithWhereWithoutInstrumentInput[]
+    deleteMany?: QuizScalarWhereInput | QuizScalarWhereInput[]
+  }
+
+  export type QuizUncheckedUpdateManyWithoutInstrumentNestedInput = {
+    create?: XOR<QuizCreateWithoutInstrumentInput, QuizUncheckedCreateWithoutInstrumentInput> | QuizCreateWithoutInstrumentInput[] | QuizUncheckedCreateWithoutInstrumentInput[]
+    connectOrCreate?: QuizCreateOrConnectWithoutInstrumentInput | QuizCreateOrConnectWithoutInstrumentInput[]
+    upsert?: QuizUpsertWithWhereUniqueWithoutInstrumentInput | QuizUpsertWithWhereUniqueWithoutInstrumentInput[]
+    createMany?: QuizCreateManyInstrumentInputEnvelope
+    set?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
+    disconnect?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
+    delete?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
+    connect?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
+    update?: QuizUpdateWithWhereUniqueWithoutInstrumentInput | QuizUpdateWithWhereUniqueWithoutInstrumentInput[]
+    updateMany?: QuizUpdateManyWithWhereWithoutInstrumentInput | QuizUpdateManyWithWhereWithoutInstrumentInput[]
+    deleteMany?: QuizScalarWhereInput | QuizScalarWhereInput[]
+  }
+
   export type ComposerCreateNestedOneWithoutQuizzesInput = {
     create?: XOR<ComposerCreateWithoutQuizzesInput, ComposerUncheckedCreateWithoutQuizzesInput>
     connectOrCreate?: ComposerCreateOrConnectWithoutQuizzesInput
     connect?: ComposerWhereUniqueInput
+  }
+
+  export type InstrumentCreateNestedOneWithoutQuizzesInput = {
+    create?: XOR<InstrumentCreateWithoutQuizzesInput, InstrumentUncheckedCreateWithoutQuizzesInput>
+    connectOrCreate?: InstrumentCreateOrConnectWithoutQuizzesInput
+    connect?: InstrumentWhereUniqueInput
   }
 
   export type UserCreateNestedOneWithoutQuizzesInput = {
@@ -13607,6 +14952,14 @@ export namespace Prisma {
     upsert?: ComposerUpsertWithoutQuizzesInput
     connect?: ComposerWhereUniqueInput
     update?: XOR<XOR<ComposerUpdateToOneWithWhereWithoutQuizzesInput, ComposerUpdateWithoutQuizzesInput>, ComposerUncheckedUpdateWithoutQuizzesInput>
+  }
+
+  export type InstrumentUpdateOneRequiredWithoutQuizzesNestedInput = {
+    create?: XOR<InstrumentCreateWithoutQuizzesInput, InstrumentUncheckedCreateWithoutQuizzesInput>
+    connectOrCreate?: InstrumentCreateOrConnectWithoutQuizzesInput
+    upsert?: InstrumentUpsertWithoutQuizzesInput
+    connect?: InstrumentWhereUniqueInput
+    update?: XOR<XOR<InstrumentUpdateToOneWithWhereWithoutQuizzesInput, InstrumentUpdateWithoutQuizzesInput>, InstrumentUncheckedUpdateWithoutQuizzesInput>
   }
 
   export type UserUpdateOneRequiredWithoutQuizzesNestedInput = {
@@ -14129,6 +15482,7 @@ export namespace Prisma {
     duration?: number
     createdAt?: Date | string
     composer: ComposerCreateNestedOneWithoutQuizzesInput
+    instrument: InstrumentCreateNestedOneWithoutQuizzesInput
     slices?: QuizSliceCreateNestedManyWithoutQuizInput
   }
 
@@ -14138,6 +15492,7 @@ export namespace Prisma {
     duration?: number
     createdAt?: Date | string
     composerId: string
+    instrumentId: string
     slices?: QuizSliceUncheckedCreateNestedManyWithoutQuizInput
   }
 
@@ -14263,6 +15618,7 @@ export namespace Prisma {
     duration?: IntFilter<"Quiz"> | number
     createdAt?: DateTimeFilter<"Quiz"> | Date | string
     composerId?: StringFilter<"Quiz"> | string
+    instrumentId?: StringFilter<"Quiz"> | string
     createdById?: StringFilter<"Quiz"> | string
   }
 
@@ -14271,6 +15627,7 @@ export namespace Prisma {
     pieceName: string
     duration?: number
     createdAt?: Date | string
+    instrument: InstrumentCreateNestedOneWithoutQuizzesInput
     createdBy: UserCreateNestedOneWithoutQuizzesInput
     slices?: QuizSliceCreateNestedManyWithoutQuizInput
   }
@@ -14280,6 +15637,7 @@ export namespace Prisma {
     pieceName: string
     duration?: number
     createdAt?: Date | string
+    instrumentId: string
     createdById: string
     slices?: QuizSliceUncheckedCreateNestedManyWithoutQuizInput
   }
@@ -14359,6 +15717,51 @@ export namespace Prisma {
     artistId?: StringFilter<"QuizSlice"> | string
   }
 
+  export type QuizCreateWithoutInstrumentInput = {
+    id?: string
+    pieceName: string
+    duration?: number
+    createdAt?: Date | string
+    composer: ComposerCreateNestedOneWithoutQuizzesInput
+    createdBy: UserCreateNestedOneWithoutQuizzesInput
+    slices?: QuizSliceCreateNestedManyWithoutQuizInput
+  }
+
+  export type QuizUncheckedCreateWithoutInstrumentInput = {
+    id?: string
+    pieceName: string
+    duration?: number
+    createdAt?: Date | string
+    composerId: string
+    createdById: string
+    slices?: QuizSliceUncheckedCreateNestedManyWithoutQuizInput
+  }
+
+  export type QuizCreateOrConnectWithoutInstrumentInput = {
+    where: QuizWhereUniqueInput
+    create: XOR<QuizCreateWithoutInstrumentInput, QuizUncheckedCreateWithoutInstrumentInput>
+  }
+
+  export type QuizCreateManyInstrumentInputEnvelope = {
+    data: QuizCreateManyInstrumentInput | QuizCreateManyInstrumentInput[]
+  }
+
+  export type QuizUpsertWithWhereUniqueWithoutInstrumentInput = {
+    where: QuizWhereUniqueInput
+    update: XOR<QuizUpdateWithoutInstrumentInput, QuizUncheckedUpdateWithoutInstrumentInput>
+    create: XOR<QuizCreateWithoutInstrumentInput, QuizUncheckedCreateWithoutInstrumentInput>
+  }
+
+  export type QuizUpdateWithWhereUniqueWithoutInstrumentInput = {
+    where: QuizWhereUniqueInput
+    data: XOR<QuizUpdateWithoutInstrumentInput, QuizUncheckedUpdateWithoutInstrumentInput>
+  }
+
+  export type QuizUpdateManyWithWhereWithoutInstrumentInput = {
+    where: QuizScalarWhereInput
+    data: XOR<QuizUpdateManyMutationInput, QuizUncheckedUpdateManyWithoutInstrumentInput>
+  }
+
   export type ComposerCreateWithoutQuizzesInput = {
     id?: string
     name: string
@@ -14374,6 +15777,21 @@ export namespace Prisma {
   export type ComposerCreateOrConnectWithoutQuizzesInput = {
     where: ComposerWhereUniqueInput
     create: XOR<ComposerCreateWithoutQuizzesInput, ComposerUncheckedCreateWithoutQuizzesInput>
+  }
+
+  export type InstrumentCreateWithoutQuizzesInput = {
+    id?: string
+    name: string
+  }
+
+  export type InstrumentUncheckedCreateWithoutQuizzesInput = {
+    id?: string
+    name: string
+  }
+
+  export type InstrumentCreateOrConnectWithoutQuizzesInput = {
+    where: InstrumentWhereUniqueInput
+    create: XOR<InstrumentCreateWithoutQuizzesInput, InstrumentUncheckedCreateWithoutQuizzesInput>
   }
 
   export type UserCreateWithoutQuizzesInput = {
@@ -14449,6 +15867,27 @@ export namespace Prisma {
     photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type InstrumentUpsertWithoutQuizzesInput = {
+    update: XOR<InstrumentUpdateWithoutQuizzesInput, InstrumentUncheckedUpdateWithoutQuizzesInput>
+    create: XOR<InstrumentCreateWithoutQuizzesInput, InstrumentUncheckedCreateWithoutQuizzesInput>
+    where?: InstrumentWhereInput
+  }
+
+  export type InstrumentUpdateToOneWithWhereWithoutQuizzesInput = {
+    where?: InstrumentWhereInput
+    data: XOR<InstrumentUpdateWithoutQuizzesInput, InstrumentUncheckedUpdateWithoutQuizzesInput>
+  }
+
+  export type InstrumentUpdateWithoutQuizzesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type InstrumentUncheckedUpdateWithoutQuizzesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
   export type UserUpsertWithoutQuizzesInput = {
     update: XOR<UserUpdateWithoutQuizzesInput, UserUncheckedUpdateWithoutQuizzesInput>
     create: XOR<UserCreateWithoutQuizzesInput, UserUncheckedCreateWithoutQuizzesInput>
@@ -14504,6 +15943,7 @@ export namespace Prisma {
     duration?: number
     createdAt?: Date | string
     composer: ComposerCreateNestedOneWithoutQuizzesInput
+    instrument: InstrumentCreateNestedOneWithoutQuizzesInput
     createdBy: UserCreateNestedOneWithoutQuizzesInput
   }
 
@@ -14513,6 +15953,7 @@ export namespace Prisma {
     duration?: number
     createdAt?: Date | string
     composerId: string
+    instrumentId: string
     createdById: string
   }
 
@@ -14555,6 +15996,7 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     composer?: ComposerUpdateOneRequiredWithoutQuizzesNestedInput
+    instrument?: InstrumentUpdateOneRequiredWithoutQuizzesNestedInput
     createdBy?: UserUpdateOneRequiredWithoutQuizzesNestedInput
   }
 
@@ -14564,6 +16006,7 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     composerId?: StringFieldUpdateOperationsInput | string
+    instrumentId?: StringFieldUpdateOperationsInput | string
     createdById?: StringFieldUpdateOperationsInput | string
   }
 
@@ -14624,6 +16067,7 @@ export namespace Prisma {
     duration?: number
     createdAt?: Date | string
     composerId: string
+    instrumentId: string
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -14715,6 +16159,7 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     composer?: ComposerUpdateOneRequiredWithoutQuizzesNestedInput
+    instrument?: InstrumentUpdateOneRequiredWithoutQuizzesNestedInput
     slices?: QuizSliceUpdateManyWithoutQuizNestedInput
   }
 
@@ -14724,6 +16169,7 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     composerId?: StringFieldUpdateOperationsInput | string
+    instrumentId?: StringFieldUpdateOperationsInput | string
     slices?: QuizSliceUncheckedUpdateManyWithoutQuizNestedInput
   }
 
@@ -14733,6 +16179,7 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     composerId?: StringFieldUpdateOperationsInput | string
+    instrumentId?: StringFieldUpdateOperationsInput | string
   }
 
   export type QuizCreateManyComposerInput = {
@@ -14740,6 +16187,7 @@ export namespace Prisma {
     pieceName: string
     duration?: number
     createdAt?: Date | string
+    instrumentId: string
     createdById: string
   }
 
@@ -14748,6 +16196,7 @@ export namespace Prisma {
     pieceName?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    instrument?: InstrumentUpdateOneRequiredWithoutQuizzesNestedInput
     createdBy?: UserUpdateOneRequiredWithoutQuizzesNestedInput
     slices?: QuizSliceUpdateManyWithoutQuizNestedInput
   }
@@ -14757,6 +16206,7 @@ export namespace Prisma {
     pieceName?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    instrumentId?: StringFieldUpdateOperationsInput | string
     createdById?: StringFieldUpdateOperationsInput | string
     slices?: QuizSliceUncheckedUpdateManyWithoutQuizNestedInput
   }
@@ -14766,6 +16216,7 @@ export namespace Prisma {
     pieceName?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    instrumentId?: StringFieldUpdateOperationsInput | string
     createdById?: StringFieldUpdateOperationsInput | string
   }
 
@@ -14795,6 +16246,44 @@ export namespace Prisma {
     startTime?: IntFieldUpdateOperationsInput | number
     youtubeUrl?: StringFieldUpdateOperationsInput | string
     quizId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type QuizCreateManyInstrumentInput = {
+    id?: string
+    pieceName: string
+    duration?: number
+    createdAt?: Date | string
+    composerId: string
+    createdById: string
+  }
+
+  export type QuizUpdateWithoutInstrumentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pieceName?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    composer?: ComposerUpdateOneRequiredWithoutQuizzesNestedInput
+    createdBy?: UserUpdateOneRequiredWithoutQuizzesNestedInput
+    slices?: QuizSliceUpdateManyWithoutQuizNestedInput
+  }
+
+  export type QuizUncheckedUpdateWithoutInstrumentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pieceName?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    composerId?: StringFieldUpdateOperationsInput | string
+    createdById?: StringFieldUpdateOperationsInput | string
+    slices?: QuizSliceUncheckedUpdateManyWithoutQuizNestedInput
+  }
+
+  export type QuizUncheckedUpdateManyWithoutInstrumentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pieceName?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    composerId?: StringFieldUpdateOperationsInput | string
+    createdById?: StringFieldUpdateOperationsInput | string
   }
 
   export type QuizSliceCreateManyQuizInput = {
