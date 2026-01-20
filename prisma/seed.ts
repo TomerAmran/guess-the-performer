@@ -291,8 +291,8 @@ async function main() {
       duration: 30,
       slices: {
         create: [
-          { artistId: hilaryHahn.id, youtubeUrl: "https://www.youtube.com/watch?v=o1dBg__wsuo", startTime: 30 },
-          { artistId: rayChen.id, youtubeUrl: "https://www.youtube.com/watch?v=I03Hs6dwj7E", startTime: 30 },
+          { artistId: hilaryHahn.id, youtubeUrl: "https://www.youtube.com/watch?v=SDwKJ6bBXEA&t=40s", startTime: 33 },
+          { artistId: rayChen.id, youtubeUrl: "https://www.youtube.com/watch?v=I03Hs6dwj7E", startTime: 22 },
           { artistId: janineJansen.id, youtubeUrl: "https://www.youtube.com/watch?v=Pmj7nCRYNs4", startTime: 35 },
         ],
       },
@@ -357,8 +357,8 @@ async function main() {
       duration: 30,
       slices: {
         create: [
-          { artistId: maximVengerov.id, youtubeUrl: "https://www.youtube.com/watch?v=bGv_dGJhVQA", startTime: 65 },
-          { artistId: joshuaBell.id, youtubeUrl: "https://www.youtube.com/watch?v=cbJZeNlrYKg", startTime: 60 },
+          { artistId: maximVengerov.id, youtubeUrl: "https://www.youtube.com/watch?v=kVPwmKVC3_I&t=51s", startTime: 45 },
+          { artistId: joshuaBell.id, youtubeUrl: "https://www.youtube.com/watch?v=cbJZeNlrYKg", startTime: 51 },
           { artistId: lisaBatiashvili.id, youtubeUrl: "https://www.youtube.com/watch?v=Pjo7xkoStes", startTime: 52 },
         ],
       },
