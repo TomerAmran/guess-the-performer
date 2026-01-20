@@ -44,3 +44,5 @@ yarn-error.log*
 
 # idea files
 .idea
+# Ralph config (may contain API keys)
+.cursor/ralph-config.json
