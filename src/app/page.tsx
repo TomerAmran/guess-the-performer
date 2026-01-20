@@ -24,7 +24,17 @@ export default async function Home() {
           }}
         />
 
-        {/* Theme Toggle - Fixed Position */}
+        {/* Fixed Top Navigation */}
+        <div className="fixed left-1/2 top-5 z-50 -translate-x-1/2">
+          <Link
+            href="/quiz/create"
+            className="flex items-center gap-1.5 rounded-full border border-[var(--color-accent-gold)] bg-[var(--color-bg-card)]/90 px-4 py-2 text-sm text-[var(--color-accent-gold)] shadow-sm backdrop-blur-sm transition-all hover:bg-[var(--color-accent-gold)] hover:text-[var(--color-bg-primary)]"
+            style={{ fontFamily: 'var(--font-body), sans-serif', fontWeight: 600 }}
+          >
+            <span>+</span>
+            <span>New Quiz</span>
+          </Link>
+        </div>
         <div className="fixed right-6 top-6 z-50">
           <ThemeToggle />
         </div>
