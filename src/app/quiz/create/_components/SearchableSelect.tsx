@@ -18,6 +18,7 @@ type SearchableSelectProps = {
   emptyText?: string;
   createLabel?: string;
   onCreate?: (input: { name: string; photoUrl?: string }) => Promise<{ id: string }>;
+  allowClear?: boolean;
 };
 
 export function SearchableSelect({
@@ -30,6 +31,7 @@ export function SearchableSelect({
   emptyText = "No items found",
   createLabel = "Add new",
   onCreate,
+  allowClear = false,
 }: SearchableSelectProps) {
   const [filter, setFilter] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
@@ -163,7 +165,7 @@ export function SearchableSelect({
             className="w-full rounded-lg border border-slate-600 bg-slate-800 px-4 py-3 text-left text-white hover:border-amber-500 focus:border-amber-500 focus:outline-none flex items-center justify-between"
           >
             {selectedItem ? (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 flex-1">
                 {selectedItem.photoUrl ? (
                   <img
                     src={selectedItem.photoUrl}
@@ -184,14 +186,29 @@ export function SearchableSelect({
             ) : (
               <span className="text-slate-500">{placeholder}</span>
             )}
-            <svg
-              className={`h-5 w-5 text-slate-400 transition-transform ${showDropdown ? "rotate-180" : ""}`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
+            <div className="flex items-center gap-2">
+              {allowClear && selectedItem && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onChange("");
+                    setShowDropdown(false);
+                  }}
+                  className="text-slate-400 hover:text-red-400 transition-colors"
+                >
+                  ✕
+                </button>
+              )}
+              <svg
+                className={`h-5 w-5 text-slate-400 transition-transform ${showDropdown ? "rotate-180" : ""}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
           </button>
 
           {/* Dropdown menu */}

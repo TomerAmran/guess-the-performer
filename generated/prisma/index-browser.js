@@ -184,6 +184,7 @@ exports.Prisma.QuizScalarFieldEnum = {
   id: 'id',
   pieceName: 'pieceName',
   duration: 'duration',
+  likes: 'likes',
   createdAt: 'createdAt',
   composerId: 'composerId',
   instrumentId: 'instrumentId',
@@ -196,6 +197,13 @@ exports.Prisma.QuizSliceScalarFieldEnum = {
   youtubeUrl: 'youtubeUrl',
   quizId: 'quizId',
   artistId: 'artistId'
+};
+
+exports.Prisma.QuizLikeScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  quizId: 'quizId'
 };
 
 exports.Prisma.SortOrder = {
@@ -219,7 +227,8 @@ exports.Prisma.ModelName = {
   Artist: 'Artist',
   Instrument: 'Instrument',
   Quiz: 'Quiz',
-  QuizSlice: 'QuizSlice'
+  QuizSlice: 'QuizSlice',
+  QuizLike: 'QuizLike'
 };
 
 /**

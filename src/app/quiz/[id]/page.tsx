@@ -2,10 +2,15 @@
 
 import { useState, useEffect, useRef, useCallback, use } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 import { getYouTubeId } from "~/app/_components/youtube";
+import { ShareButton } from "~/app/_components/ShareButton";
 import type { YTPlayer } from "~/app/_components/youtube-types";
 import "~/app/_components/youtube-types";
+
+// localStorage key for saving quiz state
+const QUIZ_STATE_KEY = "quiz_state_";
 
 type QuizSlice = {
   id: string;
@@ -30,7 +35,16 @@ function shuffleArray<T>(array: T[]): T[] {
 
 export default function QuizPlayPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
+  const router = useRouter();
   const { data: quiz, isLoading } = api.quiz.getById.useQuery({ id });
+  const { data: likeStatus } = api.quiz.getLikeStatus.useQuery(
+    { quizId: id },
+    { enabled: !!id }
+  );
+
+  const likeMutation = api.quiz.like.useMutation();
+  const unlikeMutation = api.quiz.unlike.useMutation();
+  const utils = api.useUtils();
 
   const [shuffledSlices, setShuffledSlices] = useState<QuizSlice[]>([]);
   const [shuffledArtists, setShuffledArtists] = useState<{ id: string; name: string; photoUrl: string | null }[]>([]);
@@ -39,6 +53,10 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
   const [currentPlaying, setCurrentPlaying] = useState<number | null>(null);
   const [playersReady, setPlayersReady] = useState(false);
   const [playProgress, setPlayProgress] = useState<Record<number, number>>({});
+  const [isLiked, setIsLiked] = useState(false);
+  const [likesCount, setLikesCount] = useState(0);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [restoredFromStorage, setRestoredFromStorage] = useState(false);
 
   const playersRef = useRef<(YTPlayer | null)[]>([]);
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -54,14 +72,57 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
     }
   }, []);
 
-  // Shuffle slices and artists on load
+  // Restore state from localStorage if available
   useEffect(() => {
-    if (quiz?.slices) {
-      const slices = quiz.slices as QuizSlice[];
-      setShuffledSlices(shuffleArray(slices));
-      setShuffledArtists(shuffleArray(slices.map((s) => s.artist)));
+    if (!id || !quiz?.slices) return;
+    
+    try {
+      const savedState = localStorage.getItem(QUIZ_STATE_KEY + id);
+      if (savedState) {
+        const parsed = JSON.parse(savedState) as {
+          shuffledSlices?: QuizSlice[];
+          shuffledArtists?: { id: string; name: string; photoUrl: string | null }[];
+          answers?: Record<string, string>;
+        };
+        // Verify the saved state matches current quiz structure
+        if (parsed.shuffledSlices?.length === quiz.slices.length) {
+          setShuffledSlices(parsed.shuffledSlices);
+          setShuffledArtists(parsed.shuffledArtists ?? []);
+          setAnswers(parsed.answers ?? {});
+          setSubmitted(true);
+          setRestoredFromStorage(true);
+          // Clear the saved state
+          localStorage.removeItem(QUIZ_STATE_KEY + id);
+        }
+      }
+    } catch {
+      // Ignore parse errors
+      localStorage.removeItem(QUIZ_STATE_KEY + id);
     }
-  }, [quiz]);
+  }, [id, quiz?.slices]);
+
+  // Shuffle slices and artists on load (only if not restored from storage)
+  useEffect(() => {
+    if (quiz?.slices && !restoredFromStorage) {
+      const slices = quiz.slices as QuizSlice[];
+      // Only shuffle if we haven't already set slices (prevents re-shuffle)
+      if (shuffledSlices.length === 0) {
+        setShuffledSlices(shuffleArray(slices));
+        setShuffledArtists(shuffleArray(slices.map((s) => s.artist)));
+      }
+    }
+    if (quiz) {
+      setLikesCount(quiz.likes);
+    }
+  }, [quiz, restoredFromStorage, shuffledSlices.length]);
+
+  // Update like status
+  useEffect(() => {
+    if (likeStatus) {
+      setIsLiked(likeStatus.isLiked);
+      setIsAuthenticated(likeStatus.isAuthenticated);
+    }
+  }, [likeStatus]);
 
   // Initialize YouTube players when slices are ready
   useEffect(() => {
@@ -176,6 +237,38 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
   const score = submitted
     ? shuffledSlices.filter((s) => isCorrect(s.id)).length
     : 0;
+
+  const handleToggleLike = async () => {
+    if (!id) return;
+
+    try {
+      if (isLiked) {
+        await unlikeMutation.mutateAsync({ quizId: id });
+        setIsLiked(false);
+        setLikesCount((prev) => Math.max(0, prev - 1));
+      } else {
+        await likeMutation.mutateAsync({ quizId: id });
+        setIsLiked(true);
+        setLikesCount((prev) => prev + 1);
+      }
+      await utils.quiz.getById.invalidate({ id });
+    } catch (error) {
+      // Handle errors silently or show a toast
+      console.error("Like toggle error:", error);
+    }
+  };
+
+  const handleSignInToLike = () => {
+    // Save current quiz state to localStorage before redirecting
+    const stateToSave = {
+      shuffledSlices,
+      shuffledArtists,
+      answers,
+    };
+    localStorage.setItem(QUIZ_STATE_KEY + id, JSON.stringify(stateToSave));
+    // Redirect to sign-in with callback to this quiz
+    router.push(`/api/auth/signin?callbackUrl=/quiz/${id}`);
+  };
 
   if (isLoading) {
     return (
@@ -440,6 +533,41 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
               <p className="mb-4 text-xl">
                 You got <span className="font-bold text-amber-400">{score}/3</span> correct
               </p>
+
+              {/* Like and Share Section */}
+              <div className="mb-6 flex flex-col items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-slate-400">Enjoyed this quiz?</span>
+                </div>
+                <div className="flex items-center gap-4">
+                  {isAuthenticated ? (
+                    <button
+                      onClick={handleToggleLike}
+                      disabled={likeMutation.isPending || unlikeMutation.isPending}
+                      className={`flex items-center gap-2 rounded-lg px-6 py-3 font-semibold transition-all ${
+                        isLiked
+                          ? "bg-red-500 text-white hover:bg-red-600"
+                          : "border border-slate-600 bg-slate-800 text-white hover:border-red-500 hover:bg-slate-700"
+                      } disabled:cursor-not-allowed disabled:opacity-50`}
+                    >
+                      <span className="text-2xl">{isLiked ? "❤️" : "🤍"}</span>
+                      <span>{isLiked ? "Liked" : "Like"}</span>
+                      <span className="text-sm opacity-75">({likesCount})</span>
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleSignInToLike}
+                      className="flex items-center gap-2 rounded-lg border border-slate-600 bg-slate-800 px-6 py-3 font-semibold text-white transition-all hover:border-red-500 hover:bg-slate-700"
+                    >
+                      <span className="text-2xl">🤍</span>
+                      <span>Sign in to like</span>
+                      <span className="text-sm opacity-75">({likesCount})</span>
+                    </button>
+                  )}
+                  <ShareButton quizId={id} variant="button" />
+                </div>
+              </div>
+
               <div className="flex justify-center gap-4">
                 <button
                   onClick={() => {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { api } from "~/trpc/react";
 
@@ -15,6 +16,16 @@ export default function ArtistsPage() {
   const utils = api.useUtils();
 
   const { data: artists, isLoading } = api.artist.getAll.useQuery();
+  const { data: allQuizzes } = api.quiz.getAll.useQuery();
+
+  // Count slices (performances) per artist
+  const getPerformanceCount = (artistId: string) => {
+    let count = 0;
+    allQuizzes?.forEach(quiz => {
+      count += quiz.slices.filter(s => s.artistId === artistId).length;
+    });
+    return count;
+  };
 
   const createArtist = api.artist.create.useMutation({
     onSuccess: () => {
@@ -82,32 +93,57 @@ export default function ArtistsPage() {
         </div>
       ) : (
         <div className="space-y-2">
-          {artists?.map((artist) => (
-            <div
-              key={artist.id}
-              className="flex items-center justify-between rounded-xl bg-slate-800/40 p-4"
-            >
-              <div className="flex items-center gap-4">
-                {artist.photoUrl && (
-                  <img
-                    src={artist.photoUrl}
-                    alt={artist.name}
-                    className="h-12 w-12 rounded-full object-cover"
-                  />
-                )}
-                <span className="font-medium">{artist.name}</span>
+          {artists?.map((artist) => {
+            const performanceCount = getPerformanceCount(artist.id);
+            return (
+              <div
+                key={artist.id}
+                className="flex items-center justify-between rounded-xl bg-slate-800/40 p-4"
+              >
+                <div className="flex items-center gap-4">
+                  {artist.photoUrl ? (
+                    <img
+                      src={artist.photoUrl}
+                      alt={artist.name}
+                      className="h-12 w-12 rounded-full object-cover bg-slate-700"
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                      }}
+                    />
+                  ) : (
+                    <div className="h-12 w-12 rounded-full bg-slate-700 flex items-center justify-center text-slate-400 font-medium">
+                      {artist.name.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                  <div>
+                    <div className="font-medium">{artist.name}</div>
+                    <div className="text-sm text-slate-400">
+                      {performanceCount} {performanceCount === 1 ? 'performance' : 'performances'}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  {isAdmin && (
+                    <>
+                      <Link
+                        href={`/admin/artists/edit/${artist.id}`}
+                        className="rounded-lg px-4 py-2 text-amber-400 hover:bg-amber-500/20 transition-colors"
+                      >
+                        Edit
+                      </Link>
+                      <button
+                        onClick={() => deleteArtist.mutate({ id: artist.id })}
+                        disabled={deleteArtist.isPending}
+                        className="rounded-lg px-4 py-2 text-red-400 hover:bg-red-500/20 transition-colors disabled:opacity-50"
+                      >
+                        Delete
+                      </button>
+                    </>
+                  )}
+                </div>
               </div>
-              {isAdmin && (
-                <button
-                  onClick={() => deleteArtist.mutate({ id: artist.id })}
-                  disabled={deleteArtist.isPending}
-                  className="rounded-lg px-4 py-2 text-red-400 hover:bg-red-500/20 transition-colors"
-                >
-                  Delete
-                </button>
-              )}
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

@@ -56,15 +56,16 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
   posts         Post[]
   quizzes       Quiz[]
+  likedQuizzes  QuizLike[]
 }
 
 model VerificationToken {
@@ -112,6 +113,7 @@ model Quiz {
   id        String   @id @default(cuid())
   pieceName String
   duration  Int      @default(30)
+  likes     Int      @default(0)
   createdAt DateTime @default(now())
 
   composer     Composer   @relation(fields: [composerId], references: [id], onDelete: Cascade)
@@ -121,11 +123,13 @@ model Quiz {
   createdBy    User       @relation(fields: [createdById], references: [id])
   createdById  String
 
-  slices QuizSlice[]
+  slices  QuizSlice[]
+  likedBy QuizLike[]
 
   @@index([composerId])
   @@index([instrumentId])
   @@index([createdById])
+  @@index([likes])
 }
 
 model QuizSlice {
@@ -140,4 +144,18 @@ model QuizSlice {
 
   @@index([quizId])
   @@index([artistId])
+}
+
+model QuizLike {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quizId String
+
+  @@unique([userId, quizId])
+  @@index([quizId])
+  @@index([userId])
 }
