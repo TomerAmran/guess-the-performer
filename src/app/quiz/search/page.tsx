@@ -37,31 +37,31 @@ export default function SearchQuizzesPage() {
       <div className="container mx-auto max-w-6xl px-4 py-12">
         <PageHeader backHref="/" backLabel="Back to Home" />
 
-        <h1 className="mb-2 text-4xl font-bold tracking-tight text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>Search Quizzes</h1>
-        <p className="mb-8 text-lg text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>Find quizzes by composer, instrument, or piece name</p>
+        <h1 className="mb-2 text-4xl font-bold tracking-tight text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body), serif' }}>Search Quizzes</h1>
+        <p className="mb-8 text-lg text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>Find quizzes by composer, instrument, or piece name</p>
 
         <div className="mb-8 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)]/60 p-8">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <SearchableSelect label="Composer" items={composers ?? []} valueId={composerId} onChange={setComposerId} placeholder="Any composer..." isLoading={composersLoading} emptyText="No composers found" allowClear />
             <SearchableSelect label="Instrument" items={instruments?.map(i => ({ id: i.id, name: i.name })) ?? []} valueId={instrumentId} onChange={setInstrumentId} placeholder="Any instrument..." isLoading={instrumentsLoading} emptyText="No instruments found" allowClear />
             <div>
-              <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}>Piece Name</label>
-              <input type="text" value={pieceName} onChange={(e) => setPieceName(e.target.value)} placeholder="Search by name..." className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] px-4 py-3 text-[var(--color-text-primary)] placeholder-[var(--color-text-placeholder)] focus:border-[var(--color-accent-gold)] focus:outline-none" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }} />
+              <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}>Piece Name</label>
+              <input type="text" value={pieceName} onChange={(e) => setPieceName(e.target.value)} placeholder="Search by name..." className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] px-4 py-3 text-[var(--color-text-primary)] placeholder-[var(--color-text-placeholder)] focus:border-[var(--color-accent-gold)] focus:outline-none" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }} />
             </div>
           </div>
           <div className="mt-6 flex items-center justify-between border-t border-[var(--color-border)] pt-6">
             <div className="flex items-center gap-2">
-              <span className="text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>Sort by:</span>
-              <button onClick={() => setOrderBy("likes")} className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${orderBy === "likes" ? "bg-[var(--color-accent-gold)] text-[var(--color-bg-primary)]" : "bg-[var(--color-border)] text-[var(--color-text-primary)] hover:opacity-80"}`} style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>Most Popular</button>
-              <button onClick={() => setOrderBy("recent")} className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${orderBy === "recent" ? "bg-[var(--color-accent-gold)] text-[var(--color-bg-primary)]" : "bg-[var(--color-border)] text-[var(--color-text-primary)] hover:opacity-80"}`} style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>Most Recent</button>
+              <span className="text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>Sort by:</span>
+              <button onClick={() => setOrderBy("likes")} className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${orderBy === "likes" ? "bg-[var(--color-accent-gold)] text-[var(--color-bg-primary)]" : "bg-[var(--color-border)] text-[var(--color-text-primary)] hover:opacity-80"}`} style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>Most Popular</button>
+              <button onClick={() => setOrderBy("recent")} className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${orderBy === "recent" ? "bg-[var(--color-accent-gold)] text-[var(--color-bg-primary)]" : "bg-[var(--color-border)] text-[var(--color-text-primary)] hover:opacity-80"}`} style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>Most Recent</button>
             </div>
-            {hasFilters && <button onClick={handleClearAll} className="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-accent-burgundy)] transition-colors" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>Clear All Filters</button>}
+            {hasFilters && <button onClick={handleClearAll} className="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-accent-burgundy)] transition-colors" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>Clear All Filters</button>}
           </div>
         </div>
 
         <div>
           <div className="mb-4">
-            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>{searchLoading ? "Searching..." : `${searchResults?.length ?? 0} ${(searchResults?.length ?? 0) === 1 ? 'Quiz' : 'Quizzes'} Found`}</h2>
+            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body), serif' }}>{searchLoading ? "Searching..." : `${searchResults?.length ?? 0} ${(searchResults?.length ?? 0) === 1 ? 'Quiz' : 'Quizzes'} Found`}</h2>
           </div>
 
           {searchLoading ? (
@@ -72,21 +72,21 @@ export default function SearchQuizzesPage() {
                 <div key={quiz.id} className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)]/60 p-6 transition-all hover:border-[var(--color-accent-gold)] hover:shadow-md">
                   <div className="mb-4 flex items-start justify-between">
                     <div className="flex-1">
-                      <h3 className="mb-1 text-xl font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>{quiz.composer.name}</h3>
-                      <p className="text-lg italic text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>{quiz.pieceName}</p>
-                      <p className="text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>{quiz.instrument.name}</p>
+                      <h3 className="mb-1 text-xl font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body), serif' }}>{quiz.composer.name}</h3>
+                      <p className="text-lg italic text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>{quiz.pieceName}</p>
+                      <p className="text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>{quiz.instrument.name}</p>
                     </div>
                     <ShareButton quizId={quiz.id} variant="icon" />
                   </div>
                   <div className="mb-4 flex flex-wrap gap-2">
-                    {quiz.slices.map((slice) => <span key={slice.id} className="rounded-full bg-[var(--color-border)] px-3 py-1 text-xs text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>{slice.artist.name}</span>)}
+                    {quiz.slices.map((slice) => <span key={slice.id} className="rounded-full bg-[var(--color-border)] px-3 py-1 text-xs text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>{slice.artist.name}</span>)}
                   </div>
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4 text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
+                    <div className="flex items-center gap-4 text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
                       <span className="flex items-center gap-1"><span className="text-[var(--color-accent-burgundy)]">♥</span><span>{quiz.likes}</span></span>
                       <span>{quiz.duration}s clips</span>
                     </div>
-                    <Link href={`/quiz/${quiz.id}`} className="rounded-lg bg-[var(--color-accent-gold)] px-4 py-2 text-sm font-semibold text-[var(--color-bg-primary)] transition-all hover:bg-[var(--color-accent-gold-hover)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}>Play Quiz</Link>
+                    <Link href={`/quiz/${quiz.id}`} className="rounded-lg bg-[var(--color-accent-gold)] px-4 py-2 text-sm font-semibold text-[var(--color-bg-primary)] transition-all hover:bg-[var(--color-accent-gold-hover)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}>Play Quiz</Link>
                   </div>
                 </div>
               ))}
@@ -94,9 +94,9 @@ export default function SearchQuizzesPage() {
           ) : (
             <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)]/60 p-12 text-center">
               <div className="mb-4 text-6xl">🔍</div>
-              <h3 className="mb-2 text-2xl font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>No Quizzes Found</h3>
-              <p className="mb-6 text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>{hasFilters ? "Try adjusting your search filters" : "No quizzes have been created yet"}</p>
-              {hasFilters && <button onClick={handleClearAll} className="rounded-lg border-2 border-[var(--color-border)] px-6 py-2 font-medium text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-border)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}>Clear All Filters</button>}
+              <h3 className="mb-2 text-2xl font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body), serif' }}>No Quizzes Found</h3>
+              <p className="mb-6 text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>{hasFilters ? "Try adjusting your search filters" : "No quizzes have been created yet"}</p>
+              {hasFilters && <button onClick={handleClearAll} className="rounded-lg border-2 border-[var(--color-border)] px-6 py-2 font-medium text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-border)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}>Clear All Filters</button>}
             </div>
           )}
         </div>

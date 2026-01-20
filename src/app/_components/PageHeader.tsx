@@ -14,7 +14,7 @@ export function PageHeader({ backHref, backLabel }: PageHeaderProps) {
       <Link
         href={backHref}
         className="inline-flex items-center gap-2 text-[var(--color-accent-burgundy)] hover:text-[var(--color-accent-gold)] transition-colors"
-        style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}
+        style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}
       >
         ← {backLabel}
       </Link>

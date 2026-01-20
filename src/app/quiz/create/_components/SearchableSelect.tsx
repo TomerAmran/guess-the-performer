@@ -54,20 +54,20 @@ export function SearchableSelect({ label, items, valueId, onChange, placeholder 
   if (showCreateForm) {
     return (
       <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)]/80 p-4">
-        <h3 className="mb-3 font-medium text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}>{createLabel}</h3>
+        <h3 className="mb-3 font-medium text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}>{createLabel}</h3>
         <div className="space-y-3">
           <div>
-            <label className="block text-sm text-[var(--color-text-secondary)] mb-1" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>Name <span className="text-[var(--color-error)]">*</span></label>
-            <input type="text" value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="Enter name" className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] px-3 py-2 text-[var(--color-text-primary)] placeholder-[var(--color-text-placeholder)] focus:border-[var(--color-accent-gold)] focus:outline-none" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }} autoFocus />
+            <label className="block text-sm text-[var(--color-text-secondary)] mb-1" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>Name <span className="text-[var(--color-error)]">*</span></label>
+            <input type="text" value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="Enter name" className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] px-3 py-2 text-[var(--color-text-primary)] placeholder-[var(--color-text-placeholder)] focus:border-[var(--color-accent-gold)] focus:outline-none" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }} autoFocus />
           </div>
           <div>
-            <label className="block text-sm text-[var(--color-text-secondary)] mb-1" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>Photo URL (optional)</label>
-            <input type="url" value={newPhotoUrl} onChange={(e) => setNewPhotoUrl(e.target.value)} placeholder="https://..." className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] px-3 py-2 text-[var(--color-text-primary)] placeholder-[var(--color-text-placeholder)] focus:border-[var(--color-accent-gold)] focus:outline-none" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }} />
+            <label className="block text-sm text-[var(--color-text-secondary)] mb-1" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>Photo URL (optional)</label>
+            <input type="url" value={newPhotoUrl} onChange={(e) => setNewPhotoUrl(e.target.value)} placeholder="https://..." className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] px-3 py-2 text-[var(--color-text-primary)] placeholder-[var(--color-text-placeholder)] focus:border-[var(--color-accent-gold)] focus:outline-none" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }} />
             {newPhotoUrl.trim() && <div className="mt-2"><img src={newPhotoUrl} alt="Preview" className="h-16 w-16 rounded-full object-cover" onError={(e) => { e.currentTarget.style.display = "none"; }} /></div>}
           </div>
           <div className="flex gap-2">
-            <button onClick={handleCreate} disabled={!newName.trim() || isCreating} className="flex-1 rounded-lg bg-[var(--color-accent-gold)] px-4 py-2 font-medium text-[var(--color-bg-primary)] transition-all hover:bg-[var(--color-accent-gold-hover)] disabled:cursor-not-allowed disabled:opacity-50" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}>{isCreating ? "Creating..." : "Create"}</button>
-            <button onClick={() => { setShowCreateForm(false); setNewName(""); setNewPhotoUrl(""); }} disabled={isCreating} className="flex-1 rounded-lg border border-[var(--color-border)] px-4 py-2 font-medium text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-border)] disabled:opacity-50" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}>Cancel</button>
+            <button onClick={handleCreate} disabled={!newName.trim() || isCreating} className="flex-1 rounded-lg bg-[var(--color-accent-gold)] px-4 py-2 font-medium text-[var(--color-bg-primary)] transition-all hover:bg-[var(--color-accent-gold-hover)] disabled:cursor-not-allowed disabled:opacity-50" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}>{isCreating ? "Creating..." : "Create"}</button>
+            <button onClick={() => { setShowCreateForm(false); setNewName(""); setNewPhotoUrl(""); }} disabled={isCreating} className="flex-1 rounded-lg border border-[var(--color-border)] px-4 py-2 font-medium text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-border)] disabled:opacity-50" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}>Cancel</button>
           </div>
         </div>
       </div>
@@ -76,7 +76,7 @@ export function SearchableSelect({ label, items, valueId, onChange, placeholder 
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}>{label}</label>
+      <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}>{label}</label>
 
       {isLoading ? (
         <div className="flex items-center justify-center rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)]/60 py-8">
@@ -84,13 +84,13 @@ export function SearchableSelect({ label, items, valueId, onChange, placeholder 
         </div>
       ) : (
         <>
-          <button type="button" onClick={() => setShowDropdown(!showDropdown)} className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] px-4 py-3 text-left text-[var(--color-text-primary)] hover:border-[var(--color-accent-gold)] focus:border-[var(--color-accent-gold)] focus:outline-none flex items-center justify-between" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
+          <button type="button" onClick={() => setShowDropdown(!showDropdown)} className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] px-4 py-3 text-left text-[var(--color-text-primary)] hover:border-[var(--color-accent-gold)] focus:border-[var(--color-accent-gold)] focus:outline-none flex items-center justify-between" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
             {selectedItem ? (
               <div className="flex items-center gap-3 flex-1">
                 {selectedItem.photoUrl ? (
                   <img src={selectedItem.photoUrl} alt={selectedItem.name} className="h-6 w-6 rounded-full object-cover bg-[var(--color-border)]" onError={(e) => { e.currentTarget.style.display = "none"; }} />
                 ) : (
-                  <div className="h-6 w-6 rounded-full bg-[var(--color-border)] flex items-center justify-center text-[var(--color-text-secondary)] text-xs font-medium" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}>{selectedItem.name.charAt(0).toUpperCase()}</div>
+                  <div className="h-6 w-6 rounded-full bg-[var(--color-border)] flex items-center justify-center text-[var(--color-text-secondary)] text-xs font-medium" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}>{selectedItem.name.charAt(0).toUpperCase()}</div>
                 )}
                 <span className="font-medium">{selectedItem.name}</span>
               </div>
@@ -106,17 +106,17 @@ export function SearchableSelect({ label, items, valueId, onChange, placeholder 
           {showDropdown && (
             <div className="absolute z-50 mt-2 w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] shadow-xl">
               <div className="p-2 border-b border-[var(--color-border)]">
-                <input type="text" value={filter} onChange={(e) => setFilter(e.target.value)} placeholder="Type to search..." className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)] px-3 py-2 text-[var(--color-text-primary)] placeholder-[var(--color-text-placeholder)] focus:border-[var(--color-accent-gold)] focus:outline-none text-sm" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }} autoFocus />
+                <input type="text" value={filter} onChange={(e) => setFilter(e.target.value)} placeholder="Type to search..." className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)] px-3 py-2 text-[var(--color-text-primary)] placeholder-[var(--color-text-placeholder)] focus:border-[var(--color-accent-gold)] focus:outline-none text-sm" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }} autoFocus />
               </div>
               <div className="max-h-64 overflow-y-auto">
                 {filteredItems.length > 0 ? (
                   <div className="divide-y divide-[var(--color-border)]">
                     {filteredItems.map((item) => (
-                      <button key={item.id} type="button" onClick={() => { onChange(item.id); setFilter(""); setShowDropdown(false); }} className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-[var(--color-bg-card)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
+                      <button key={item.id} type="button" onClick={() => { onChange(item.id); setFilter(""); setShowDropdown(false); }} className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-[var(--color-bg-card)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
                         {item.photoUrl ? (
                           <img src={item.photoUrl} alt={item.name} className="h-8 w-8 rounded-full object-cover bg-[var(--color-border)]" onError={(e) => { e.currentTarget.style.display = "none"; }} />
                         ) : (
-                          <div className="h-8 w-8 rounded-full bg-[var(--color-border)] flex items-center justify-center text-[var(--color-text-secondary)] text-sm font-medium" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}>{item.name.charAt(0).toUpperCase()}</div>
+                          <div className="h-8 w-8 rounded-full bg-[var(--color-border)] flex items-center justify-center text-[var(--color-text-secondary)] text-sm font-medium" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}>{item.name.charAt(0).toUpperCase()}</div>
                         )}
                         <span className="font-medium text-[var(--color-text-primary)]">{item.name}</span>
                         {item.id === valueId && <svg className="ml-auto h-5 w-5 text-[var(--color-accent-gold)]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}
@@ -125,8 +125,8 @@ export function SearchableSelect({ label, items, valueId, onChange, placeholder 
                   </div>
                 ) : (
                   <div className="p-4 text-center">
-                    <p className="mb-3 text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>{emptyText}</p>
-                    {onCreate && <button type="button" onClick={() => { setNewName(filter); setShowCreateForm(true); setShowDropdown(false); }} className="rounded-lg bg-[var(--color-accent-gold)] px-4 py-2 text-sm font-medium text-[var(--color-bg-primary)] transition-all hover:bg-[var(--color-accent-gold-hover)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}>{createLabel}</button>}
+                    <p className="mb-3 text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>{emptyText}</p>
+                    {onCreate && <button type="button" onClick={() => { setNewName(filter); setShowCreateForm(true); setShowDropdown(false); }} className="rounded-lg bg-[var(--color-accent-gold)] px-4 py-2 text-sm font-medium text-[var(--color-bg-primary)] transition-all hover:bg-[var(--color-accent-gold-hover)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}>{createLabel}</button>}
                   </div>
                 )}
               </div>

@@ -58,8 +58,8 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
   if (!quiz) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center bg-[var(--color-bg-primary)]">
-        <h1 className="mb-4 text-2xl font-bold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>Quiz not found</h1>
-        <Link href="/my-quizzes" className="text-[var(--color-accent-burgundy)] hover:text-[var(--color-accent-gold)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>← Back to My Quizzes</Link>
+        <h1 className="mb-4 text-2xl font-bold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body), serif' }}>Quiz not found</h1>
+        <Link href="/my-quizzes" className="text-[var(--color-accent-burgundy)] hover:text-[var(--color-accent-gold)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>← Back to My Quizzes</Link>
       </main>
     );
   }
@@ -70,11 +70,11 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
         <div className="container mx-auto max-w-4xl px-4 py-12">
           <div className="rounded-2xl border-2 border-[var(--color-success)]/50 bg-[var(--color-success)]/10 p-8 text-center">
             <div className="mb-4 text-6xl">✓</div>
-            <h2 className="mb-4 text-3xl font-bold text-[var(--color-success)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>Quiz Updated!</h2>
-            <p className="mb-8 text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>Your changes have been saved successfully.</p>
+            <h2 className="mb-4 text-3xl font-bold text-[var(--color-success)]" style={{ fontFamily: 'var(--font-body), serif' }}>Quiz Updated!</h2>
+            <p className="mb-8 text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>Your changes have been saved successfully.</p>
             <div className="flex justify-center gap-4">
-              <Link href={`/quiz/${id}`} className="rounded-lg bg-[var(--color-success)] px-6 py-3 font-semibold text-[var(--color-bg-primary)] transition-all hover:opacity-90" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}>View Quiz</Link>
-              <Link href="/my-quizzes" className="rounded-lg border-2 border-[var(--color-border)] px-6 py-3 font-medium text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-border)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}>Back to My Quizzes</Link>
+              <Link href={`/quiz/${id}`} className="rounded-lg bg-[var(--color-success)] px-6 py-3 font-semibold text-[var(--color-bg-primary)] transition-all hover:opacity-90" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}>View Quiz</Link>
+              <Link href="/my-quizzes" className="rounded-lg border-2 border-[var(--color-border)] px-6 py-3 font-medium text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-border)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}>Back to My Quizzes</Link>
             </div>
           </div>
         </div>
@@ -87,45 +87,45 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
       <div className="container mx-auto max-w-4xl px-4 py-12">
         <PageHeader backHref="/my-quizzes" backLabel="Back to My Quizzes" />
 
-        <h1 className="mb-2 text-4xl font-bold tracking-tight text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>Edit Quiz</h1>
-        <p className="mb-8 text-lg text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>Update your quiz details and performances</p>
+        <h1 className="mb-2 text-4xl font-bold tracking-tight text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body), serif' }}>Edit Quiz</h1>
+        <p className="mb-8 text-lg text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>Update your quiz details and performances</p>
 
         <div className="space-y-8">
           <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)]/60 p-8">
-            <h2 className="mb-6 text-2xl font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>Quiz Setup</h2>
+            <h2 className="mb-6 text-2xl font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body), serif' }}>Quiz Setup</h2>
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}>Piece Name <span className="text-[var(--color-error)]">*</span></label>
-                <input type="text" value={pieceName} onChange={(e) => setPieceName(e.target.value)} placeholder="e.g., Nocturne Op. 9 No. 2" className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] px-4 py-3 text-[var(--color-text-primary)] placeholder-[var(--color-text-placeholder)] focus:border-[var(--color-accent-gold)] focus:outline-none" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }} />
+                <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}>Piece Name <span className="text-[var(--color-error)]">*</span></label>
+                <input type="text" value={pieceName} onChange={(e) => setPieceName(e.target.value)} placeholder="e.g., Nocturne Op. 9 No. 2" className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] px-4 py-3 text-[var(--color-text-primary)] placeholder-[var(--color-text-placeholder)] focus:border-[var(--color-accent-gold)] focus:outline-none" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }} />
               </div>
               <SearchableSelect label="Composer *" items={composers ?? []} valueId={composerId} onChange={setComposerId} placeholder="Search for a composer..." isLoading={composersLoading} emptyText="No composers found" createLabel="Add new composer" onCreate={async (input) => { const result = await createComposer.mutateAsync(input); return result; }} />
               <SearchableSelect label="Instrument *" items={instruments?.map(i => ({ id: i.id, name: i.name })) ?? []} valueId={instrumentId} onChange={setInstrumentId} placeholder="Search for an instrument..." isLoading={instrumentsLoading} emptyText="No instruments found" createLabel="Add new instrument" onCreate={async (input) => { const result = await createInstrument.mutateAsync({ name: input.name }); return result; }} />
               <div>
-                <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}>Clip Duration (seconds) <span className="text-[var(--color-error)]">*</span></label>
-                <input type="number" min={5} max={120} value={duration} onChange={(e) => setDuration(parseInt(e.target.value) || 30)} className="w-32 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] px-4 py-2 text-[var(--color-text-primary)] focus:border-[var(--color-accent-gold)] focus:outline-none" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }} />
-                <p className="mt-1 text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>Between 5 and 120 seconds</p>
+                <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}>Clip Duration (seconds) <span className="text-[var(--color-error)]">*</span></label>
+                <input type="number" min={5} max={120} value={duration} onChange={(e) => setDuration(parseInt(e.target.value) || 30)} className="w-32 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] px-4 py-2 text-[var(--color-text-primary)] focus:border-[var(--color-accent-gold)] focus:outline-none" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }} />
+                <p className="mt-1 text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>Between 5 and 120 seconds</p>
               </div>
             </div>
           </div>
 
           <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)]/60 p-8">
-            <h2 className="mb-6 text-2xl font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>Performances (3 required)</h2>
+            <h2 className="mb-6 text-2xl font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body), serif' }}>Performances (3 required)</h2>
             <div className="space-y-6">
               {slices.map((slice, idx) => (
                 <div key={idx} className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-input)]/80 p-6">
                   <div className="mb-4 flex items-center gap-3">
                     <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--color-accent-gold)] text-lg font-bold text-[var(--color-bg-primary)]">{idx + 1}</span>
-                    <span className="font-medium text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}>Performance {idx + 1}</span>
+                    <span className="font-medium text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}>Performance {idx + 1}</span>
                   </div>
                   <div className="space-y-4">
                     <SearchableSelect label="Artist *" items={artists ?? []} valueId={slice.artistId} onChange={(id) => updateSlice(idx, "artistId", id)} placeholder="Search for an artist..." isLoading={artistsLoading} emptyText="No artists found" createLabel="Add new artist" onCreate={async (input) => { const result = await createArtist.mutateAsync(input); return result; }} />
                     <div>
-                      <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}>YouTube URL <span className="text-[var(--color-error)]">*</span></label>
-                      <input type="url" value={slice.youtubeUrl} onChange={(e) => updateSlice(idx, "youtubeUrl", e.target.value)} placeholder="https://www.youtube.com/watch?v=..." className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] px-4 py-3 text-[var(--color-text-primary)] placeholder-[var(--color-text-placeholder)] focus:border-[var(--color-accent-gold)] focus:outline-none" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }} />
+                      <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}>YouTube URL <span className="text-[var(--color-error)]">*</span></label>
+                      <input type="url" value={slice.youtubeUrl} onChange={(e) => updateSlice(idx, "youtubeUrl", e.target.value)} placeholder="https://www.youtube.com/watch?v=..." className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] px-4 py-3 text-[var(--color-text-primary)] placeholder-[var(--color-text-placeholder)] focus:border-[var(--color-accent-gold)] focus:outline-none" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }} />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}>Start Time (seconds) <span className="text-[var(--color-error)]">*</span></label>
-                      <input type="number" min={0} value={slice.startTime} onChange={(e) => updateSlice(idx, "startTime", parseInt(e.target.value) || 0)} className="w-32 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] px-4 py-2 text-[var(--color-text-primary)] focus:border-[var(--color-accent-gold)] focus:outline-none" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }} />
+                      <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}>Start Time (seconds) <span className="text-[var(--color-error)]">*</span></label>
+                      <input type="number" min={0} value={slice.startTime} onChange={(e) => updateSlice(idx, "startTime", parseInt(e.target.value) || 0)} className="w-32 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] px-4 py-2 text-[var(--color-text-primary)] focus:border-[var(--color-accent-gold)] focus:outline-none" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }} />
                     </div>
                     {isValidYouTubeUrl(slice.youtubeUrl) && <YouTubeClipPicker youtubeUrl={slice.youtubeUrl} startTime={slice.startTime} duration={duration} onChangeStartTime={(seconds) => updateSlice(idx, "startTime", seconds)} />}
                   </div>
@@ -135,8 +135,8 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
           </div>
 
           <div className="flex justify-end gap-4">
-            <Link href="/my-quizzes" className="rounded-lg border-2 border-[var(--color-border)] px-8 py-3 font-medium text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-border)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}>Cancel</Link>
-            <button onClick={handleSubmit} disabled={!isFormValid() || updateQuiz.isPending} className="rounded-lg bg-[var(--color-accent-gold)] px-8 py-3 font-semibold text-[var(--color-bg-primary)] transition-all hover:bg-[var(--color-accent-gold-hover)] disabled:cursor-not-allowed disabled:opacity-40" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}>{updateQuiz.isPending ? "Updating..." : "Update Quiz"}</button>
+            <Link href="/my-quizzes" className="rounded-lg border-2 border-[var(--color-border)] px-8 py-3 font-medium text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-border)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}>Cancel</Link>
+            <button onClick={handleSubmit} disabled={!isFormValid() || updateQuiz.isPending} className="rounded-lg bg-[var(--color-accent-gold)] px-8 py-3 font-semibold text-[var(--color-bg-primary)] transition-all hover:bg-[var(--color-accent-gold-hover)] disabled:cursor-not-allowed disabled:opacity-40" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}>{updateQuiz.isPending ? "Updating..." : "Update Quiz"}</button>
           </div>
         </div>
       </div>

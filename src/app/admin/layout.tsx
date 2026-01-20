@@ -12,7 +12,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <Link 
               href="/" 
               className="text-xl font-bold text-[var(--color-accent-burgundy)] hover:text-[var(--color-accent-gold)] transition-colors"
-              style={{ fontFamily: 'var(--font-playfair), serif' }}
+              style={{ fontFamily: 'var(--font-body), serif' }}
             >
               ← Home
             </Link>
@@ -20,14 +20,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <Link
                 href="/admin/composers"
                 className="rounded-lg px-4 py-2 text-[var(--color-text-secondary)] hover:bg-[var(--color-border)] transition-colors"
-                style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}
+                style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}
               >
                 Composers
               </Link>
               <Link
                 href="/admin/artists"
                 className="rounded-lg px-4 py-2 text-[var(--color-text-secondary)] hover:bg-[var(--color-border)] transition-colors"
-                style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}
+                style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}
               >
                 Artists
               </Link>

@@ -254,10 +254,10 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
   if (!quiz) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center bg-[var(--color-bg-primary)]">
-        <h1 className="mb-4 text-2xl font-bold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+        <h1 className="mb-4 text-2xl font-bold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body), serif' }}>
           Quiz not found
         </h1>
-        <Link href="/" className="text-[var(--color-accent-burgundy)] hover:text-[var(--color-accent-gold)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
+        <Link href="/" className="text-[var(--color-accent-burgundy)] hover:text-[var(--color-accent-gold)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
           ← Back to Home
         </Link>
       </main>
@@ -275,20 +275,20 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
         <PageHeader backHref="/" backLabel="Back to Home" />
 
         <div className="mb-8 text-center">
-          <h1 className="mb-2 text-3xl font-bold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+          <h1 className="mb-2 text-3xl font-bold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body), serif' }}>
             Who&apos;s Playing?
           </h1>
-          <p className="text-xl text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
+          <p className="text-xl text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
             {quiz.composer.name} - <span className="italic">{quiz.pieceName}</span>
           </p>
-          <p className="mt-2 text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
+          <p className="mt-2 text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
             Listen to each recording and match it to the correct artist
           </p>
         </div>
 
         {/* Audio Players */}
         <div className="mb-8">
-          <h2 className="mb-4 text-lg font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+          <h2 className="mb-4 text-lg font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body), serif' }}>
             Listen to the recordings:
           </h2>
           <div className="grid gap-4 md:grid-cols-3">
@@ -343,7 +343,7 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                               ? "bg-[var(--color-error)] text-[var(--color-bg-primary)] hover:opacity-90"
                               : "bg-[var(--color-border)] text-[var(--color-text-primary)] hover:bg-[var(--color-accent-gold)]/20"
                           } disabled:cursor-not-allowed disabled:opacity-50`}
-                          style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}
+                          style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}
                         >
                           {!playersReady ? (
                             <>
@@ -359,7 +359,7 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                         <div className="mt-2 h-2 overflow-hidden rounded-full bg-[var(--color-border)]">
                           <div className={`h-full transition-all ${isPlaying ? "bg-[var(--color-accent-gold)]" : "bg-[var(--color-accent-gold-muted)]"}`} style={{ width: `${progress}%` }} />
                         </div>
-                        <div className="mt-1 text-center text-xs text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
+                        <div className="mt-1 text-center text-xs text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
                           {quiz.duration} seconds
                         </div>
                       </>
@@ -369,11 +369,11 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                   <div className="text-center">
                     {submitted ? (
                       <div>
-                        <div className="text-lg font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+                        <div className="text-lg font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body), serif' }}>
                           {slice.artist.name}
                         </div>
                         {selectedArtist && (
-                          <div className="mt-1 text-sm" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
+                          <div className="mt-1 text-sm" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
                             <span className="text-[var(--color-text-muted)]">You guessed: </span>
                             <span className={isCorrect(slice.id) ? "text-[var(--color-success)]" : "text-[var(--color-error)]"}>
                               {selectedArtist.name}
@@ -382,12 +382,12 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                         )}
                       </div>
                     ) : selectedArtist ? (
-                      <div className="text-sm" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
+                      <div className="text-sm" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
                         <span className="text-[var(--color-text-muted)]">Your answer: </span>
                         <span className="font-medium text-[var(--color-accent-gold)]">{selectedArtist.name}</span>
                       </div>
                     ) : (
-                      <div className="text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
+                      <div className="text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
                         Select an artist below
                       </div>
                     )}
@@ -401,12 +401,12 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
         {/* Artist Selection */}
         {!submitted && (
           <div className="mb-8">
-            <h2 className="mb-4 text-lg font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+            <h2 className="mb-4 text-lg font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body), serif' }}>
               Select artists for each recording:
             </h2>
             {shuffledSlices.map((slice, sliceIdx) => (
               <div key={slice.id} className="mb-4">
-                <p className="mb-2 text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
+                <p className="mb-2 text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
                   Recording {sliceIdx + 1}:
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -421,7 +421,7 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                             ? "bg-[var(--color-accent-gold)] text-[var(--color-bg-primary)]"
                             : "bg-[var(--color-bg-card)] text-[var(--color-text-primary)] hover:bg-[var(--color-border)]"
                         }`}
-                        style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}
+                        style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}
                       >
                         {artist.photoUrl && <img src={artist.photoUrl} alt={artist.name} className="h-10 w-10 rounded-full object-cover" />}
                         <span className="font-medium">{artist.name}</span>
@@ -448,12 +448,12 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                   onClick={handleSubmit}
                   disabled={!canSubmit}
                   className="rounded-lg bg-[var(--color-accent-gold)] px-8 py-3 font-semibold text-[var(--color-bg-primary)] transition-all hover:bg-[var(--color-accent-gold-hover)] disabled:cursor-not-allowed disabled:opacity-40"
-                  style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}
+                  style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}
                 >
                   Submit Answers
                 </button>
                 {hasDuplicates && allSelected && (
-                  <p className="mt-2 text-sm text-[var(--color-error)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
+                  <p className="mt-2 text-sm text-[var(--color-error)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
                     Each recording must have a different artist
                   </p>
                 )}
@@ -461,15 +461,15 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
             );
           })() : (
             <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)]/60 p-6">
-              <h2 className="mb-2 text-2xl font-bold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+              <h2 className="mb-2 text-2xl font-bold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body), serif' }}>
                 {score === 3 ? "🎉 Perfect Score!" : score === 2 ? "👏 Great Job!" : score === 1 ? "👍 Not Bad!" : "😅 Better Luck Next Time!"}
               </h2>
-              <p className="mb-4 text-xl text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>
+              <p className="mb-4 text-xl text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
                 You got <span className="font-bold text-[var(--color-accent-gold)]">{score}/3</span> correct
               </p>
 
               <div className="mb-6 flex flex-col items-center gap-4">
-                <span className="text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 500 }}>Enjoyed this quiz?</span>
+                <span className="text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>Enjoyed this quiz?</span>
                 <div className="flex items-center gap-4">
                   {isAuthenticated ? (
                     <button
@@ -480,7 +480,7 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                           ? "bg-[var(--color-error)] text-[var(--color-bg-primary)] hover:opacity-90"
                           : "border-2 border-[var(--color-border)] bg-[var(--color-bg-card)] text-[var(--color-text-primary)] hover:border-[var(--color-error)] hover:bg-[var(--color-border)]"
                       } disabled:cursor-not-allowed disabled:opacity-50`}
-                      style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}
+                      style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}
                     >
                       <span className="text-2xl">{isLiked ? "❤️" : "🤍"}</span>
                       <span>{isLiked ? "Liked" : "Like"}</span>
@@ -490,7 +490,7 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                     <button
                       onClick={handleSignInToLike}
                       className="flex items-center gap-2 rounded-lg border-2 border-[var(--color-border)] bg-[var(--color-bg-card)] px-6 py-3 font-semibold text-[var(--color-text-primary)] transition-all hover:border-[var(--color-error)] hover:bg-[var(--color-border)]"
-                      style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}
+                      style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}
                     >
                       <span className="text-2xl">🤍</span>
                       <span>Sign in to like</span>
@@ -511,14 +511,14 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                     setShuffledArtists(shuffleArray(shuffledArtists));
                   }}
                   className="rounded-lg border-2 border-[var(--color-border)] px-6 py-2 font-medium text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-border)]"
-                  style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}
+                  style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}
                 >
                   Try Again
                 </button>
                 <Link
                   href="/"
                   className="rounded-lg bg-[var(--color-accent-gold)] px-6 py-2 font-semibold text-[var(--color-bg-primary)] transition-all hover:bg-[var(--color-accent-gold-hover)]"
-                  style={{ fontFamily: 'var(--font-lora), serif', fontWeight: 600 }}
+                  style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}
                 >
                   Back to Home
                 </Link>

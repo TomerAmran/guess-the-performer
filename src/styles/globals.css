@@ -1,11 +1,6 @@
 @import "tailwindcss";
 
-@theme {
-  /* Typography */
-  --font-playfair: var(--font-playfair), 'Playfair Display', Georgia, serif;
-  --font-lora: var(--font-lora), 'Lora', Georgia, serif;
-  --font-cinzel: var(--font-cinzel), 'Cinzel', serif;
-}
+/* Typography handled by Next.js font loader - using Inter for everything */
 
 /* Light Theme (Default - Classical Paper) */
 :root,
