@@ -7,7 +7,42 @@ import { api } from "~/trpc/react";
 import { getYouTubeId } from "~/app/_components/youtube";
 import { ShareButton } from "~/app/_components/ShareButton";
 import { PageHeader } from "~/app/_components/PageHeader";
+import { ComposerAvatar } from "~/app/_components/ComposerAvatar";
 import type { YTPlayer } from "~/app/_components/youtube-types";
+
+// Instrument icons mapping
+const instrumentIcons: Record<string, string> = {
+  piano: "🎹",
+  violin: "🎻",
+  cello: "🎻",
+  viola: "🎻",
+  flute: "🪈",
+  clarinet: "🎷",
+  oboe: "🎷",
+  bassoon: "🎷",
+  trumpet: "🎺",
+  horn: "🎺",
+  trombone: "🎺",
+  tuba: "🎺",
+  guitar: "🎸",
+  harp: "🎵",
+  organ: "🎹",
+  voice: "🎤",
+  soprano: "🎤",
+  tenor: "🎤",
+  baritone: "🎤",
+  bass: "🎤",
+  orchestra: "🎼",
+  chamber: "🎼",
+};
+
+function getInstrumentIcon(instrumentName: string): string {
+  const name = instrumentName.toLowerCase();
+  for (const [key, icon] of Object.entries(instrumentIcons)) {
+    if (name.includes(key)) return icon;
+  }
+  return "🎵";
+}
 import "~/app/_components/youtube-types";
 
 // localStorage key for saving quiz state
@@ -275,15 +310,34 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
         <PageHeader backHref="/" backLabel="Back to Home" />
 
         <div className="mb-8 text-center">
-          <p className="mb-1 text-sm uppercase tracking-widest text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
+          <p className="mb-3 text-sm uppercase tracking-widest text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
             Who&apos;s Playing?
           </p>
-          <h1 className="mb-1 text-3xl font-bold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body), serif' }}>
+          
+          {/* Composer photo */}
+          <div className="mb-3 flex justify-center">
+            <ComposerAvatar 
+              name={quiz.composer.name} 
+              photoUrl={quiz.composer.photoUrl} 
+              size="lg" 
+            />
+          </div>
+          
+          <h1 className="mb-1 text-2xl font-bold text-[var(--color-text-primary)] md:text-3xl" style={{ fontFamily: 'var(--font-body), serif' }}>
             {quiz.pieceName}
           </h1>
           <p className="text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
             {quiz.composer.name}
           </p>
+          
+          {/* Instrument badge */}
+          <div className="mt-2 flex justify-center">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-bg-card)] px-3 py-1 text-sm text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
+              <span>{getInstrumentIcon(quiz.instrument.name)}</span>
+              <span>{quiz.instrument.name}</span>
+            </span>
+          </div>
+          
           <p className="mt-3 text-sm text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
             Listen to each recording and match it to the correct artist
           </p>
@@ -422,14 +476,20 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                         <button
                           key={artist.id}
                           onClick={() => handleSelectArtist(slice.id, artist.id)}
-                          className={`flex items-center justify-center gap-1 rounded-lg px-2 py-1.5 text-xs transition-all md:gap-2 md:px-4 md:py-2 md:text-base ${
+                          className={`flex items-center gap-2 rounded-lg px-2 py-1.5 text-xs transition-all md:justify-center md:gap-2 md:px-4 md:py-2 md:text-base ${
                             isSelected
                               ? "bg-[var(--color-accent-gold)] text-[var(--color-bg-primary)]"
                               : "bg-[var(--color-bg-card)] text-[var(--color-text-primary)] hover:bg-[var(--color-border)]"
                           }`}
                           style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}
                         >
-                          {artist.photoUrl && <img src={artist.photoUrl} alt={artist.name} className="hidden h-10 w-10 rounded-full object-cover md:block" />}
+                          {artist.photoUrl && (
+                            <img 
+                              src={artist.photoUrl} 
+                              alt={artist.name} 
+                              className="h-6 w-6 flex-shrink-0 rounded-full object-cover md:h-10 md:w-10" 
+                            />
+                          )}
                           <span className="font-medium leading-tight">{artist.name}</span>
                         </button>
                       );
