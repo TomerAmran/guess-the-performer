@@ -275,13 +275,16 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
         <PageHeader backHref="/" backLabel="Back to Home" />
 
         <div className="mb-8 text-center">
-          <h1 className="mb-2 text-3xl font-bold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body), serif' }}>
+          <p className="mb-1 text-sm uppercase tracking-widest text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
             Who&apos;s Playing?
-          </h1>
-          <p className="text-xl text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
-            {quiz.composer.name} - <span className="italic">{quiz.pieceName}</span>
           </p>
-          <p className="mt-2 text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
+          <h1 className="mb-1 text-3xl font-bold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body), serif' }}>
+            {quiz.pieceName}
+          </h1>
+          <p className="text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
+            {quiz.composer.name}
+          </p>
+          <p className="mt-3 text-sm text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
             Listen to each recording and match it to the correct artist
           </p>
         </div>

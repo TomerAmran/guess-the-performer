@@ -93,13 +93,13 @@ export default async function Home() {
                             className="text-xl font-semibold text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-accent-burgundy)]"
                             style={{ fontFamily: 'var(--font-body), serif' }}
                           >
-                            {quiz.composer.name}
+                            {quiz.pieceName}
                           </h3>
                           <p 
-                            className="mt-1 text-lg italic text-[var(--color-text-secondary)]"
+                            className="mt-1 text-sm text-[var(--color-text-muted)]"
                             style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}
                           >
-                            {quiz.pieceName}
+                            {quiz.composer.name}
                           </p>
                           <div 
                             className="mt-2 flex items-center gap-3 text-sm text-[var(--color-text-muted)]"

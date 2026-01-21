@@ -52,8 +52,8 @@ export default function MyQuizzesPage() {
             {quizzes.map((quiz) => (
               <div key={quiz.id} className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)]/60 p-6 transition-all hover:border-[var(--color-accent-gold)]">
                 <div className="mb-4">
-                  <h3 className="mb-1 text-xl font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body), serif' }}>{quiz.composer.name}</h3>
-                  <p className="text-lg italic text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>{quiz.pieceName}</p>
+                  <h3 className="mb-1 text-xl font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body), serif' }}>{quiz.pieceName}</h3>
+                  <p className="text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>{quiz.composer.name}</p>
                   <p className="text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>{quiz.instrument.name}</p>
                 </div>
                 <div className="mb-4 flex flex-wrap gap-2">
