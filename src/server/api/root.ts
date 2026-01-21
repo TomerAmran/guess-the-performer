@@ -1,4 +1,3 @@
-import { postRouter } from "~/server/api/routers/post";
 import { composerRouter } from "~/server/api/routers/composer";
 import { artistRouter } from "~/server/api/routers/artist";
 import { instrumentRouter } from "~/server/api/routers/instrument";
@@ -11,7 +10,6 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  post: postRouter,
   composer: composerRouter,
   artist: artistRouter,
   instrument: instrumentRouter,
@@ -25,7 +23,7 @@ export type AppRouter = typeof appRouter;
  * Create a server-side caller for the tRPC API.
  * @example
  * const trpc = createCaller(createContext);
- * const res = await trpc.post.all();
- *       ^? Post[]
+ * const res = await trpc.quiz.getAll();
+ *       ^? Quiz[]
  */
 export const createCaller = createCallerFactory(appRouter);
