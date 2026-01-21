@@ -422,7 +422,7 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
             <h3 className="mb-4 text-center text-sm font-medium uppercase tracking-widest text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif' }}>
               Performances
             </h3>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
+            <div className="grid grid-cols-1 gap-4">
               {shuffledSlices.map((slice) => {
                 const selectedArtist = shuffledArtists.find((a) => a.id === answers[slice.id]);
                 const correct = isCorrect(slice.id);
