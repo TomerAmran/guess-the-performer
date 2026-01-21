@@ -367,6 +367,19 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                         {correct ? "✓" : "✗"}
                       </span>
                       
+                      {/* Artist photo */}
+                      {slice.artist.photoUrl && (
+                        <div className="my-2 flex justify-center">
+                          <img 
+                            src={slice.artist.photoUrl} 
+                            alt={slice.artist.name}
+                            className={`h-12 w-12 rounded-full object-cover ring-2 md:h-16 md:w-16 ${
+                              correct ? "ring-[var(--color-success)]" : "ring-[var(--color-error)]"
+                            }`}
+                          />
+                        </div>
+                      )}
+                      
                       {correct ? (
                         /* Correct: just show name in green */
                         <div className="text-xs font-semibold text-[var(--color-success)] md:text-sm" style={{ fontFamily: 'var(--font-body), serif' }}>
