@@ -367,6 +367,146 @@ async function main() {
   });
   console.log(`✅ Tchaikovsky Quiz created: ${tchaikovskyQuiz.pieceName}`);
 
+  // ==================== BEETHOVEN MOONLIGHT SONATA ====================
+  const beethoven = composers.find(c => c.name === "Ludwig van Beethoven")!;
+  console.log("\n🎼 Adding Beethoven Moonlight Sonata data...\n");
+  
+  const barenboim = await prisma.artist.create({
+    data: { name: "Daniel Barenboim", photoUrl: null },
+  });
+
+  const moonlightQuiz = await prisma.quiz.create({
+    data: {
+      composerId: beethoven.id,
+      instrumentId: piano.id,
+      pieceName: "Piano Sonata No. 14 'Moonlight'",
+      createdById: adminUser.id,
+      duration: 30,
+      slices: {
+        create: [
+          { artistId: rubinstein.id, youtubeUrl: "https://www.youtube.com/watch?v=KVRI5Ud9Re4", startTime: 0 },
+          { artistId: horowitz.id, youtubeUrl: "https://www.youtube.com/watch?v=shMmbJBcW5A", startTime: 0 },
+          { artistId: barenboim.id, youtubeUrl: "https://www.youtube.com/watch?v=q5OaSju0qNc", startTime: 0 },
+        ],
+      },
+    },
+    include: { composer: true, instrument: true, slices: { include: { artist: true } } },
+  });
+  console.log(`✅ Beethoven Quiz created: ${moonlightQuiz.pieceName}`);
+
+  // ==================== RACHMANINOFF PIANO CONCERTO NO. 3 ====================
+  const rachmaninoff = composers.find(c => c.name === "Sergei Rachmaninoff")!;
+  console.log("\n🎼 Adding Rachmaninoff Piano Concerto No. 3 data...\n");
+  
+  const argerich = await prisma.artist.create({
+    data: { name: "Martha Argerich", photoUrl: null },
+  });
+  const trifonov = await prisma.artist.create({
+    data: { name: "Daniil Trifonov", photoUrl: null },
+  });
+
+  const rachmaninoffQuiz = await prisma.quiz.create({
+    data: {
+      composerId: rachmaninoff.id,
+      instrumentId: piano.id,
+      pieceName: "Piano Concerto No. 3 in D minor, Op. 30",
+      createdById: adminUser.id,
+      duration: 30,
+      slices: {
+        create: [
+          { artistId: horowitz.id, youtubeUrl: "https://www.youtube.com/watch?v=D5mxU_7BTRA", startTime: 60 },
+          { artistId: argerich.id, youtubeUrl: "https://www.youtube.com/watch?v=MOOfoW5_2iE", startTime: 60 },
+          { artistId: trifonov.id, youtubeUrl: "https://www.youtube.com/watch?v=bO-6-ZjlKvw", startTime: 60 },
+        ],
+      },
+    },
+    include: { composer: true, instrument: true, slices: { include: { artist: true } } },
+  });
+  console.log(`✅ Rachmaninoff Quiz created: ${rachmaninoffQuiz.pieceName}`);
+
+  // ==================== BRAHMS VIOLIN CONCERTO ====================
+  const brahms = composers.find(c => c.name === "Johannes Brahms")!;
+  console.log("\n🎼 Adding Brahms Violin Concerto data...\n");
+  
+  const heifetz = await prisma.artist.create({
+    data: { name: "Jascha Heifetz", photoUrl: null },
+  });
+  const oistrakh = await prisma.artist.create({
+    data: { name: "David Oistrakh", photoUrl: null },
+  });
+  const mutter = await prisma.artist.create({
+    data: { name: "Anne-Sophie Mutter", photoUrl: null },
+  });
+
+  const brahmsQuiz = await prisma.quiz.create({
+    data: {
+      composerId: brahms.id,
+      instrumentId: violin.id,
+      pieceName: "Violin Concerto in D major, Op. 77",
+      createdById: adminUser.id,
+      duration: 30,
+      slices: {
+        create: [
+          { artistId: heifetz.id, youtubeUrl: "https://www.youtube.com/watch?v=7iG9tUJ7Am4", startTime: 120 },
+          { artistId: oistrakh.id, youtubeUrl: "https://www.youtube.com/watch?v=RFkSiNp4CRQ", startTime: 120 },
+          { artistId: mutter.id, youtubeUrl: "https://www.youtube.com/watch?v=HRkOqnj7YkQ", startTime: 120 },
+        ],
+      },
+    },
+    include: { composer: true, instrument: true, slices: { include: { artist: true } } },
+  });
+  console.log(`✅ Brahms Quiz created: ${brahmsQuiz.pieceName}`);
+
+  // ==================== SIBELIUS VIOLIN CONCERTO ====================
+  const sibelius = composers.find(c => c.name === "Jean Sibelius")!;
+  console.log("\n🎼 Adding Sibelius Violin Concerto data...\n");
+
+  const sibeliusQuiz = await prisma.quiz.create({
+    data: {
+      composerId: sibelius.id,
+      instrumentId: violin.id,
+      pieceName: "Violin Concerto in D minor, Op. 47",
+      createdById: adminUser.id,
+      duration: 30,
+      slices: {
+        create: [
+          { artistId: heifetz.id, youtubeUrl: "https://www.youtube.com/watch?v=-yvy9lS5DC4", startTime: 60 },
+          { artistId: hilaryHahn.id, youtubeUrl: "https://www.youtube.com/watch?v=J0w0t4Qn6LY", startTime: 60 },
+          { artistId: janineJansen.id, youtubeUrl: "https://www.youtube.com/watch?v=iIafobNq-tU", startTime: 60 },
+        ],
+      },
+    },
+    include: { composer: true, instrument: true, slices: { include: { artist: true } } },
+  });
+  console.log(`✅ Sibelius Quiz created: ${sibeliusQuiz.pieceName}`);
+
+  // ==================== DVORAK CELLO CONCERTO ====================
+  const dvorak = composers.find(c => c.name === "Antonín Dvořák")!;
+  console.log("\n🎼 Adding Dvořák Cello Concerto data...\n");
+  
+  const rostropovich = await prisma.artist.create({
+    data: { name: "Mstislav Rostropovich", photoUrl: null },
+  });
+
+  const dvorakQuiz = await prisma.quiz.create({
+    data: {
+      composerId: dvorak.id,
+      instrumentId: cello.id,
+      pieceName: "Cello Concerto in B minor, Op. 104",
+      createdById: adminUser.id,
+      duration: 30,
+      slices: {
+        create: [
+          { artistId: rostropovich.id, youtubeUrl: "https://www.youtube.com/watch?v=_lYqoEM4tYs", startTime: 60 },
+          { artistId: jacquelineDuPre.id, youtubeUrl: "https://www.youtube.com/watch?v=U_yxtaeFuEQ", startTime: 60 },
+          { artistId: yoyoMa.id, youtubeUrl: "https://www.youtube.com/watch?v=190faUQ7xJg", startTime: 60 },
+        ],
+      },
+    },
+    include: { composer: true, instrument: true, slices: { include: { artist: true } } },
+  });
+  console.log(`✅ Dvořák Quiz created: ${dvorakQuiz.pieceName}`);
+
   console.log("\n🎉 All quizzes created successfully!");
 }
 
