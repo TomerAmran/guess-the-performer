@@ -389,7 +389,7 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                         /* Wrong: strikethrough guess in red, then correct in white */
                         <div className="space-y-0.5">
                           {selectedArtist && (
-                            <div className="text-xs text-[var(--color-error)] line-through md:text-sm" style={{ fontFamily: 'var(--font-body), serif' }}>
+                            <div className="text-xs font-semibold text-[var(--color-error)] line-through md:text-sm" style={{ fontFamily: 'var(--font-body), serif' }}>
                               {selectedArtist.name}
                             </div>
                           )}
