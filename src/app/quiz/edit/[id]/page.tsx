@@ -8,6 +8,25 @@ import { YouTubeClipPicker } from "../../create/_components/YouTubeClipPicker";
 import { isValidYouTubeUrl } from "~/app/_components/youtube";
 import { PageHeader } from "~/app/_components/PageHeader";
 
+// Convert seconds to mm:ss format
+const secondsToTime = (seconds: number): string => {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+};
+
+// Parse mm:ss or m:ss or just seconds to total seconds
+const timeToSeconds = (time: string): number => {
+  const trimmed = time.trim();
+  if (trimmed.includes(':')) {
+    const parts = trimmed.split(':');
+    const mins = parseInt(parts[0] ?? '0', 10) || 0;
+    const secs = parseInt(parts[1] ?? '0', 10) || 0;
+    return mins * 60 + secs;
+  }
+  return parseInt(trimmed, 10) || 0;
+};
+
 type QuizSlice = { artistId: string; youtubeUrl: string; startTime: number };
 
 export default function EditQuizPage({ params }: { params: Promise<{ id: string }> }) {
@@ -136,8 +155,8 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
                       <input type="url" value={slice.youtubeUrl} onChange={(e) => updateSlice(idx, "youtubeUrl", e.target.value)} placeholder="https://www.youtube.com/watch?v=..." className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] px-4 py-3 text-[var(--color-text-primary)] placeholder-[var(--color-text-placeholder)] focus:border-[var(--color-accent-gold)] focus:outline-none" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }} />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}>Start Time (seconds) <span className="text-[var(--color-error)]">*</span></label>
-                      <input type="number" min={0} value={slice.startTime} onChange={(e) => updateSlice(idx, "startTime", parseInt(e.target.value) || 0)} className="w-32 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] px-4 py-2 text-[var(--color-text-primary)] focus:border-[var(--color-accent-gold)] focus:outline-none" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }} />
+                      <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}>Start Time (mm:ss) <span className="text-[var(--color-error)]">*</span></label>
+                      <input type="text" value={secondsToTime(slice.startTime)} onChange={(e) => updateSlice(idx, "startTime", timeToSeconds(e.target.value))} placeholder="0:00" className="w-32 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] px-4 py-2 text-[var(--color-text-primary)] focus:border-[var(--color-accent-gold)] focus:outline-none" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }} />
                     </div>
                     {isValidYouTubeUrl(slice.youtubeUrl) && <YouTubeClipPicker youtubeUrl={slice.youtubeUrl} startTime={slice.startTime} duration={duration} onChangeStartTime={(seconds) => updateSlice(idx, "startTime", seconds)} />}
                   </div>
