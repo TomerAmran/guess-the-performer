@@ -309,44 +309,36 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
       <div className="container mx-auto max-w-4xl px-4 py-8">
         <PageHeader backHref="/" backLabel="Back to Home" />
 
-        <div className="mb-8 text-center">
-          <p className="mb-3 text-sm uppercase tracking-widest text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
+        {/* Header */}
+        <div className="mb-8">
+          <p className="mb-4 text-center text-sm uppercase tracking-widest text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
             Who&apos;s Playing?
           </p>
           
-          {/* Composer photo */}
-          <div className="mb-3 flex justify-center">
+          {/* Piece info grid */}
+          <div className="flex items-center justify-center gap-4">
             <ComposerAvatar 
               name={quiz.composer.name} 
               photoUrl={quiz.composer.photoUrl} 
               size="lg" 
             />
+            <div>
+              <h1 className="text-xl font-bold text-[var(--color-text-primary)] md:text-2xl" style={{ fontFamily: 'var(--font-body), serif' }}>
+                {quiz.pieceName}
+              </h1>
+              <div className="flex items-center gap-2 text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
+                <span>{quiz.composer.name}</span>
+                <span className="text-[var(--color-border)]">•</span>
+                <span>{getInstrumentIcon(quiz.instrument.name)} {quiz.instrument.name}</span>
+              </div>
+            </div>
           </div>
-          
-          <h1 className="mb-1 text-2xl font-bold text-[var(--color-text-primary)] md:text-3xl" style={{ fontFamily: 'var(--font-body), serif' }}>
-            {quiz.pieceName}
-          </h1>
-          <p className="text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
-            {quiz.composer.name}
-          </p>
-          
-          {/* Instrument badge */}
-          <div className="mt-2 flex justify-center">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-bg-card)] px-3 py-1 text-sm text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
-              <span>{getInstrumentIcon(quiz.instrument.name)}</span>
-              <span>{quiz.instrument.name}</span>
-            </span>
-          </div>
-          
-          <p className="mt-3 text-sm text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
-            Listen to each recording and match it to the correct artist
-          </p>
         </div>
 
-        {/* Audio Players */}
+        {/* Listen */}
         <div className="mb-6 md:mb-8">
-          <h2 className="mb-3 text-base font-semibold text-[var(--color-text-primary)] md:mb-4 md:text-lg" style={{ fontFamily: 'var(--font-body), serif' }}>
-            Listen to the recordings:
+          <h2 className="mb-4 text-center text-sm font-medium uppercase tracking-widest text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif' }}>
+            Listen
           </h2>
           <div className="grid grid-cols-3 gap-2 md:gap-4">
             {shuffledSlices.map((slice, idx) => {
@@ -367,18 +359,15 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                         : "border-[var(--color-border)] bg-[var(--color-bg-card)]/60"
                   }`}
                 >
-                  <div className="mb-2 flex items-center justify-between md:mb-4">
-                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--color-accent-gold)] text-sm font-bold text-[var(--color-bg-primary)] md:h-10 md:w-10 md:text-lg">
-                      {idx + 1}
-                    </span>
-                    {submitted && (
+                  {submitted && (
+                    <div className="mb-2 flex justify-end md:mb-3">
                       <span className={`text-lg md:text-2xl ${isCorrect(slice.id) ? "text-[var(--color-success)]" : "text-[var(--color-error)]"}`}>
                         {isCorrect(slice.id) ? "✓" : "✗"}
                       </span>
-                    )}
-                  </div>
+                    </div>
+                  )}
 
-                  <div className="mb-2 md:mb-4">
+                  <div className={submitted ? "" : "mb-2 md:mb-4"}>
                     {submitted ? (
                       <div className="aspect-video overflow-hidden rounded-lg bg-black">
                         <iframe
@@ -454,22 +443,15 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
           </div>
         </div>
 
-        {/* Artist Selection */}
+        {/* Match */}
         {!submitted && (
           <div className="mb-6 md:mb-8">
-            <h2 className="mb-3 text-base font-semibold text-[var(--color-text-primary)] md:mb-4 md:text-lg" style={{ fontFamily: 'var(--font-body), serif' }}>
-              Match artists to recordings:
+            <h2 className="mb-4 text-center text-sm font-medium uppercase tracking-widest text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif' }}>
+              Match
             </h2>
-            <div className="grid grid-cols-3 gap-2 md:block md:space-y-4">
-              {shuffledSlices.map((slice, sliceIdx) => (
-                <div key={slice.id} className="flex flex-col md:block">
-                  <p className="mb-1 text-center text-xs font-medium text-[var(--color-text-muted)] md:mb-2 md:text-left md:text-sm" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
-                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[var(--color-accent-gold)] text-xs font-bold text-[var(--color-bg-primary)] md:hidden mx-auto mb-1">
-                      {sliceIdx + 1}
-                    </span>
-                    <span className="hidden md:inline">Recording {sliceIdx + 1}:</span>
-                  </p>
-                  <div className="flex flex-col gap-1.5 md:flex-row md:flex-wrap md:gap-2">
+            <div className="grid grid-cols-3 gap-2 md:flex md:flex-wrap md:justify-center md:gap-3">
+              {shuffledSlices.map((slice) => (
+                <div key={slice.id} className="flex flex-col gap-1.5 md:flex-row md:gap-2">
                     {shuffledArtists.map((artist) => {
                       const isSelected = answers[slice.id] === artist.id;
                       return (
@@ -494,7 +476,6 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
                         </button>
                       );
                     })}
-                  </div>
                 </div>
               ))}
             </div>
