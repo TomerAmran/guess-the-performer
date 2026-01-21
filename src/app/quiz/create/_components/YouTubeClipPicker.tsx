@@ -9,19 +9,18 @@ type YouTubeClipPickerProps = {
   youtubeUrl: string;
   startTime: number;
   duration: number;
-  onChangeStartTime: (seconds: number) => void;
 };
 
 export function YouTubeClipPicker({
   youtubeUrl,
   startTime,
   duration,
-  onChangeStartTime,
 }: YouTubeClipPickerProps) {
   const [playerReady, setPlayerReady] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const playerRef = useRef<YTPlayer | null>(null);
   const stopTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const elementId = useRef(`yt-picker-${Math.random().toString(36).slice(2)}`);
 
   const videoId = getYouTubeId(youtubeUrl);
@@ -47,13 +46,18 @@ export function YouTubeClipPicker({
         playerRef.current.destroy();
       }
 
+      // Get container width for responsive sizing
+      const containerWidth = containerRef.current?.clientWidth ?? 320;
+      const playerHeight = Math.round(containerWidth * 9 / 16); // 16:9 aspect ratio
+
       const player = new window.YT.Player(elementId.current, {
-        height: "315",
-        width: "560",
+        height: String(playerHeight),
+        width: "100%",
         videoId,
         playerVars: {
           start: startTime,
           controls: 1,
+          playsinline: 1, // Important for mobile - play inline instead of fullscreen
         },
         events: {
           onReady: () => {
@@ -89,34 +93,35 @@ export function YouTubeClipPicker({
         playerRef.current.destroy();
         playerRef.current = null;
       }
+      // Reset states when player is destroyed (e.g., when startTime changes)
+      setIsPlaying(false);
+      setPlayerReady(false);
     };
   }, [videoId, startTime]);
 
-  const handlePlayClip = () => {
+  const handleTogglePlay = () => {
     if (!playerRef.current || !playerReady) return;
 
-    // Clear any existing timeout
-    if (stopTimeoutRef.current) {
-      clearTimeout(stopTimeoutRef.current);
-    }
-
-    // Seek to start time and play
-    playerRef.current.seekTo(startTime, true);
-    playerRef.current.playVideo();
-
-    // Auto-stop after duration
-    stopTimeoutRef.current = setTimeout(() => {
-      if (playerRef.current) {
-        playerRef.current.pauseVideo();
-        setIsPlaying(false);
+    if (isPlaying) {
+      // Stop playing
+      if (stopTimeoutRef.current) {
+        clearTimeout(stopTimeoutRef.current);
       }
-    }, duration * 1000);
-  };
+      playerRef.current.pauseVideo();
+      setIsPlaying(false);
+    } else {
+      // Start playing from start time
+      playerRef.current.seekTo(startTime, true);
+      playerRef.current.playVideo();
 
-  const handleUseCurrentTime = () => {
-    if (!playerRef.current || !playerReady) return;
-    const currentTime = Math.floor(playerRef.current.getCurrentTime());
-    onChangeStartTime(currentTime);
+      // Auto-stop after duration
+      stopTimeoutRef.current = setTimeout(() => {
+        if (playerRef.current) {
+          playerRef.current.pauseVideo();
+          setIsPlaying(false);
+        }
+      }, duration * 1000);
+    }
   };
 
   if (!videoId) {
@@ -124,41 +129,37 @@ export function YouTubeClipPicker({
   }
 
   return (
-    <div className="rounded-xl border border-slate-700 bg-slate-900/40 p-4">
-      <div className="mb-3">
-        <div className="aspect-video overflow-hidden rounded-lg bg-black">
-          <div id={elementId.current} />
+    <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)]/60 p-3 sm:p-4">
+      {/* Responsive video container */}
+      <div className="mb-3" ref={containerRef}>
+        <div className="relative w-full overflow-hidden rounded-lg bg-black" style={{ paddingBottom: '56.25%' }}>
+          <div id={elementId.current} className="absolute inset-0 h-full w-full" />
         </div>
       </div>
 
-      <div className="flex gap-2">
-        <button
-          onClick={handlePlayClip}
-          disabled={!playerReady}
-          className="flex-1 rounded-lg bg-amber-600 px-4 py-2 font-medium text-black transition-all hover:bg-amber-500 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          {playerReady ? (
-            <>
-              <span className="text-lg">▶</span> Play {duration}s clip
-            </>
-          ) : (
-            "Loading..."
-          )}
-        </button>
-        <button
-          onClick={handleUseCurrentTime}
-          disabled={!playerReady}
-          className="flex-1 rounded-lg border border-slate-600 px-4 py-2 font-medium text-slate-300 transition-all hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          Use current time
-        </button>
-      </div>
-
-      {isPlaying && (
-        <p className="mt-2 text-center text-sm text-amber-400">
-          Playing clip...
-        </p>
-      )}
+      {/* Single play/stop button */}
+      <button
+        onClick={handleTogglePlay}
+        disabled={!playerReady}
+        className={`w-full rounded-lg px-4 py-3 font-medium transition-all disabled:cursor-not-allowed disabled:opacity-50 ${
+          isPlaying
+            ? "bg-red-600 text-white hover:bg-red-500"
+            : "bg-[var(--color-accent-gold)] text-[var(--color-bg-primary)] hover:bg-[var(--color-accent-gold-hover)]"
+        }`}
+        style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}
+      >
+        {!playerReady ? (
+          "Loading..."
+        ) : isPlaying ? (
+          <>
+            <span className="mr-1">■</span> Stop
+          </>
+        ) : (
+          <>
+            <span className="mr-1">▶</span> Play
+          </>
+        )}
+      </button>
     </div>
   );
 }

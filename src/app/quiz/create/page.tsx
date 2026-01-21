@@ -134,10 +134,57 @@ export default function CreateQuizPage() {
                       <input type="url" value={slice.youtubeUrl} onChange={(e) => updateSlice(idx, "youtubeUrl", e.target.value)} placeholder="https://www.youtube.com/watch?v=..." className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] px-4 py-3 text-[var(--color-text-primary)] placeholder-[var(--color-text-placeholder)] focus:border-[var(--color-accent-gold)] focus:outline-none" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }} />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}>Start Time (mm:ss) <span className="text-[var(--color-error)]">*</span></label>
-                      <input type="text" value={secondsToTime(slice.startTime)} onChange={(e) => updateSlice(idx, "startTime", timeToSeconds(e.target.value))} placeholder="0:00" className="w-32 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] px-4 py-2 text-[var(--color-text-primary)] focus:border-[var(--color-accent-gold)] focus:outline-none" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }} />
+                      <label className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}>Start Time <span className="text-[var(--color-error)]">*</span></label>
+                      {/* Time display with manual input */}
+                      <div className="mb-2">
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          value={secondsToTime(slice.startTime)}
+                          onChange={(e) => updateSlice(idx, "startTime", timeToSeconds(e.target.value))}
+                          placeholder="0:00"
+                          className="w-24 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] px-4 py-3 text-center text-xl text-[var(--color-text-primary)] focus:border-[var(--color-accent-gold)] focus:outline-none"
+                          style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}
+                        />
+                      </div>
+                      {/* Time adjustment buttons - mobile-friendly grid */}
+                      <div className="grid grid-cols-4 gap-2">
+                        <button
+                          type="button"
+                          onClick={() => updateSlice(idx, "startTime", Math.max(0, slice.startTime - 10))}
+                          className="flex h-11 items-center justify-center rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] text-sm font-bold text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-border)] active:scale-95"
+                          style={{ fontFamily: 'var(--font-body), serif' }}
+                        >
+                          −10s
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => updateSlice(idx, "startTime", Math.max(0, slice.startTime - 1))}
+                          className="flex h-11 items-center justify-center rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] text-sm font-bold text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-border)] active:scale-95"
+                          style={{ fontFamily: 'var(--font-body), serif' }}
+                        >
+                          −1s
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => updateSlice(idx, "startTime", slice.startTime + 1)}
+                          className="flex h-11 items-center justify-center rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] text-sm font-bold text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-border)] active:scale-95"
+                          style={{ fontFamily: 'var(--font-body), serif' }}
+                        >
+                          +1s
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => updateSlice(idx, "startTime", slice.startTime + 10)}
+                          className="flex h-11 items-center justify-center rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-input)] text-sm font-bold text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-border)] active:scale-95"
+                          style={{ fontFamily: 'var(--font-body), serif' }}
+                        >
+                          +10s
+                        </button>
+                      </div>
+                      <p className="mt-2 text-xs text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif' }}>Adjust with buttons or type mm:ss</p>
                     </div>
-                    {isValidYouTubeUrl(slice.youtubeUrl) && <YouTubeClipPicker youtubeUrl={slice.youtubeUrl} startTime={slice.startTime} duration={duration} onChangeStartTime={(seconds) => updateSlice(idx, "startTime", seconds)} />}
+                    {isValidYouTubeUrl(slice.youtubeUrl) && <YouTubeClipPicker youtubeUrl={slice.youtubeUrl} startTime={slice.startTime} duration={duration} />}
                   </div>
                 </div>
               ))}

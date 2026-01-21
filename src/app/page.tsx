@@ -29,31 +29,58 @@ export default async function Home() {
           <ThemeToggle />
         </div>
 
-        <div className="relative mx-auto flex max-w-4xl flex-col items-center gap-16 px-6 py-20">
+        <div className="relative mx-auto flex max-w-4xl flex-col items-center gap-10 px-6 py-12 md:gap-16 md:py-20">
           
           {/* Header */}
           <header className="text-center">
             <h1 
-              className="text-5xl font-bold leading-tight text-[var(--color-text-primary)] sm:text-6xl"
+              className="text-3xl font-bold leading-tight text-[var(--color-text-primary)] sm:text-5xl md:text-6xl"
               style={{ fontFamily: 'var(--font-body), serif' }}
             >
               Guess the Performer
             </h1>
             <p 
-              className="mt-3 text-lg tracking-widest text-[var(--color-text-muted)]"
+              className="mt-1 text-sm tracking-widest text-[var(--color-text-muted)] sm:mt-3 sm:text-lg"
               style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}
             >
               classical music game
             </p>
           </header>
 
-          {/* Decorative Musical Divider */}
-          <div className="flex w-full max-w-md items-center gap-4 text-[var(--color-accent-gold-muted)]">
+          {/* Decorative Musical Divider - hidden on mobile */}
+          <div className="-my-4 hidden w-full max-w-md items-center gap-4 text-[var(--color-accent-gold-muted)] sm:flex">
             <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[var(--color-border)]" />
             <span className="text-2xl">♪</span>
             <span className="text-3xl">𝄞</span>
             <span className="text-2xl">♪</span>
             <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[var(--color-border)]" />
+          </div>
+
+          {/* Create Quiz Card */}
+          <div className="-my-4 w-full max-w-2xl sm:-my-6">
+            <Link
+              href={session ? "/quiz/create" : "/api/auth/signin"}
+              className="group flex items-center justify-between rounded-lg border border-dashed border-[var(--color-accent-gold)]/50 bg-[var(--color-accent-gold)]/5 px-4 py-3 transition-all hover:border-[var(--color-accent-gold)] hover:bg-[var(--color-accent-gold)]/10 sm:px-6 sm:py-4"
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-2xl text-[var(--color-accent-gold)]">♫</span>
+                <div>
+                  <h3 
+                    className="text-base font-semibold text-[var(--color-accent-gold)] sm:text-lg"
+                    style={{ fontFamily: 'var(--font-body), serif' }}
+                  >
+                    {session ? "Create New Quiz" : "Log in to Create Quiz"}
+                  </h3>
+                  <p 
+                    className="text-xs text-[var(--color-text-muted)] sm:text-sm"
+                    style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}
+                  >
+                    {session ? "Share your favorite performances" : "Sign in to share your favorite performances"}
+                  </p>
+                </div>
+              </div>
+              <span className="text-xl text-[var(--color-accent-gold)] transition-transform group-hover:translate-x-1">→</span>
+            </Link>
           </div>
 
           {/* Available Quizzes */}

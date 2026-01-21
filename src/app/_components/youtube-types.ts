@@ -13,6 +13,7 @@ declare global {
             start?: number;
             end?: number;
             controls?: number;
+            playsinline?: number;
           };
           events?: {
             onReady?: (event: { target: YTPlayer }) => void;
