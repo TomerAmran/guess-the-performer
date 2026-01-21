@@ -335,113 +335,197 @@ export default function QuizPlayPage({ params }: { params: Promise<{ id: string 
           </div>
         </div>
 
-        {/* Listen */}
-        <div className="mb-6 md:mb-8">
-          <h2 className="mb-4 text-center text-sm font-medium uppercase tracking-widest text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif' }}>
-            Listen
-          </h2>
-          <div className="grid grid-cols-3 gap-2 md:gap-4">
-            {shuffledSlices.map((slice, idx) => {
-              const selectedArtist = shuffledArtists.find((a) => a.id === answers[slice.id]);
-              const isPlaying = currentPlaying === idx;
-              const progress = playProgress[idx] ?? 0;
+        {/* Results View - Summary + Full-width Videos */}
+        {submitted && (
+          <div className="mb-6 md:mb-8">
+            {/* Horizontal Summary Cards */}
+            <div className="mb-6 grid grid-cols-3 gap-2 md:gap-4">
+              {shuffledSlices.map((slice) => {
+                const selectedArtist = shuffledArtists.find((a) => a.id === answers[slice.id]);
+                const correct = isCorrect(slice.id);
+                
+                const scrollToVideo = () => {
+                  const element = document.getElementById(`video-${slice.id}`);
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }
+                };
 
-              return (
-                <div
-                  key={slice.id}
-                  className={`rounded-lg border-2 p-2 transition-all md:rounded-xl md:p-4 ${
-                    submitted
-                      ? isCorrect(slice.id)
+                return (
+                  <div
+                    key={slice.id}
+                    className={`flex flex-col rounded-lg border-2 p-2 text-center md:p-3 ${
+                      correct
                         ? "border-[var(--color-success)] bg-[var(--color-success)]/10"
                         : "border-[var(--color-error)] bg-[var(--color-error)]/10"
-                      : answers[slice.id]
-                        ? "border-[var(--color-accent-gold)] bg-[var(--color-accent-gold)]/10"
-                        : "border-[var(--color-border)] bg-[var(--color-bg-card)]/60"
-                  }`}
-                >
-                  {submitted && (
-                    <div className="mb-2 flex justify-end md:mb-3">
-                      <span className={`text-lg md:text-2xl ${isCorrect(slice.id) ? "text-[var(--color-success)]" : "text-[var(--color-error)]"}`}>
-                        {isCorrect(slice.id) ? "✓" : "✗"}
+                    }`}
+                  >
+                    {/* Content area - grows to fill space */}
+                    <div className="flex-1">
+                      {/* Status indicator */}
+                      <span className={`mb-1 inline-block text-2xl md:text-3xl ${correct ? "text-[var(--color-success)]" : "text-[var(--color-error)]"}`}>
+                        {correct ? "✓" : "✗"}
                       </span>
-                    </div>
-                  )}
-
-                  <div className={submitted ? "" : "mb-2 md:mb-4"}>
-                    {submitted ? (
-                      <div className="aspect-video overflow-hidden rounded-lg bg-black">
-                        <iframe
-                          width="100%"
-                          height="100%"
-                          src={`https://www.youtube.com/embed/${getYouTubeId(slice.youtubeUrl)}?start=${slice.startTime}`}
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                          className="border-0"
-                        />
-                      </div>
-                    ) : (
-                      <>
-                        <button
-                          onClick={() => isPlaying ? stopAllPlayers() : playRecording(idx)}
-                          disabled={!playersReady}
-                          className={`flex w-full items-center justify-center gap-1 rounded-lg py-2 text-sm font-semibold transition-all md:gap-3 md:py-4 md:text-lg ${
-                            isPlaying
-                              ? "bg-[var(--color-error)] text-[var(--color-bg-primary)] hover:opacity-90"
-                              : "bg-[var(--color-border)] text-[var(--color-text-primary)] hover:bg-[var(--color-accent-gold)]/20"
-                          } disabled:cursor-not-allowed disabled:opacity-50`}
-                          style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}
-                        >
-                          {!playersReady ? (
-                            <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent md:h-5 md:w-5" />
-                          ) : isPlaying ? (
-                            <span className="text-xl md:text-2xl">⏹</span>
-                          ) : (
-                            <span className="text-xl md:text-2xl">▶</span>
-                          )}
-                          <span className="hidden md:inline">{!playersReady ? "Loading..." : isPlaying ? "Stop" : "Play"}</span>
-                        </button>
-                        <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-[var(--color-border)] md:mt-2 md:h-2">
-                          <div className={`h-full transition-all ${isPlaying ? "bg-[var(--color-accent-gold)]" : "bg-[var(--color-accent-gold-muted)]"}`} style={{ width: `${progress}%` }} />
-                        </div>
-                        <div className="mt-1 hidden text-center text-xs text-[var(--color-text-muted)] md:block" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
-                          {quiz.duration} seconds
-                        </div>
-                      </>
-                    )}
-                  </div>
-
-                  <div className="text-center">
-                    {submitted ? (
-                      <div>
-                        <div className="text-xs font-semibold text-[var(--color-text-primary)] md:text-lg" style={{ fontFamily: 'var(--font-body), serif' }}>
+                      
+                      {correct ? (
+                        /* Correct: just show name in green */
+                        <div className="text-xs font-semibold text-[var(--color-success)] md:text-sm" style={{ fontFamily: 'var(--font-body), serif' }}>
                           {slice.artist.name}
                         </div>
-                        {selectedArtist && (
-                          <div className="mt-1 hidden text-sm md:block" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
-                            <span className="text-[var(--color-text-muted)]">You guessed: </span>
-                            <span className={isCorrect(slice.id) ? "text-[var(--color-success)]" : "text-[var(--color-error)]"}>
+                      ) : (
+                        /* Wrong: strikethrough guess in red, then correct in white */
+                        <div className="space-y-0.5">
+                          {selectedArtist && (
+                            <div className="text-xs text-[var(--color-error)] line-through md:text-sm" style={{ fontFamily: 'var(--font-body), serif' }}>
                               {selectedArtist.name}
-                            </span>
+                            </div>
+                          )}
+                          <div className="text-xs font-semibold text-[var(--color-text-primary)] md:text-sm" style={{ fontFamily: 'var(--font-body), serif' }}>
+                            {slice.artist.name}
                           </div>
-                        )}
-                      </div>
-                    ) : selectedArtist ? (
-                      <div className="text-xs md:text-sm" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
-                        <span className="hidden text-[var(--color-text-muted)] md:inline">Your answer: </span>
-                        <span className="font-medium text-[var(--color-accent-gold)]">{selectedArtist.name}</span>
-                      </div>
-                    ) : (
-                      <div className="text-xs text-[var(--color-text-muted)] md:text-sm" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
-                        <span className="md:hidden">Select below</span>
-                        <span className="hidden md:inline">Select an artist below</span>
-                      </div>
-                    )}
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* Play button - always at bottom */}
+                    <button
+                      onClick={scrollToVideo}
+                      className={`mt-2 flex items-center justify-center gap-1 rounded-full px-2 py-1 text-xs font-medium text-white md:px-3 md:py-1.5 md:text-sm ${
+                        correct
+                          ? "bg-[var(--color-success)]"
+                          : "bg-[var(--color-error)]"
+                      }`}
+                      style={{ fontFamily: 'var(--font-body), serif' }}
+                    >
+                      <span>▶</span>
+                      <span className="hidden md:inline">Watch</span>
+                    </button>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
+
+            {/* Full-width Stacked Videos */}
+            <h3 className="mb-4 text-center text-sm font-medium uppercase tracking-widest text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif' }}>
+              Performances
+            </h3>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
+              {shuffledSlices.map((slice) => {
+                const selectedArtist = shuffledArtists.find((a) => a.id === answers[slice.id]);
+                const correct = isCorrect(slice.id);
+
+                return (
+                  <div
+                    key={slice.id}
+                    id={`video-${slice.id}`}
+                    className={`overflow-hidden rounded-xl border-2 ${
+                      correct
+                        ? "border-[var(--color-success)]"
+                        : "border-[var(--color-error)]"
+                    }`}
+                  >
+                    {/* Video */}
+                    <div className="aspect-video bg-black">
+                      <iframe
+                        width="100%"
+                        height="100%"
+                        src={`https://www.youtube.com/embed/${getYouTubeId(slice.youtubeUrl)}?start=${slice.startTime}`}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="border-0"
+                      />
+                    </div>
+                    
+                    {/* Artist Info */}
+                    <div className={`p-3 ${correct ? "bg-[var(--color-success)]/10" : "bg-[var(--color-error)]/10"}`}>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <div className="font-semibold text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body), serif' }}>
+                            {slice.artist.name}
+                          </div>
+                          {selectedArtist && !correct && (
+                            <div className="text-sm text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif' }}>
+                              You guessed: {selectedArtist.name}
+                            </div>
+                          )}
+                        </div>
+                        <span className={`text-2xl ${correct ? "text-[var(--color-success)]" : "text-[var(--color-error)]"}`}>
+                          {correct ? "✓" : "✗"}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* Listen - Quiz Mode */}
+        {!submitted && (
+          <div className="mb-6 md:mb-8">
+            <h2 className="mb-4 text-center text-sm font-medium uppercase tracking-widest text-[var(--color-text-muted)]" style={{ fontFamily: 'var(--font-body), serif' }}>
+              Listen
+            </h2>
+            <div className="grid grid-cols-3 gap-2 md:gap-4">
+              {shuffledSlices.map((slice, idx) => {
+                const selectedArtist = shuffledArtists.find((a) => a.id === answers[slice.id]);
+                const isPlaying = currentPlaying === idx;
+                const progress = playProgress[idx] ?? 0;
+
+                return (
+                  <div
+                    key={slice.id}
+                    className={`rounded-lg border-2 p-2 transition-all md:rounded-xl md:p-4 ${
+                      answers[slice.id]
+                        ? "border-[var(--color-accent-gold)] bg-[var(--color-accent-gold)]/10"
+                        : "border-[var(--color-border)] bg-[var(--color-bg-card)]/60"
+                    }`}
+                  >
+                    <div className="mb-2 md:mb-4">
+                      <button
+                        onClick={() => isPlaying ? stopAllPlayers() : playRecording(idx)}
+                        disabled={!playersReady}
+                        className={`flex w-full items-center justify-center gap-1 rounded-lg py-2 text-sm font-semibold transition-all md:gap-3 md:py-4 md:text-lg ${
+                          isPlaying
+                            ? "bg-[var(--color-error)] text-[var(--color-bg-primary)] hover:opacity-90"
+                            : "bg-[var(--color-border)] text-[var(--color-text-primary)] hover:bg-[var(--color-accent-gold)]/20"
+                        } disabled:cursor-not-allowed disabled:opacity-50`}
+                        style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}
+                      >
+                        {!playersReady ? (
+                          <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent md:h-5 md:w-5" />
+                        ) : isPlaying ? (
+                          <span className="text-xl md:text-2xl">⏹</span>
+                        ) : (
+                          <span className="text-xl md:text-2xl">▶</span>
+                        )}
+                        <span className="hidden md:inline">{!playersReady ? "Loading..." : isPlaying ? "Stop" : "Play"}</span>
+                      </button>
+                      <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-[var(--color-border)] md:mt-2 md:h-2">
+                        <div className={`h-full transition-all ${isPlaying ? "bg-[var(--color-accent-gold)]" : "bg-[var(--color-accent-gold-muted)]"}`} style={{ width: `${progress}%` }} />
+                      </div>
+                    </div>
+
+                    <div className="text-center">
+                      {selectedArtist ? (
+                        <div className="text-xs md:text-sm" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
+                          <span className="hidden text-[var(--color-text-muted)] md:inline">Your answer: </span>
+                          <span className="font-medium text-[var(--color-accent-gold)]">{selectedArtist.name}</span>
+                        </div>
+                      ) : (
+                        <div className="text-xs text-[var(--color-text-muted)] md:text-sm" style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}>
+                          <span className="md:hidden">Select below</span>
+                          <span className="hidden md:inline">Select an artist below</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Match */}
         {!submitted && (
