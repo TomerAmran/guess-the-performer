@@ -105,7 +105,7 @@ export const commentRouter = createTRPCRouter({
           where: { id: parentId },
         });
 
-        if (parentComment?.quizId !== quizId) {
+        if (!parentComment || parentComment.quizId !== quizId) {
           throw new TRPCError({
             code: "NOT_FOUND",
             message: "Parent comment not found",

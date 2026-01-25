@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
-import { ADMIN_EMAIL } from "~/lib/constants";
+import { ADMIN_EMAIL, QUIZ_SLICE_COUNT } from "~/lib/constants";
 
 const quizSliceSchema = z.object({
   artistId: z.string(),
@@ -66,7 +66,7 @@ export const quizRouter = createTRPCRouter({
       instrumentId: z.string(),
       pieceName: z.string().min(1),
       duration: z.number().int().min(5).max(120).default(30),
-      slices: z.array(quizSliceSchema).length(3),
+      slices: z.array(quizSliceSchema).length(QUIZ_SLICE_COUNT),
     }))
     .mutation(async ({ ctx, input }) => {
       const { slices, ...quizData } = input;
@@ -108,9 +108,9 @@ export const quizRouter = createTRPCRouter({
       const isOwner = quiz.createdById === ctx.session.user.id;
 
       if (!isAdmin && !isOwner) {
-        throw new TRPCError({ 
-          code: "FORBIDDEN", 
-          message: "Not authorized to delete this quiz" 
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Not authorized to delete this quiz"
         });
       }
 
@@ -142,9 +142,9 @@ export const quizRouter = createTRPCRouter({
       });
 
       if (existingLike) {
-        throw new TRPCError({ 
-          code: "BAD_REQUEST", 
-          message: "You have already liked this quiz" 
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "You have already liked this quiz"
         });
       }
 
@@ -179,9 +179,9 @@ export const quizRouter = createTRPCRouter({
       });
 
       if (!existingLike) {
-        throw new TRPCError({ 
-          code: "NOT_FOUND", 
-          message: "You haven't liked this quiz" 
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "You haven't liked this quiz"
         });
       }
 
@@ -242,7 +242,7 @@ export const quizRouter = createTRPCRouter({
         instrumentId?: string;
         pieceName?: { contains: string; mode: 'insensitive' };
       } = {};
-      
+
       if (composerId) where.composerId = composerId;
       if (instrumentId) where.instrumentId = instrumentId;
       if (pieceName) {
@@ -277,7 +277,7 @@ export const quizRouter = createTRPCRouter({
       instrumentId: z.string().optional(),
       pieceName: z.string().min(1).optional(),
       duration: z.number().int().min(5).max(120).optional(),
-      slices: z.array(quizSliceSchema).length(3).optional(),
+      slices: z.array(quizSliceSchema).length(QUIZ_SLICE_COUNT).optional(),
     }))
     .mutation(async ({ ctx, input }) => {
       const { id, slices, ...updateData } = input;
@@ -293,9 +293,9 @@ export const quizRouter = createTRPCRouter({
       }
 
       if (quiz.createdById !== ctx.session.user.id) {
-        throw new TRPCError({ 
-          code: "FORBIDDEN", 
-          message: "You can only edit your own quizzes" 
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You can only edit your own quizzes"
         });
       }
 

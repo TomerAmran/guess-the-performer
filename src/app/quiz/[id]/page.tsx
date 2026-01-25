@@ -3,60 +3,21 @@
 import { useState, useEffect, useRef, useCallback, use } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 import { api } from "~/trpc/react";
 import { getYouTubeId } from "~/lib/youtube";
 import { ShareButton } from "~/app/_components/ShareButton";
 import { PageHeader } from "~/app/_components/PageHeader";
 import { ComposerAvatar } from "~/app/_components/ComposerAvatar";
+import { CommentSection } from "~/app/quiz/_components/CommentSection";
 import type { YTPlayer } from "~/app/_components/youtube-types";
 import "~/app/_components/youtube-types";
-import { QUIZ_STATE_KEY } from "~/lib/constants";
+import {
+  QUIZ_STATE_KEY,
+  QUIZ_SLICE_COUNT,
+  getInstrumentIcon,
+} from "~/lib/constants";
+import { shuffleArray } from "~/lib/utils";
 import type { QuizSliceWithArtist } from "~/lib/types";
-
-// Instrument icons mapping
-const instrumentIcons: Record<string, string> = {
-  piano: "🎹",
-  violin: "🎻",
-  cello: "🎻",
-  viola: "🎻",
-  flute: "🪈",
-  clarinet: "🎷",
-  oboe: "🎷",
-  bassoon: "🎷",
-  trumpet: "🎺",
-  horn: "🎺",
-  trombone: "🎺",
-  tuba: "🎺",
-  guitar: "🎸",
-  harp: "🎵",
-  organ: "🎹",
-  voice: "🎤",
-  soprano: "🎤",
-  tenor: "🎤",
-  baritone: "🎤",
-  bass: "🎤",
-  orchestra: "🎼",
-  chamber: "🎼",
-};
-
-function getInstrumentIcon(instrumentName: string): string {
-  const name = instrumentName.toLowerCase();
-  for (const [key, icon] of Object.entries(instrumentIcons)) {
-    if (name.includes(key)) return icon;
-  }
-  return "🎵";
-}
-
-// Shuffle array
-function shuffleArray<T>(array: T[]): T[] {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j]!, shuffled[i]!];
-  }
-  return shuffled;
-}
 
 export default function QuizPlayPage({
   params,
@@ -65,7 +26,6 @@ export default function QuizPlayPage({
 }) {
   const { id } = use(params);
   const router = useRouter();
-  const { data: session } = useSession();
   const { data: quiz, isLoading } = api.quiz.getById.useQuery({ id });
   const { data: likeStatus } = api.quiz.getLikeStatus.useQuery(
     { quizId: id },
@@ -75,40 +35,6 @@ export default function QuizPlayPage({
   const likeMutation = api.quiz.like.useMutation();
   const unlikeMutation = api.quiz.unlike.useMutation();
   const utils = api.useUtils();
-
-  // Comments
-  const {
-    data: commentsData,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = api.comment.getComments.useInfiniteQuery(
-    { quizId: id, limit: 20 },
-    {
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
-      enabled: !!id,
-    },
-  );
-  const addCommentMutation = api.comment.addComment.useMutation({
-    onSuccess: () => {
-      setCommentText("");
-      setReplyText("");
-      setReplyingTo(null);
-      void utils.comment.getComments.invalidate({ quizId: id });
-    },
-  });
-  const deleteCommentMutation = api.comment.deleteComment.useMutation({
-    onSuccess: () => {
-      void utils.comment.getComments.invalidate({ quizId: id });
-    },
-  });
-  const updateCommentMutation = api.comment.updateComment.useMutation({
-    onSuccess: () => {
-      setEditingComment(null);
-      setEditText("");
-      void utils.comment.getComments.invalidate({ quizId: id });
-    },
-  });
 
   const [shuffledSlices, setShuffledSlices] = useState<QuizSliceWithArtist[]>(
     [],
@@ -125,12 +51,6 @@ export default function QuizPlayPage({
   const [likesCount, setLikesCount] = useState(0);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [restoredFromStorage, setRestoredFromStorage] = useState(false);
-  const [commentText, setCommentText] = useState("");
-  const [replyingTo, setReplyingTo] = useState<string | null>(null);
-  const [replyText, setReplyText] = useState("");
-  const [editingComment, setEditingComment] = useState<string | null>(null);
-  const [editText, setEditText] = useState("");
-  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
 
   const playersRef = useRef<(YTPlayer | null)[]>([]);
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -273,6 +193,7 @@ export default function QuizPlayPage({
       stopTimeoutRef.current = setTimeout(() => {
         player.pauseVideo();
         setCurrentPlaying(null);
+        setPlayProgress((prev) => ({ ...prev, [idx]: 100 }));
         if (progressIntervalRef.current)
           clearInterval(progressIntervalRef.current);
       }, quiz.duration * 1000);
@@ -286,7 +207,7 @@ export default function QuizPlayPage({
   };
 
   const handleSubmit = () => {
-    if (Object.keys(answers).length !== 3) return;
+    if (Object.keys(answers).length !== QUIZ_SLICE_COUNT) return;
     stopAllPlayers();
     setSubmitted(true);
   };
@@ -326,88 +247,6 @@ export default function QuizPlayPage({
     localStorage.setItem(QUIZ_STATE_KEY + id, JSON.stringify(stateToSave));
     router.push(`/api/auth/signin?callbackUrl=/quiz/${id}`);
   };
-
-  const handleAddComment = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!commentText.trim()) return;
-    try {
-      await addCommentMutation.mutateAsync({
-        quizId: id,
-        content: commentText.trim(),
-      });
-    } catch (error) {
-      console.error("Add comment error:", error);
-    }
-  };
-
-  const handleAddReply = async (parentId: string) => {
-    if (!replyText.trim()) return;
-    try {
-      await addCommentMutation.mutateAsync({
-        quizId: id,
-        content: replyText.trim(),
-        parentId,
-      });
-    } catch (error) {
-      console.error("Add reply error:", error);
-    }
-  };
-
-  const handleDeleteComment = async (commentId: string) => {
-    try {
-      await deleteCommentMutation.mutateAsync({ commentId });
-    } catch (error) {
-      console.error("Delete comment error:", error);
-    }
-  };
-
-  const handleStartEdit = (commentId: string, currentContent: string) => {
-    setEditingComment(commentId);
-    setEditText(currentContent);
-    setReplyingTo(null);
-  };
-
-  const handleCancelEdit = () => {
-    setEditingComment(null);
-    setEditText("");
-  };
-
-  // Close menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = () => setOpenMenuId(null);
-    if (openMenuId) {
-      document.addEventListener("click", handleClickOutside);
-      return () => document.removeEventListener("click", handleClickOutside);
-    }
-  }, [openMenuId]);
-
-  const handleUpdateComment = async (commentId: string) => {
-    if (!editText.trim()) return;
-    try {
-      await updateCommentMutation.mutateAsync({
-        commentId,
-        content: editText.trim(),
-      });
-    } catch (error) {
-      console.error("Update comment error:", error);
-    }
-  };
-
-  const formatTimeAgo = (date: Date) => {
-    const now = new Date();
-    const diffMs = now.getTime() - new Date(date).getTime();
-    const diffMins = Math.floor(diffMs / 60000);
-    const diffHours = Math.floor(diffMs / 3600000);
-    const diffDays = Math.floor(diffMs / 86400000);
-
-    if (diffMins < 1) return "just now";
-    if (diffMins < 60) return `${diffMins}m ago`;
-    if (diffHours < 24) return `${diffHours}h ago`;
-    if (diffDays < 7) return `${diffDays}d ago`;
-    return new Date(date).toLocaleDateString();
-  };
-
-  const comments = commentsData?.pages.flatMap((page) => page.comments) ?? [];
 
   if (isLoading) {
     return (
@@ -758,7 +597,8 @@ export default function QuizPlayPage({
               const selectedArtistIds = Object.values(answers);
               const hasDuplicates =
                 new Set(selectedArtistIds).size !== selectedArtistIds.length;
-              const allSelected = Object.keys(answers).length === 3;
+              const allSelected =
+                Object.keys(answers).length === QUIZ_SLICE_COUNT;
               const canSubmit = allSelected && !hasDuplicates;
 
               return (
@@ -781,9 +621,9 @@ export default function QuizPlayPage({
           ) : (
             <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)]/60 p-6">
               <h2 className="font-body mb-2 text-2xl font-bold text-[var(--color-text-primary)]">
-                {score === 3
+                {score === QUIZ_SLICE_COUNT
                   ? "🎉 Perfect Score!"
-                  : score === 2
+                  : score === QUIZ_SLICE_COUNT - 1
                     ? "👏 Great Job!"
                     : score === 1
                       ? "👍 Not Bad!"
@@ -792,7 +632,7 @@ export default function QuizPlayPage({
               <p className="font-body-medium mb-4 text-xl text-[var(--color-text-secondary)]">
                 You got{" "}
                 <span className="font-bold text-[var(--color-accent-gold)]">
-                  {score}/3
+                  {score}/{QUIZ_SLICE_COUNT}
                 </span>{" "}
                 correct
               </p>
@@ -858,383 +698,7 @@ export default function QuizPlayPage({
 
         {/* Comments Section - Only show after quiz is submitted */}
         {submitted && (
-          <div className="mt-8 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)]/60 p-6">
-            <h3 className="font-body mb-4 text-lg font-semibold text-[var(--color-text-primary)]">
-              Discussion
-            </h3>
-            <p className="font-body mb-4 text-sm text-[var(--color-text-muted)]">
-              Share your thoughts! Why did you think one performer was another?
-            </p>
-
-            {/* Comment Form */}
-            {isAuthenticated ? (
-              <form onSubmit={handleAddComment} className="mb-6">
-                <textarea
-                  value={commentText}
-                  onChange={(e) => setCommentText(e.target.value)}
-                  placeholder="Share your thoughts about this quiz..."
-                  maxLength={1000}
-                  className="font-body w-full resize-none rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-primary)] p-3 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:border-[var(--color-accent-gold)] focus:ring-1 focus:ring-[var(--color-accent-gold)] focus:outline-none"
-                  rows={3}
-                />
-                <div className="mt-2 flex items-center justify-between">
-                  <span className="text-xs text-[var(--color-text-muted)]">
-                    {commentText.length}/1000
-                  </span>
-                  <button
-                    type="submit"
-                    disabled={
-                      !commentText.trim() || addCommentMutation.isPending
-                    }
-                    className="font-body rounded-lg bg-[var(--color-accent-gold)] px-4 py-2 text-sm font-semibold text-[var(--color-bg-primary)] transition-all hover:bg-[var(--color-accent-gold-hover)] disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    {addCommentMutation.isPending
-                      ? "Posting..."
-                      : "Post Comment"}
-                  </button>
-                </div>
-                {addCommentMutation.error && (
-                  <p className="mt-2 text-sm text-[var(--color-error)]">
-                    {addCommentMutation.error.message}
-                  </p>
-                )}
-              </form>
-            ) : (
-              <div className="mb-6 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-primary)] p-4 text-center">
-                <p className="font-body mb-2 text-sm text-[var(--color-text-muted)]">
-                  Sign in to join the discussion
-                </p>
-                <button
-                  onClick={handleSignInToLike}
-                  className="font-body rounded-lg bg-[var(--color-accent-gold)] px-4 py-2 text-sm font-semibold text-[var(--color-bg-primary)] transition-all hover:bg-[var(--color-accent-gold-hover)]"
-                >
-                  Sign In
-                </button>
-              </div>
-            )}
-
-            {/* Comments List */}
-            <div className="space-y-4">
-              {comments.length === 0 ? (
-                <p className="font-body py-4 text-center text-sm text-[var(--color-text-muted)]">
-                  No comments yet. Be the first to share your thoughts!
-                </p>
-              ) : (
-                comments.map((comment) => (
-                  <div
-                    key={comment.id}
-                    className="rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-primary)] p-4"
-                  >
-                    {/* Comment Header */}
-                    <div className="mb-2 flex items-start justify-between">
-                      <div className="flex items-center gap-2">
-                        {comment.user.image ? (
-                          <img
-                            src={comment.user.image}
-                            alt={comment.user.name ?? "User"}
-                            className="h-8 w-8 rounded-full object-cover"
-                          />
-                        ) : (
-                          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-border)] text-sm text-[var(--color-text-muted)]">
-                            {(comment.user.name ?? "U")[0]?.toUpperCase()}
-                          </div>
-                        )}
-                        <div>
-                          <span className="font-body text-sm font-semibold text-[var(--color-text-primary)]">
-                            {comment.user.name ?? "Anonymous"}
-                          </span>
-                          <span className="font-body ml-2 text-xs text-[var(--color-text-muted)]">
-                            {formatTimeAgo(comment.createdAt)}
-                          </span>
-                        </div>
-                      </div>
-                      {session?.user?.id === comment.user.id && (
-                        <div className="relative">
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setOpenMenuId(openMenuId === comment.id ? null : comment.id);
-                            }}
-                            className="rounded p-1 text-[var(--color-text-muted)] hover:bg-[var(--color-border)] hover:text-[var(--color-text-primary)]"
-                          >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                              <circle cx="12" cy="5" r="2" />
-                              <circle cx="12" cy="12" r="2" />
-                              <circle cx="12" cy="19" r="2" />
-                            </svg>
-                          </button>
-                          {openMenuId === comment.id && (
-                            <div className="absolute right-0 top-8 z-10 min-w-[120px] rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)] py-1 shadow-lg">
-                              <button
-                                onClick={() => {
-                                  handleStartEdit(comment.id, comment.content);
-                                  setOpenMenuId(null);
-                                }}
-                                disabled={updateCommentMutation.isPending}
-                                className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-[var(--color-text-primary)] hover:bg-[var(--color-border)]"
-                              >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                                </svg>
-                                Edit
-                              </button>
-                              <button
-                                onClick={() => {
-                                  handleDeleteComment(comment.id);
-                                  setOpenMenuId(null);
-                                }}
-                                disabled={deleteCommentMutation.isPending}
-                                className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-[var(--color-error)] hover:bg-[var(--color-border)]"
-                              >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                  <polyline points="3 6 5 6 21 6" />
-                                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                                </svg>
-                                Delete
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Comment Content - Show edit form or content */}
-                    {editingComment === comment.id ? (
-                      <div className="mb-3">
-                        <textarea
-                          value={editText}
-                          onChange={(e) => setEditText(e.target.value)}
-                          maxLength={1000}
-                          className="font-body w-full resize-none rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)] p-2 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:border-[var(--color-accent-gold)] focus:outline-none"
-                          rows={3}
-                        />
-                        <div className="mt-2 flex items-center justify-between">
-                          <span className="text-xs text-[var(--color-text-muted)]">
-                            {editText.length}/1000
-                          </span>
-                          <div className="flex gap-2">
-                            <button
-                              onClick={handleCancelEdit}
-                              className="font-body rounded px-3 py-1 text-xs text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]"
-                            >
-                              Cancel
-                            </button>
-                            <button
-                              onClick={() => handleUpdateComment(comment.id)}
-                              disabled={!editText.trim() || updateCommentMutation.isPending}
-                              className="font-body rounded bg-[var(--color-accent-gold)] px-3 py-1 text-xs font-semibold text-[var(--color-bg-primary)] hover:bg-[var(--color-accent-gold-hover)] disabled:opacity-50"
-                            >
-                              {updateCommentMutation.isPending ? "Saving..." : "Save"}
-                            </button>
-                          </div>
-                        </div>
-                        {updateCommentMutation.error && (
-                          <p className="mt-2 text-xs text-[var(--color-error)]">
-                            {updateCommentMutation.error.message}
-                          </p>
-                        )}
-                      </div>
-                    ) : (
-                      <p className="font-body mb-3 text-sm whitespace-pre-wrap text-[var(--color-text-primary)]">
-                        {comment.content}
-                        {comment.updatedAt && new Date(comment.updatedAt).getTime() !== new Date(comment.createdAt).getTime() && (
-                          <span className="ml-2 text-xs text-[var(--color-text-muted)]">(edited)</span>
-                        )}
-                      </p>
-                    )}
-
-                    {/* Reply Button */}
-                    {isAuthenticated && (
-                      <button
-                        onClick={() =>
-                          setReplyingTo(
-                            replyingTo === comment.id ? null : comment.id,
-                          )
-                        }
-                        className="font-body text-xs text-[var(--color-text-muted)] hover:text-[var(--color-accent-gold)]"
-                      >
-                        {replyingTo === comment.id ? "Cancel" : "Reply"}
-                      </button>
-                    )}
-
-                    {/* Reply Form */}
-                    {replyingTo === comment.id && (
-                      <div className="mt-3 border-l-2 border-[var(--color-border)] pl-4">
-                        <textarea
-                          value={replyText}
-                          onChange={(e) => setReplyText(e.target.value)}
-                          placeholder="Write a reply..."
-                          maxLength={1000}
-                          className="font-body w-full resize-none rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)] p-2 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:border-[var(--color-accent-gold)] focus:outline-none"
-                          rows={2}
-                        />
-                        <div className="mt-2 flex justify-end gap-2">
-                          <button
-                            onClick={() => {
-                              setReplyingTo(null);
-                              setReplyText("");
-                            }}
-                            className="font-body rounded px-3 py-1 text-xs text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]"
-                          >
-                            Cancel
-                          </button>
-                          <button
-                            onClick={() => handleAddReply(comment.id)}
-                            disabled={
-                              !replyText.trim() || addCommentMutation.isPending
-                            }
-                            className="font-body rounded bg-[var(--color-accent-gold)] px-3 py-1 text-xs font-semibold text-[var(--color-bg-primary)] hover:bg-[var(--color-accent-gold-hover)] disabled:opacity-50"
-                          >
-                            Reply
-                          </button>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Replies */}
-                    {comment.replies && comment.replies.length > 0 && (
-                      <div className="mt-4 space-y-3 border-l-2 border-[var(--color-border)] pl-4">
-                        {comment.replies.map((reply) => (
-                          <div
-                            key={reply.id}
-                            className="rounded-lg bg-[var(--color-bg-card)] p-3"
-                          >
-                            <div className="mb-2 flex items-start justify-between">
-                              <div className="flex items-center gap-2">
-                                {reply.user.image ? (
-                                  <img
-                                    src={reply.user.image}
-                                    alt={reply.user.name ?? "User"}
-                                    className="h-6 w-6 rounded-full object-cover"
-                                  />
-                                ) : (
-                                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--color-border)] text-xs text-[var(--color-text-muted)]">
-                                    {(reply.user.name ?? "U")[0]?.toUpperCase()}
-                                  </div>
-                                )}
-                                <span className="font-body text-xs font-semibold text-[var(--color-text-primary)]">
-                                  {reply.user.name ?? "Anonymous"}
-                                </span>
-                                <span className="font-body text-xs text-[var(--color-text-muted)]">
-                                  {formatTimeAgo(reply.createdAt)}
-                                </span>
-                              </div>
-                              {session?.user?.id === reply.user.id && (
-                                <div className="relative">
-                                  <button
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setOpenMenuId(openMenuId === reply.id ? null : reply.id);
-                                    }}
-                                    className="rounded p-1 text-[var(--color-text-muted)] hover:bg-[var(--color-border)] hover:text-[var(--color-text-primary)]"
-                                  >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                                      <circle cx="12" cy="5" r="2" />
-                                      <circle cx="12" cy="12" r="2" />
-                                      <circle cx="12" cy="19" r="2" />
-                                    </svg>
-                                  </button>
-                                  {openMenuId === reply.id && (
-                                    <div className="absolute right-0 top-7 z-10 min-w-[120px] rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)] py-1 shadow-lg">
-                                      <button
-                                        onClick={() => {
-                                          handleStartEdit(reply.id, reply.content);
-                                          setOpenMenuId(null);
-                                        }}
-                                        disabled={updateCommentMutation.isPending}
-                                        className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-[var(--color-text-primary)] hover:bg-[var(--color-border)]"
-                                      >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                                          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                                        </svg>
-                                        Edit
-                                      </button>
-                                      <button
-                                        onClick={() => {
-                                          handleDeleteComment(reply.id);
-                                          setOpenMenuId(null);
-                                        }}
-                                        disabled={deleteCommentMutation.isPending}
-                                        className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-[var(--color-error)] hover:bg-[var(--color-border)]"
-                                      >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                          <polyline points="3 6 5 6 21 6" />
-                                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                                        </svg>
-                                        Delete
-                                      </button>
-                                    </div>
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                            {editingComment === reply.id ? (
-                              <div>
-                                <textarea
-                                  value={editText}
-                                  onChange={(e) => setEditText(e.target.value)}
-                                  maxLength={1000}
-                                  className="font-body w-full resize-none rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-primary)] p-2 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:border-[var(--color-accent-gold)] focus:outline-none"
-                                  rows={2}
-                                />
-                                <div className="mt-2 flex items-center justify-between">
-                                  <span className="text-xs text-[var(--color-text-muted)]">
-                                    {editText.length}/1000
-                                  </span>
-                                  <div className="flex gap-2">
-                                    <button
-                                      onClick={handleCancelEdit}
-                                      className="font-body rounded px-3 py-1 text-xs text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]"
-                                    >
-                                      Cancel
-                                    </button>
-                                    <button
-                                      onClick={() => handleUpdateComment(reply.id)}
-                                      disabled={!editText.trim() || updateCommentMutation.isPending}
-                                      className="font-body rounded bg-[var(--color-accent-gold)] px-3 py-1 text-xs font-semibold text-[var(--color-bg-primary)] hover:bg-[var(--color-accent-gold-hover)] disabled:opacity-50"
-                                    >
-                                      {updateCommentMutation.isPending ? "Saving..." : "Save"}
-                                    </button>
-                                  </div>
-                                </div>
-                                {updateCommentMutation.error && (
-                                  <p className="mt-2 text-xs text-[var(--color-error)]">
-                                    {updateCommentMutation.error.message}
-                                  </p>
-                                )}
-                              </div>
-                            ) : (
-                              <p className="font-body text-sm whitespace-pre-wrap text-[var(--color-text-primary)]">
-                                {reply.content}
-                                {reply.updatedAt && new Date(reply.updatedAt).getTime() !== new Date(reply.createdAt).getTime() && (
-                                  <span className="ml-2 text-xs text-[var(--color-text-muted)]">(edited)</span>
-                                )}
-                              </p>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))
-              )}
-
-              {/* Load More Button */}
-              {hasNextPage && (
-                <div className="text-center">
-                  <button
-                    onClick={() => fetchNextPage()}
-                    disabled={isFetchingNextPage}
-                    className="font-body rounded-lg border border-[var(--color-border)] px-4 py-2 text-sm text-[var(--color-text-muted)] transition-all hover:bg-[var(--color-border)] disabled:opacity-50"
-                  >
-                    {isFetchingNextPage ? "Loading..." : "Load more comments"}
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
+          <CommentSection quizId={id} onSignIn={handleSignInToLike} />
         )}
       </div>
     </main>
