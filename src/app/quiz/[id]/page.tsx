@@ -558,14 +558,14 @@ export default function QuizPlayPage({
             </h2>
             <div className="grid grid-cols-3 gap-2 md:gap-4">
               {shuffledSlices.map((slice) => (
-                <div key={slice.id} className="flex flex-col gap-1.5 md:gap-2">
+                <div key={slice.id} className="flex min-w-0 flex-col gap-1.5 md:gap-2">
                   {shuffledArtists.map((artist) => {
                     const isSelected = answers[slice.id] === artist.id;
                     return (
                       <button
                         key={artist.id}
                         onClick={() => handleSelectArtist(slice.id, artist.id)}
-                        className={`font-body-medium flex items-center gap-2 rounded-lg px-2 py-1.5 text-xs transition-all md:justify-center md:gap-2 md:px-4 md:py-2 md:text-base ${
+                        className={`font-body-medium flex min-w-0 items-center gap-2 rounded-lg px-2 py-1.5 text-xs transition-all md:gap-3 md:px-4 md:py-2 md:text-base ${
                           isSelected
                             ? "bg-[var(--color-accent-gold)] text-[var(--color-bg-primary)]"
                             : "bg-[var(--color-bg-card)] text-[var(--color-text-primary)] hover:bg-[var(--color-border)]"
@@ -578,7 +578,7 @@ export default function QuizPlayPage({
                             className="h-6 w-6 flex-shrink-0 rounded-full object-cover md:h-10 md:w-10"
                           />
                         )}
-                        <span className="leading-tight font-medium">
+                        <span className="min-w-0 truncate font-medium leading-tight">
                           {artist.name}
                         </span>
                       </button>
