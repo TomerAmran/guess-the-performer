@@ -47,3 +47,4 @@ yarn-error.log*
 .idea
 # Ralph config (may contain API keys)
 .cursor/ralph-config.json
+.env.production
