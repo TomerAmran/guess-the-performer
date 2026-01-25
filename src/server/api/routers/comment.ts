@@ -134,6 +134,52 @@ export const commentRouter = createTRPCRouter({
       });
     }),
 
+  updateComment: protectedProcedure
+    .input(
+      z.object({
+        commentId: z.string(),
+        content: z.string().min(1).max(MAX_COMMENT_LENGTH),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { commentId, content } = input;
+
+      const comment = await ctx.db.comment.findUnique({
+        where: { id: commentId },
+        select: { userId: true },
+      });
+
+      if (!comment) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "Comment not found" });
+      }
+
+      if (comment.userId !== ctx.session.user.id) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You can only edit your own comments",
+        });
+      }
+
+      // Profanity filter
+      if (filter.isProfane(content)) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Please keep comments respectful",
+        });
+      }
+
+      return ctx.db.comment.update({
+        where: { id: commentId },
+        data: {
+          content,
+          updatedAt: new Date(),
+        },
+        include: {
+          user: { select: { id: true, name: true, image: true } },
+        },
+      });
+    }),
+
   deleteComment: protectedProcedure
     .input(z.object({ commentId: z.string() }))
     .mutation(async ({ ctx, input }) => {
