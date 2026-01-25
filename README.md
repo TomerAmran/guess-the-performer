@@ -24,6 +24,19 @@ To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the fo
 
 You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
 
-## How do I deploy this?
+## Deployment
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+**This project deploys locally via Vercel CLI (not through GitHub).**
+
+```bash
+# Install Vercel CLI if needed
+npm i -g vercel
+
+# Deploy to production
+vercel --prod
+
+# Deploy preview (for testing)
+vercel
+```
+
+The GitHub repo is for version control only - pushing to GitHub does NOT trigger deployments.

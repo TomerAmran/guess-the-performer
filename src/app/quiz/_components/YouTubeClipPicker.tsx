@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { getYouTubeId } from "~/app/_components/youtube";
+import { getYouTubeId } from "~/lib/youtube";
 import type { YTPlayer } from "~/app/_components/youtube-types";
 import "~/app/_components/youtube-types";
 
@@ -141,12 +141,11 @@ export function YouTubeClipPicker({
       <button
         onClick={handleTogglePlay}
         disabled={!playerReady}
-        className={`w-full rounded-lg px-4 py-3 font-medium transition-all disabled:cursor-not-allowed disabled:opacity-50 ${
+        className={`font-body-semibold w-full rounded-lg px-4 py-3 font-medium transition-all disabled:cursor-not-allowed disabled:opacity-50 ${
           isPlaying
             ? "bg-red-600 text-white hover:bg-red-500"
             : "bg-[var(--color-accent-gold)] text-[var(--color-bg-primary)] hover:bg-[var(--color-accent-gold-hover)]"
         }`}
-        style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}
       >
         {!playerReady ? (
           "Loading..."

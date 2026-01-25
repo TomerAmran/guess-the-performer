@@ -7,6 +7,7 @@ import { SessionProvider } from "next-auth/react";
 import { TRPCReactProvider } from "~/trpc/react";
 import { auth } from "~/server/auth";
 import { ThemeProvider } from "./_components/ThemeProvider";
+import { ToastProvider } from "./_components/ToastProvider";
 
 export const metadata: Metadata = {
   title: "Guess the Performer",
@@ -57,7 +58,9 @@ export default async function RootLayout({
       >
         <SessionProvider session={session}>
           <TRPCReactProvider>
-            <ThemeProvider>{children}</ThemeProvider>
+            <ThemeProvider>
+              <ToastProvider>{children}</ToastProvider>
+            </ThemeProvider>
           </TRPCReactProvider>
         </SessionProvider>
       </body>

@@ -132,14 +132,14 @@ export const protectedProcedure = t.procedure
     });
   });
 
+import { ADMIN_EMAIL } from "~/lib/constants";
+
 /**
  * Admin procedure
  *
  * Only accessible to the admin user (tomerflute@gmail.com).
  * Used for destructive operations like delete.
  */
-const ADMIN_EMAIL = "tomerflute@gmail.com";
-
 export const adminProcedure = t.procedure
   .use(timingMiddleware)
   .use(({ ctx, next }) => {

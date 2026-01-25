@@ -4,10 +4,12 @@ import { useState, useEffect, use } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
+import { useToast } from "~/app/_components/ToastProvider";
 
 export default function EditComposerPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const router = useRouter();
+  const { showError } = useToast();
 
   const { data: composer, isLoading } = api.composer.getById.useQuery({ id });
   const updateMutation = api.composer.update.useMutation({
@@ -15,7 +17,7 @@ export default function EditComposerPage({ params }: { params: Promise<{ id: str
       router.push("/admin/composers");
     },
     onError: (error) => {
-      alert(error.message || "Failed to update composer");
+      showError(error.message || "Failed to update composer");
     },
   });
   const deleteMutation = api.composer.delete.useMutation({
@@ -23,7 +25,7 @@ export default function EditComposerPage({ params }: { params: Promise<{ id: str
       router.push("/admin/composers");
     },
     onError: (error) => {
-      alert(error.message || "Failed to delete composer");
+      showError(error.message || "Failed to delete composer");
     },
   });
 

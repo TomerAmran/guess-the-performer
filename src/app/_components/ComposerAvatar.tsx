@@ -20,8 +20,7 @@ export function ComposerAvatar({ name, photoUrl, size = "lg" }: ComposerAvatarPr
   if (!photoUrl || imgError) {
     return (
       <div 
-        className={`${sizeClasses[size]} rounded-full bg-[var(--color-border)] flex items-center justify-center text-[var(--color-text-secondary)] flex-shrink-0`}
-        style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}
+        className={`${sizeClasses[size]} font-body-semibold rounded-full bg-[var(--color-border)] flex items-center justify-center text-[var(--color-text-secondary)] flex-shrink-0`}
       >
         {name.charAt(0).toUpperCase()}
       </div>

@@ -13,8 +13,7 @@ export function PageHeader({ backHref, backLabel }: PageHeaderProps) {
     <div className="mb-8 flex items-center justify-between">
       <Link
         href={backHref}
-        className="inline-flex items-center gap-2 text-[var(--color-accent-burgundy)] hover:text-[var(--color-accent-gold)] transition-colors"
-        style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}
+        className="font-body-medium inline-flex items-center gap-2 text-[var(--color-accent-burgundy)] hover:text-[var(--color-accent-gold)] transition-colors"
       >
         ← {backLabel}
       </Link>

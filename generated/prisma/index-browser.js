@@ -201,6 +201,17 @@ exports.Prisma.QuizLikeScalarFieldEnum = {
   quizId: 'quizId'
 };
 
+exports.Prisma.CommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  hidden: 'hidden',
+  userId: 'userId',
+  quizId: 'quizId',
+  parentId: 'parentId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -227,7 +238,8 @@ exports.Prisma.ModelName = {
   Instrument: 'Instrument',
   Quiz: 'Quiz',
   QuizSlice: 'QuizSlice',
-  QuizLike: 'QuizLike'
+  QuizLike: 'QuizLike',
+  Comment: 'Comment'
 };
 
 /**

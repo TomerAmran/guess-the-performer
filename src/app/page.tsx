@@ -4,8 +4,7 @@ import { api, HydrateClient } from "~/trpc/server";
 import { ShareButton } from "./_components/ShareButton";
 import { ThemeToggle } from "./_components/ThemeProvider";
 import { ComposerAvatar } from "./_components/ComposerAvatar";
-
-const ADMIN_EMAIL = "tomerflute@gmail.com";
+import { ADMIN_EMAIL } from "~/lib/constants";
 
 export default async function Home() {
   const session = await auth();
@@ -34,14 +33,12 @@ export default async function Home() {
           {/* Header */}
           <header className="text-center">
             <h1 
-              className="text-3xl font-bold leading-tight text-[var(--color-text-primary)] sm:text-5xl md:text-6xl"
-              style={{ fontFamily: 'var(--font-body), serif' }}
+              className="font-body text-3xl font-bold leading-tight text-[var(--color-text-primary)] sm:text-5xl md:text-6xl"
             >
               Guess the Performer
             </h1>
             <p 
-              className="mt-1 text-sm tracking-widest text-[var(--color-text-muted)] sm:mt-3 sm:text-lg"
-              style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}
+              className="font-body-medium mt-1 text-sm tracking-widest text-[var(--color-text-muted)] sm:mt-3 sm:text-lg"
             >
               classical music game
             </p>
@@ -66,14 +63,12 @@ export default async function Home() {
                 <span className="text-2xl text-[var(--color-accent-gold)]">♫</span>
                 <div>
                   <h3 
-                    className="text-base font-semibold text-[var(--color-accent-gold)] sm:text-lg"
-                    style={{ fontFamily: 'var(--font-body), serif' }}
+                    className="font-body text-base font-semibold text-[var(--color-accent-gold)] sm:text-lg"
                   >
                     {session ? "Create New Quiz" : "Log in to Create Quiz"}
                   </h3>
                   <p 
-                    className="text-xs text-[var(--color-text-muted)] sm:text-sm"
-                    style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}
+                    className="font-body-medium text-xs text-[var(--color-text-muted)] sm:text-sm"
                   >
                     {session ? "Share your favorite performances" : "Sign in to share your favorite performances"}
                   </p>
@@ -87,8 +82,7 @@ export default async function Home() {
           {quizzes.length > 0 && (
             <section className="w-full max-w-2xl">
               <h2 
-                className="mb-8 text-center text-sm uppercase tracking-[0.2em] text-[var(--color-text-secondary)]"
-                style={{ fontFamily: 'var(--font-body), serif' }}
+                className="font-body mb-8 text-center text-sm uppercase tracking-[0.2em] text-[var(--color-text-secondary)]"
               >
                 Most Popular Quizzes
               </h2>
@@ -117,20 +111,17 @@ export default async function Home() {
                         />
                         <div>
                           <h3 
-                            className="text-xl font-semibold text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-accent-burgundy)]"
-                            style={{ fontFamily: 'var(--font-body), serif' }}
+                            className="font-body text-xl font-semibold text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-accent-burgundy)]"
                           >
                             {quiz.pieceName}
                           </h3>
                           <p 
-                            className="mt-1 text-sm text-[var(--color-text-muted)]"
-                            style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}
+                            className="font-body-medium mt-1 text-sm text-[var(--color-text-muted)]"
                           >
                             {quiz.composer.name}
                           </p>
                           <div 
-                            className="mt-2 flex items-center gap-3 text-sm text-[var(--color-text-muted)]"
-                            style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}
+                            className="font-body-medium mt-2 flex items-center gap-3 text-sm text-[var(--color-text-muted)]"
                           >
                             <span>{quiz.instrument.name}</span>
                             <span className="text-[var(--color-border)]">•</span>
@@ -174,20 +165,17 @@ export default async function Home() {
                     📜
                   </div>
                   <h3 
-                    className="text-2xl font-bold text-[var(--color-text-primary)]"
-                    style={{ fontFamily: 'var(--font-body), serif' }}
+                    className="font-body text-2xl font-bold text-[var(--color-text-primary)]"
                   >
                     My Quizzes
                   </h3>
                   <p 
-                    className="mt-2 text-[var(--color-text-muted)]"
-                    style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}
+                    className="font-body-medium mt-2 text-[var(--color-text-muted)]"
                   >
                     View, edit, and manage your created quizzes.
                   </p>
                   <div 
-                    className="mt-4 inline-flex items-center gap-2 text-[var(--color-accent-forest)]"
-                    style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}
+                    className="font-body-semibold mt-4 inline-flex items-center gap-2 text-[var(--color-accent-forest)]"
                   >
                     <span>View</span>
                     <span>→</span>
@@ -203,53 +191,49 @@ export default async function Home() {
                   🔍
                 </div>
                 <h3 
-                  className="text-2xl font-bold text-[var(--color-text-primary)]"
-                  style={{ fontFamily: 'var(--font-body), serif' }}
+                  className="font-body text-2xl font-bold text-[var(--color-text-primary)]"
                 >
                   Search Quizzes
                 </h3>
                 <p 
-                  className="mt-2 text-[var(--color-text-muted)]"
-                  style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}
+                  className="font-body-medium mt-2 text-[var(--color-text-muted)]"
                 >
                   Find quizzes by composer, instrument, or piece name.
                 </p>
                 <div 
-                  className="mt-4 inline-flex items-center gap-2 text-[var(--color-accent-burgundy)]"
-                  style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}
+                  className="font-body-semibold mt-4 inline-flex items-center gap-2 text-[var(--color-accent-burgundy)]"
                 >
                   <span>Explore</span>
                   <span>→</span>
                 </div>
               </Link>
 
-              <Link
-                href="/quiz/create"
-                className="group relative overflow-hidden rounded-lg border-2 border-[var(--color-accent-gold)]/30 bg-gradient-to-br from-[var(--color-accent-gold)]/5 to-[var(--color-accent-gold)]/15 p-6 transition-all duration-300 hover:border-[var(--color-accent-gold)] hover:shadow-lg"
-              >
-                <div className="absolute -right-4 -top-4 text-6xl text-[var(--color-accent-gold)]/10 transition-all group-hover:text-[var(--color-accent-gold)]/20">
-                  ♫
-                </div>
-                <h3 
-                  className="text-2xl font-bold text-[var(--color-text-primary)]"
-                  style={{ fontFamily: 'var(--font-body), serif' }}
+{session && (
+                <Link
+                  href="/quiz/create"
+                  className="group relative overflow-hidden rounded-lg border-2 border-[var(--color-accent-gold)]/30 bg-gradient-to-br from-[var(--color-accent-gold)]/5 to-[var(--color-accent-gold)]/15 p-6 transition-all duration-300 hover:border-[var(--color-accent-gold)] hover:shadow-lg"
                 >
-                  Create Quiz
-                </h3>
-                <p 
-                  className="mt-2 text-[var(--color-text-muted)]"
-                  style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}
-                >
-                  Build a quiz with 3 performances of the same piece by different artists.
-                </p>
-                <div 
-                  className="mt-4 inline-flex items-center gap-2 text-[var(--color-accent-gold)]"
-                  style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}
-                >
-                  <span>Begin</span>
-                  <span>→</span>
-                </div>
-              </Link>
+                  <div className="absolute -right-4 -top-4 text-6xl text-[var(--color-accent-gold)]/10 transition-all group-hover:text-[var(--color-accent-gold)]/20">
+                    ♫
+                  </div>
+                  <h3 
+                    className="font-body text-2xl font-bold text-[var(--color-text-primary)]"
+                  >
+                    Create Quiz
+                  </h3>
+                  <p 
+                    className="font-body-medium mt-2 text-[var(--color-text-muted)]"
+                  >
+                    Build a quiz with 3 performances of the same piece by different artists.
+                  </p>
+                  <div 
+                    className="font-body-semibold mt-4 inline-flex items-center gap-2 text-[var(--color-accent-gold)]"
+                  >
+                    <span>Begin</span>
+                    <span>→</span>
+                  </div>
+                </Link>
+              )}
 
               {isAdmin && (
                 <Link
@@ -260,20 +244,17 @@ export default async function Home() {
                     ⚙
                   </div>
                   <h3 
-                    className="text-2xl font-bold text-[var(--color-text-primary)]"
-                    style={{ fontFamily: 'var(--font-body), serif' }}
+                    className="font-body text-2xl font-bold text-[var(--color-text-primary)]"
                   >
                     Admin Panel
                   </h3>
                   <p 
-                    className="mt-2 text-[var(--color-text-muted)]"
-                    style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}
+                    className="font-body-medium mt-2 text-[var(--color-text-muted)]"
                   >
                     Manage composers, artists, and instruments.
                   </p>
                   <div 
-                    className="mt-4 inline-flex items-center gap-2 text-[var(--color-text-secondary)]"
-                    style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}
+                    className="font-body-semibold mt-4 inline-flex items-center gap-2 text-[var(--color-text-secondary)]"
                   >
                     <span>Manage</span>
                     <span>→</span>
@@ -286,8 +267,7 @@ export default async function Home() {
           {/* Auth Section */}
           <footer className="text-center">
             <p 
-              className="text-lg text-[var(--color-text-muted)]"
-              style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}
+              className="font-body-medium text-lg text-[var(--color-text-muted)]"
             >
               {session ? (
                 <span>Welcome, {session.user?.name}</span>
@@ -297,8 +277,7 @@ export default async function Home() {
             </p>
             <Link
               href={session ? "/api/auth/signout" : "/api/auth/signin"}
-              className="mt-4 inline-block rounded-full border-2 border-[var(--color-text-secondary)]/30 bg-transparent px-8 py-3 text-[var(--color-text-secondary)] transition-all hover:border-[var(--color-accent-gold)] hover:bg-[var(--color-accent-gold)]/10"
-              style={{ fontFamily: 'var(--font-body), serif', fontWeight: 600 }}
+              className="font-body-semibold mt-4 inline-block rounded-full border-2 border-[var(--color-text-secondary)]/30 bg-transparent px-8 py-3 text-[var(--color-text-secondary)] transition-all hover:border-[var(--color-accent-gold)] hover:bg-[var(--color-accent-gold)]/10"
             >
               {session ? "Sign out" : "Sign in"}
             </Link>

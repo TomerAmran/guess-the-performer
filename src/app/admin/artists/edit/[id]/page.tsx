@@ -4,10 +4,12 @@ import { useState, useEffect, use } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
+import { useToast } from "~/app/_components/ToastProvider";
 
 export default function EditArtistPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const router = useRouter();
+  const { showError } = useToast();
 
   const { data: artist, isLoading } = api.artist.getById.useQuery({ id });
   const updateMutation = api.artist.update.useMutation({
@@ -15,7 +17,7 @@ export default function EditArtistPage({ params }: { params: Promise<{ id: strin
       router.push("/admin/artists");
     },
     onError: (error) => {
-      alert(error.message || "Failed to update artist");
+      showError(error.message || "Failed to update artist");
     },
   });
   const deleteMutation = api.artist.delete.useMutation({
@@ -23,7 +25,7 @@ export default function EditArtistPage({ params }: { params: Promise<{ id: strin
       router.push("/admin/artists");
     },
     onError: (error) => {
-      alert(error.message || "Failed to delete artist");
+      showError(error.message || "Failed to delete artist");
     },
   });
 

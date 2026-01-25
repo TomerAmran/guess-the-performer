@@ -11,23 +11,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <div className="flex items-center gap-8">
             <Link 
               href="/" 
-              className="text-xl font-bold text-[var(--color-accent-burgundy)] hover:text-[var(--color-accent-gold)] transition-colors"
-              style={{ fontFamily: 'var(--font-body), serif' }}
+              className="font-body text-xl font-bold text-[var(--color-accent-burgundy)] hover:text-[var(--color-accent-gold)] transition-colors"
             >
               ← Home
             </Link>
             <div className="flex gap-4">
               <Link
                 href="/admin/composers"
-                className="rounded-lg px-4 py-2 text-[var(--color-text-secondary)] hover:bg-[var(--color-border)] transition-colors"
-                style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}
+                className="font-body-medium rounded-lg px-4 py-2 text-[var(--color-text-secondary)] hover:bg-[var(--color-border)] transition-colors"
               >
                 Composers
               </Link>
               <Link
                 href="/admin/artists"
-                className="rounded-lg px-4 py-2 text-[var(--color-text-secondary)] hover:bg-[var(--color-border)] transition-colors"
-                style={{ fontFamily: 'var(--font-body), serif', fontWeight: 500 }}
+                className="font-body-medium rounded-lg px-4 py-2 text-[var(--color-text-secondary)] hover:bg-[var(--color-border)] transition-colors"
               >
                 Artists
               </Link>

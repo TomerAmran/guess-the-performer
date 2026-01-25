@@ -45,12 +45,12 @@ export function ShareButton({ quizId, variant = "button", className = "" }: Shar
     return (
       <button
         onClick={handleShare}
-        className={`flex items-center justify-center rounded-lg p-2 transition-all hover:bg-slate-700 ${className}`}
+        className={`flex items-center justify-center rounded-lg p-2 transition-all hover:bg-[var(--color-border)] ${className}`}
         aria-label="Share quiz"
         title="Share quiz"
       >
         {copied ? (
-          <span className="text-xl text-emerald-400">✓</span>
+          <span className="text-xl text-[var(--color-success)]">✓</span>
         ) : (
           <span className="text-xl">📤</span>
         )}
@@ -62,13 +62,13 @@ export function ShareButton({ quizId, variant = "button", className = "" }: Shar
     return (
       <button
         onClick={handleShare}
-        className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all hover:bg-slate-700 ${className}`}
+        className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all hover:bg-[var(--color-border)] ${className}`}
         aria-label="Share quiz"
       >
         {copied ? (
           <>
-            <span className="text-emerald-400">✓</span>
-            <span className="text-emerald-400">Copied!</span>
+            <span className="text-[var(--color-success)]">✓</span>
+            <span className="text-[var(--color-success)]">Copied!</span>
           </>
         ) : (
           <>
@@ -84,13 +84,13 @@ export function ShareButton({ quizId, variant = "button", className = "" }: Shar
   return (
     <button
       onClick={handleShare}
-      className={`flex items-center gap-2 rounded-lg border border-slate-600 px-4 py-2 font-medium transition-all hover:border-amber-500 hover:bg-slate-700 ${className}`}
+      className={`flex items-center gap-2 rounded-lg border border-[var(--color-border)] px-4 py-2 font-medium transition-all hover:border-[var(--color-accent-gold)] hover:bg-[var(--color-border)] ${className}`}
       aria-label="Share quiz"
     >
       {copied ? (
         <>
-          <span className="text-xl text-emerald-400">✓</span>
-          <span className="text-emerald-400">Link Copied!</span>
+          <span className="text-xl text-[var(--color-success)]">✓</span>
+          <span className="text-[var(--color-success)]">Link Copied!</span>
         </>
       ) : (
         <>

@@ -50,6 +50,7 @@ model User {
     sessions      Session[]
     quizzes       Quiz[]
     likedQuizzes  QuizLike[]
+    comments      Comment[]
 }
 
 model VerificationToken {
@@ -109,6 +110,7 @@ model Quiz {
 
     slices   QuizSlice[]
     likedBy  QuizLike[]
+    comments Comment[]
 
     @@index([composerId])
     @@index([instrumentId])
@@ -142,4 +144,25 @@ model QuizLike {
     @@unique([userId, quizId])
     @@index([quizId])
     @@index([userId])
+}
+
+model Comment {
+    id        String   @id @default(cuid())
+    content   String   @db.Text
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    hidden    Boolean  @default(false)
+
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String
+    quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+    quizId String
+
+    parentId String?
+    parent   Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+    replies  Comment[] @relation("CommentReplies")
+
+    @@index([quizId])
+    @@index([userId])
+    @@index([parentId])
 }

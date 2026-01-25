@@ -1,8 +1,7 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
-
-const ADMIN_EMAIL = "tomerflute@gmail.com";
+import { ADMIN_EMAIL } from "~/lib/constants";
 
 const quizSliceSchema = z.object({
   artistId: z.string(),
